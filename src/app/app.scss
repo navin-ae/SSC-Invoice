@@ -1,0 +1,47 @@
+.app-shell {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  color: #222;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: linear-gradient(90deg, #ffffff, #f6f9fc);
+  border-bottom: 1px solid #e6e9ef;
+}
+.brand {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a73e8;
+  cursor: pointer;
+}
+.main-nav a {
+  margin-left: 12px;
+  text-decoration: none;
+  color: #333;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 16px;
+}
+.main-nav a:hover {
+  background: #eef4ff;
+}
+
+.app-main {
+  padding: 0px;
+  min-height: calc(100vh - 72px);
+  background: linear-gradient(180deg, #fbfdff, #ffffff);
+}
+
+/* Make links look like touch-friendly buttons when appropriate */
+.main-nav a.button-like {
+  background: #1a73e8;
+  color: #fff;
+}
+
+/* Small utility */
+.muted {
+  color: #666;
+}

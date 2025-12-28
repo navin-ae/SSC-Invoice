@@ -1,0 +1,18 @@
+<div class="customers-root">
+  <!-- <h2>Customers</h2> -->
+  <div class="form">
+    <input placeholder="Customer name" [(ngModel)]="form.name" />
+    <button (click)="add()">{{ editingId ? 'Save' : 'Add Customer' }}</button>
+    <button *ngIf="editingId" (click)="cancelEdit()">Cancel</button>
+  </div>
+
+  <div class="list">
+    <div class="row" *ngFor="let c of customers()">
+      <div class="info">{{c.name}}</div>
+      <div class="actions">
+        <button (click)="edit(c)">Edit</button>
+        <button (click)="remove(c.id)">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>

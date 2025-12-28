@@ -1,0 +1,14 @@
+<div class="app-shell">
+	<header class="app-header">
+		<div class="brand" routerLink="/">Surya Shopping Centre</div>
+		<nav class="main-nav">
+			<a routerLink="/">Home</a>
+			<a routerLink="/config">Settings</a>
+		</nav>
+	</header>
+
+	<main class="app-main">
+		<router-outlet></router-outlet>
+		<app-onboarding *ngIf="showOnboarding()"></app-onboarding>
+	</main>
+</div>

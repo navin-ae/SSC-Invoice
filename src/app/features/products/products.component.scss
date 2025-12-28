@@ -1,0 +1,209 @@
+.products-root {
+  padding: 16px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: 1fr 140px;
+  gap: 12px;
+  align-items: start;
+}
+
+.form input,
+.form select,
+.prices-grid input {
+  height: 40px;
+  padding: 8px 10px;
+  border: 1px solid #d8d8d8;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.form > input:nth-of-type(1) {
+  grid-column: 1 / -1; /* product name should span full width */
+}
+
+.form > input:nth-of-type(2) {
+  /* HSN stays in first column */
+}
+
+.prices-grid {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.price-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.price-row label {
+  width: 160px;
+  white-space: nowrap;
+  font-size: 13px;
+}
+
+.price-row input[type='number'] {
+  width: 140px;
+}
+
+.form button {
+  grid-column: 2 / 3;
+  justify-self: end;
+  align-self: center;
+  padding: 8px 12px;
+  height: 40px;
+  border-radius: 6px;
+  border: 1px solid #2b6cb0;
+  background: #2b6cb0;
+  color: #fff;
+  cursor: pointer;
+}
+
+.list {
+  margin-top: 16px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.row .info {
+  font-size: 14px;
+  color: #222;
+}
+
+.row .info span {
+  margin-right: 10px;
+  color: #555;
+}
+
+.actions button {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #e53e3e;
+  background: #fff;
+  color: #e53e3e;
+  cursor: pointer;
+}
+
+.controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.controls .left {
+  flex: 0 0 auto;
+}
+.controls .center {
+  flex: 1 1 auto;
+}
+.controls .right {
+  flex: 0 0 auto;
+}
+.controls input {
+
+  height: 40px;
+  padding: 8px 10px;
+  border: 1px solid #d8d8d8;
+  border-radius: 6px;
+}
+.controls select {
+  height: 36px;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+.controls .count {
+  font-weight: 600;
+  color: #333;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+.card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  background: #fff;
+}
+.card-main .title {
+  font-weight: 600;
+  font-size: 15px;
+}
+.card-main .meta {
+  font-size: 13px;
+  color: #666;
+  margin-top: 4px;
+}
+.card-main .prices {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #444;
+}
+.card .card-actions {
+  display: flex;
+  gap: 8px;
+}
+.card .card-actions button {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #2b6cb0;
+  background: #fff;
+  color: #2b6cb0;
+  cursor: pointer;
+}
+
+.pagination {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 12px;
+}
+.pagination button {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+}
+.pagination .page-info {
+  font-size: 14px;
+  color: #333;
+}
+
+@media (max-width: 640px) {
+  .form {
+    grid-template-columns: 1fr;
+  }
+
+  .form button {
+    grid-column: 1 / -1;
+    justify-self: stretch;
+  }
+
+  .price-row label {
+    width: 120px;
+  }
+
+  .price-row input[type='number'] {
+    width: 100%;
+  }
+}

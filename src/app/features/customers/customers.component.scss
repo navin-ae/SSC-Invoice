@@ -1,0 +1,28 @@
+.customers-root {
+    padding: 16px;
+
+}
+
+.form {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap
+}
+
+.form input,
+.form select {
+
+    padding: 6px
+}
+
+.list {
+    margin-top: 12px
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+
+}

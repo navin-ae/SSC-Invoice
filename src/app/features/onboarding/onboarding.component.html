@@ -1,0 +1,25 @@
+<div class="onboard-backdrop">
+  <div class="onboard-card">
+    <h2>Welcome to Shop Billing</h2>
+    <div *ngIf="step===1">
+      <p>Quick setup: add your first customer and some products.</p>
+      <ul>
+        <li>Customer types are configurable; Retail is default.</li>
+        <li>Products can have HSN and GST %.</li>
+      </ul>
+    </div>
+    <div *ngIf="step===2">
+      <p>Billing: select a customer and tap products to add to the bill.</p>
+    </div>
+    <div *ngIf="step===3">
+      <p>You can export/restore data from the Settings → Backup area.</p>
+    </div>
+
+    <div class="actions">
+      <button (click)="prev()" [disabled]="step===1">Back</button>
+      <button (click)="next()" *ngIf="step<3">Next</button>
+      <button (click)="finish(false)">Finish</button>
+      <button (click)="finish(true)">Finish & Add Sample Data</button>
+    </div>
+  </div>
+</div>

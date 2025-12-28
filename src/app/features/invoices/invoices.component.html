@@ -1,0 +1,10 @@
+<div class="invoices-root">
+  <h2>Invoices</h2>
+  <div *ngIf="!invoices().length">No invoices yet.</div>
+  <div class="list" *ngIf="invoices().length">
+    <div class="row" *ngFor="let inv of invoices()">
+        <div class="info">{{inv.invoiceNo}} — {{inv.customerName || 'Walk-in'}} — {{inv.date | date:'short'}} — ₹{{inv.total.toFixed(2)}}</div>
+      <div class="actions"><button (click)="delete(inv.id)">Delete</button></div>
+    </div>
+  </div>
+</div>

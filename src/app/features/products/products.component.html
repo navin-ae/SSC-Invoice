@@ -1,0 +1,57 @@
+<div class="products-root">
+  <!-- <h2>Products</h2> -->
+  <div class="form">
+    <input placeholder="Product name" [(ngModel)]="form.name" />
+    <input placeholder="HSN" [(ngModel)]="form.hsn" />
+    <div class="prices-grid">
+      <div *ngFor="let c of customers()" class="price-row">
+        <label>{{c.name}} price</label>
+        <input type="number" [(ngModel)]="form.prices[c.id]" (ngModelChange)="onPriceChange(c.id, $event)" />
+      </div>
+    </div>
+    <button (click)="add()">{{ editingId ? 'Save' : 'Add Product' }}</button>
+    <button *ngIf="editingId" (click)="cancelEdit()">Cancel</button>
+  </div>
+
+  <div class="list">
+    <div class="controls">
+      <div class="left">
+        <label class="count">Total: {{ filteredProducts.length }}</label>
+      </div>
+      <div class="center">
+        <input placeholder="Search products or HSN" [(ngModel)]="query" (input)="page = 1" />
+      </div>
+      <div class="right">
+        <label>Per page
+          <select [(ngModel)]="pageSize" (change)="page = 1">
+            <option [value]="10">10</option>
+            <option [value]="20">20</option>
+            <option [value]="50">50</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card" *ngFor="let p of paginatedProducts">
+        <div class="card-main">
+          <div class="title">{{ p.name }}</div>
+          <div class="meta">HSN: {{ p.hsn || '—' }}</div>
+          <div class="prices">
+            <span *ngFor="let c of customers()">{{c.name}}: ₹{{ p.prices[c.id] || 0 }}</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button (click)="edit(p)">Edit</button>
+          <button (click)="remove(p.id)">Delete</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="pagination">
+      <button [disabled]="page<=1" (click)="page = page - 1">Prev</button>
+      <span class="page-info">Page {{page}} / {{ pageCount }}</span>
+      <button [disabled]="page>=pageCount" (click)="page = page + 1">Next</button>
+    </div>
+  </div>
+</div>
