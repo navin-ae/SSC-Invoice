@@ -1,102 +1,23 @@
 <div class="billing-root">
-  <div class="left-panel">
-    <h3>Customer</h3>
+  <app-invoice-product-selector
+    [customers]="customers"
+    [products]="products"
+    [selectedCustomerId]="selectedCustomerId"
+    (selectedCustomerIdChange)="onSelectedCustomerChange($event)"
+    (addToInvoice)="onAddToInvoice($event)"
+  ></app-invoice-product-selector>
 
-    <select [(ngModel)]="selectedCustomerId">
-      <option *ngFor="let c of customers()" [value]="c.id">{{ c.name }}</option>
-    </select>
-
-    <h3>Products</h3>
-    <div style="display: flex; gap: 8px; align-items: center">
-      <input class="product-search" placeholder="Quick search..." [(ngModel)]="search" />
-    </div>
-
-    <!-- small inline preview to keep quick-access for a few items -->
-    <div class="products-grid" style="margin-top: 8px">
-      <div
-        class="card"
-        *ngFor="let p of filteredProducts()"
-        (click)="addToInvoice(p, 1)"
-      >
-        <div class="name">{{ p.name }}</div>
-        <div class="price">Rs.{{ p.prices[selectedCustomerId] ?? '-' }}</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="right-panel">
-    <div class="invoice-header">
-      <div>
-        <div class="inv-no">
-          Inv No: <strong>SSC-{{ nowTs }}</strong>
-        </div>
-        <div class="inv-date">Date: {{ now | date : 'dd/MM/yyyy' }}</div>
-      </div>
-      <div class="inv-customer">
-        <div class="to-label">To:</div>
-        <div class="cust-name">{{ selectedCustomer?.name || 'Walk-in' }}</div>
-        <div class="inv-time">Time: {{ now | date : 'hh:mm a' }}</div>
-      </div>
-    </div>
-
-    <div class="items">
-      <table class="invoice-table">
-        <thead>
-          <tr class="thead-dark">
-            <th>S.No</th>
-            <th>Description</th>
-            <th>HSN/SAC</th>
-            <th>GST Rate</th>
-            <th>Qty</th>
-            <th>Rate</th>
-            <th>Amount</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let it of invoiceItems; let i = index">
-            <td>{{ i + 1 }}</td>
-            <td>{{ it.name }}</td>
-            <td style="text-align:center">{{ it.hsn || '-' }}</td>
-            <td style="text-align:center">{{ it.gstRate }}%</td>
-            <td>
-              <input
-                type="number"
-                [value]="it.qty"
-                (change)="updateQty(it, $any($event.target).valueAsNumber)"
-              />
-            </td>
-            <td style="text-align:right">₹{{ it.rate }}</td>
-            <td style="text-align:right">
-              <strong>₹{{ it.amount.toFixed(0) }}</strong>
-            </td>
-            <td><button class="link" (click)="removeItem(it.id)">Delete</button></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="totals-row">
-      <div class="summary">
-        <div>Taxable: ₹{{ taxableTotal.toFixed(2) }} | GST: ₹{{ totalGst.toFixed(2) }}</div>
-      </div>
-      <div class="big-total">₹{{ total.toFixed(0) }}</div>
-    </div>
-
-    <div class="tax-breakdown" style="margin-top:8px; display:flex; justify-content:flex-end">
-      <table style="width:360px; border-collapse:collapse;">
-        <tr><td style="padding:6px;border:1px solid #ddd">Taxable Value</td><td style="padding:6px;border:1px solid #ddd;text-align:right">₹{{ taxableTotal.toFixed(2) }}</td></tr>
-        <tr><td style="padding:6px;border:1px solid #ddd">CGST</td><td style="padding:6px;border:1px solid #ddd;text-align:right">₹{{ (totalGst/2).toFixed(2) }}</td></tr>
-        <tr><td style="padding:6px;border:1px solid #ddd">SGST</td><td style="padding:6px;border:1px solid #ddd;text-align:right">₹{{ (totalGst/2).toFixed(2) }}</td></tr>
-        <tr><td style="padding:6px;border:1px solid #ddd"><strong>Total</strong></td><td style="padding:6px;border:1px solid #ddd;text-align:right"><strong>₹{{ total.toFixed(0) }}</strong></td></tr>
-      </table>
-    </div>
-
-    <div class="invoice-actions large">
-      <button class="print" (click)="printBill()" [disabled]="invoiceItems.length === 0">
-        📠 Print A5 Invoice
-      </button>
-      <button class="new" (click)="newBill()">🗑️ New Bill</button>
-    </div>
-  </div>
+  <app-invoice-cart
+    [invoiceItems]="invoiceItems"
+    [taxableTotal]="taxableTotal"
+    [totalGst]="totalGst"
+    [total]="total"
+    [now]="now"
+    [nowTs]="nowTs"
+    [selectedCustomer]="selectedCustomer"
+    (updateQty)="onUpdateQty($event)"
+    (removeItem)="onRemoveItem($event)"
+    (printBill)="onPrintBill()"
+    (newBill)="onNewBill()"
+  ></app-invoice-cart>
 </div>

@@ -6,12 +6,15 @@ import { productStore, Product } from '../../core/stores/product-store';
 import { invoiceStore, Invoice, InvoiceItem } from '../../core/stores/invoice-store';
 import {MatButtonModule} from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { InvoiceProductSelectorComponent } from './invoice-product-selector.component';
+import { InvoiceCartComponent } from './invoice-cart.component';
 @Component({
   standalone: true,
-  imports: [CommonModule, FormsModule, MatButtonModule,MatTooltipModule],
+  imports: [CommonModule, FormsModule, MatButtonModule,MatTooltipModule, InvoiceProductSelectorComponent, InvoiceCartComponent],
   selector: 'app-billing',
   templateUrl: './billing.component.html',
-  styleUrls: ['./billing.component.scss']
+  styleUrls: ['./billing.component.scss'],
+  
 })
 export class BillingComponent {
   public customers = customerStore.customers;
@@ -49,9 +52,36 @@ export class BillingComponent {
   public ngOnInit() {
     this.addSampleData();
     const defaultCust = this.customers()[0];
-    if (defaultCust) this.selectedCustomerId = defaultCust.id;
+    if (defaultCust){ 
+      this.selectedCustomerId = defaultCust.id
+    };
     this.now = new Date();
     this.nowTs = Date.now();
+  }
+
+  // --- forwarded handlers for child components
+  public onSelectedCustomerChange(id: string | null) {
+    this.selectedCustomerId = id;
+  }
+
+  public onAddToInvoice(payload: { product: Product; qty: number }) {
+    this.addToInvoice(payload.product, payload.qty);
+  }
+
+  public onUpdateQty(payload: { item: InvoiceItem; qty: number }) {
+    this.updateQty(payload.item, payload.qty);
+  }
+
+  public onRemoveItem(id: string) {
+    this.removeItem(id);
+  }
+
+  public onPrintBill() {
+    this.printBill();
+  }
+
+  public onNewBill() {
+    this.newBill();
   }
 
 

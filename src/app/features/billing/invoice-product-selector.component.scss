@@ -1,0 +1,5 @@
+.left-panel{padding:8px}
+.products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.card{padding:8px;border:1px solid #eee;border-radius:4px;cursor:pointer}
+.card .name{font-weight:600}
+.product-search{width:100%;padding:6px;border:1px solid #ddd;border-radius:4px}
