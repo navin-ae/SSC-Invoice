@@ -1,28 +1,40 @@
 .customers-root {
-    padding: 16px;
-
+  padding: 2rem;
 }
 
 .form {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap
-}
-
-.form input,
-.form select {
-
-    padding: 6px
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
 .list {
-    margin-top: 12px
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .row {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px;
-    border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  max-height: 12px;
+}
 
+.info {
+  font-size: 1.1rem;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.save-button{
+  margin-bottom: 16px;
 }
