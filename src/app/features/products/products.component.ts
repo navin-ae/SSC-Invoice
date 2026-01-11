@@ -17,7 +17,7 @@ export class ProductsComponent {
   public products = store.products;
   public customers = customerStore.customers;
 
-  public form: Partial<Product> = { name: '', hsn: '', prices: {} };
+  public form: Partial<Product> = { name: '', hsn: '', gstRate: 0, prices: {} };
   public editingId?: string;
   public query = '';
   public page = 1;
@@ -61,6 +61,7 @@ export class ProductsComponent {
       store.update(this.editingId, {
         name: this.form.name!,
         hsn: this.form.hsn,
+        gstRate: this.form.gstRate,
         prices
       });
       this.editingId = undefined;
@@ -68,11 +69,12 @@ export class ProductsComponent {
       store.add({
         name: this.form.name!,
         hsn: this.form.hsn,
+        gstRate: this.form.gstRate,
         prices
       });
     }
 
-    this.form = { name: '', hsn: '', prices: {} };
+    this.form = { name: '', hsn: '', gstRate: 0, prices: {} };
     this.overrides = new Set();
     // reset pagination to show new item on first page
     this.page = 1;
@@ -80,7 +82,7 @@ export class ProductsComponent {
 
   public edit(p: Product) {
     this.editingId = p.id;
-    this.form = { name: p.name, hsn: p.hsn, prices: { ...p.prices } };
+    this.form = { name: p.name, hsn: p.hsn, gstRate: p.gstRate, prices: { ...p.prices } };
     // compute overrides: if a customer's price differs from retail price, consider it overridden
     this.overrides = new Set();
     const rid = this.retailId;
@@ -96,7 +98,7 @@ export class ProductsComponent {
 
   public cancelEdit() {
     this.editingId = undefined;
-    this.form = { name: '', hsn: '', prices: {} };
+    this.form = { name: '', hsn: '', gstRate: 0, prices: {} };
     this.overrides = new Set();
   }
 

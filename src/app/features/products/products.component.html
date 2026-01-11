@@ -3,6 +3,7 @@
   <div class="form">
     <input placeholder="Product name" [(ngModel)]="form.name" />
     <input placeholder="HSN" [(ngModel)]="form.hsn" />
+    <input type="number" placeholder="GST %" [(ngModel)]="form.gstRate" />
     <div class="prices-grid">
       <div *ngFor="let c of customers()" class="price-row">
         <label>{{c.name}} price</label>
