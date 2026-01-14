@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { invoiceStore } from '../../core/stores/invoice-store';
+import { invoiceStore, Invoice } from '../../core/stores/invoice-store';
+import { buildPrintable, exportInvoicePdf } from '../../core/utils/invoice-print';
 
 const store = invoiceStore;
 
@@ -13,6 +14,33 @@ const store = invoiceStore;
 })
 export class InvoicesComponent {
   public invoices = store.invoices;
+
+  public view(inv: Invoice) {
+    const win = window.open('', '_blank');
+    if (!win) return alert('Unable to open window');
+    const html = buildPrintable(inv);
+    win.document.write(html);
+    win.document.close();
+    win.focus();
+  }
+
+  public async print(inv: Invoice) {
+    const win = window.open('', '_blank');
+    if (!win) return alert('Unable to open print window');
+    const html = buildPrintable(inv);
+    win.document.write(html);
+    win.document.close();
+    win.focus();
+    setTimeout(() => { win.print(); win.close(); }, 300);
+  }
+
+  public async download(inv: Invoice) {
+    try {
+      await exportInvoicePdf(inv, `${inv.invoiceNo}.pdf`);
+    } catch (e) {
+      alert('Error generating PDF: ' + (e as any)?.message || e);
+    }
+  }
 
   public delete(id: string) {
     if (!confirm('Delete invoice?')) return;

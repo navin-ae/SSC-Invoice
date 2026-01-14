@@ -23,6 +23,7 @@ export class InvoiceCartComponent {
   @Output() updateQty = new EventEmitter<{ item: InvoiceItem; qty: number }>();
   @Output() removeItem = new EventEmitter<string>();
   @Output() printBill = new EventEmitter<void>();
+  @Output() downloadPdf = new EventEmitter<void>();
   @Output() newBill = new EventEmitter<void>();
 
   onQtyChange(item: InvoiceItem, event: Event) {

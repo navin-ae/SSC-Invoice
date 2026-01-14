@@ -87,8 +87,9 @@
 
   <div class="invoice-actions large">
     <button class="print" (click)="printBill.emit()" [disabled]="invoiceItems.length === 0">
-      📠 Print A5 Invoice
+      📠 Print Invoice
     </button>
+    <button class="download" (click)="downloadPdf.emit()" [disabled]="invoiceItems.length === 0">⬇️ Download PDF</button>
     <button class="new" (click)="newBill.emit()">🗑️ New Bill</button>
   </div>
 </div>
