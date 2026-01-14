@@ -1,6 +1,6 @@
 <div class="invoices-root">
   <h2>Invoices</h2>
-  <div *ngIf="!invoices().length">No invoices yet.</div>
+  <div role="alert" *ngIf="!invoices().length">No invoices yet.</div>
   <div class="list" *ngIf="invoices().length">
     <div class="row" *ngFor="let inv of invoices()">
         <div class="info">{{inv.invoiceNo}} — {{inv.customerName || 'Walk-in'}} — {{inv.date | date:'short'}} — ₹{{inv.total.toFixed(2)}}</div>
