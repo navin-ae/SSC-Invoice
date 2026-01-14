@@ -1,50 +1,16 @@
-.config-root {
-    padding: 18px;
-    display: flex;
-    flex-direction: column;
-    gap: 18px
-}
-
-.config-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center
-}
-
 .backup-actions {
-    display: flex;
-    gap: 8px;
-    align-items: center
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
 
-.backup-actions input {
-    padding: 6px
-}
-
-.config-section {
-    background: #fff;
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #eef3f8;
-    width: 100%;
-}
-
-.config-section h3 {
-    margin-top: 0;
-    margin-bottom: 8px
-}
-
-.customers-section app-customers {
-    display: block
-}
-
-.products-section app-products {
-    display: block;
-
-}
-
-.customer-products {
-    display: flex;
-    justify-content: space-evenly;
-
+.visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
 }

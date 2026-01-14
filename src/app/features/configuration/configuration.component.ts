@@ -28,17 +28,25 @@ export class ConfigurationComponent implements AfterViewInit {
         a.click();
         URL.revokeObjectURL(url);
       });
-    if (restoreBtn && restoreFile)
-      restoreBtn.addEventListener('click', async () => {
-        if (!restoreFile.files || !restoreFile.files.length) return alert('Select a backup file');
-        const f = restoreFile.files[0];
-        const txt = await f.text();
-        const ok = await importAllData(txt);
-        if (ok) {
-          alert('Restore completed. Please reload the app to refresh data.');
-        } else {
-          alert('Restore failed. Check console for details.');
+    if (restoreBtn && restoreFile) {
+      restoreBtn.addEventListener('click', () => {
+        restoreFile.click();
+      });
+
+      restoreFile.addEventListener('change', async () => {
+        if (restoreFile.files && restoreFile.files.length > 0) {
+          const f = restoreFile.files[0];
+          const txt = await f.text();
+          const ok = await importAllData(txt);
+          if (ok) {
+            alert('Restore completed. Please reload the app to refresh data.');
+          } else {
+            alert('Restore failed. Check console for details.');
+          }
+          // Reset file input
+          restoreFile.value = '';
         }
       });
+    }
   }
 }
