@@ -34,17 +34,18 @@
     </div>
 
     <div class="grid">
-      <div class="card" *ngFor="let p of paginatedProducts">
+      <div class="card" *ngFor="let product of paginatedProducts">
         <div class="card-main">
-          <div class="title">{{ p.name }}</div>
-          <div class="meta">HSN: {{ p.hsn || '—' }}</div>
+          <div class="title">{{ product.name }}</div>
+          <div class="meta">HSN: {{ product.hsn || '—' }}</div>
+          <div class="meta">GST: {{ product.gstRate || '—' }}%</div>
           <div class="prices">
-            <span *ngFor="let c of customers()">{{c.name}}: ₹{{ p.prices[c.id] || 0 }}</span>
+            <span *ngFor="let customer of customers()">{{customer.name}}: ₹{{ product.prices[customer.id] || 0 }}</span>
           </div>
         </div>
         <div class="card-actions">
-          <button (click)="edit(p)">Edit</button>
-          <button (click)="remove(p.id)">Delete</button>
+          <button (click)="edit(product)">Edit</button>
+          <button (click)="remove(product.id)">Delete</button>
         </div>
       </div>
     </div>

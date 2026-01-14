@@ -17,7 +17,7 @@ export class ProductsComponent {
   public products = store.products;
   public customers = customerStore.customers;
 
-  public form: Partial<Product> = { name: '', hsn: '', gstRate: 0, prices: {} };
+  public form: Partial<Product> = { name: '', hsn: '', gstRate: 12, prices: {} };
   public editingId?: string;
   public query = '';
   public page = 1;
@@ -74,7 +74,7 @@ export class ProductsComponent {
       });
     }
 
-    this.form = { name: '', hsn: '', gstRate: 0, prices: {} };
+    this.form = { name: '', hsn: '', gstRate: 12, prices: {} };
     this.overrides = new Set();
     // reset pagination to show new item on first page
     this.page = 1;
