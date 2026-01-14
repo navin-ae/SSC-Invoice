@@ -176,6 +176,26 @@ export class BillingComponent {
     return this.invoiceItems.reduce((s, i) => s + (i.amount - this.taxableForItem(i)), 0);
   }
 
+  public get gstBreakdown() {
+    const breakdown: Record<string, { taxable: number; cgst: number; sgst: number; totalGst: number }> = {};
+    for (const item of this.invoiceItems) {
+      const rate = item.gstRate;
+      if (!breakdown[rate]) {
+        breakdown[rate] = { taxable: 0, cgst: 0, sgst: 0, totalGst: 0 };
+      }
+      const taxable = this.taxableForItem(item);
+      const totalGst = item.amount - taxable;
+      breakdown[rate].taxable += taxable;
+      breakdown[rate].totalGst += totalGst;
+      breakdown[rate].cgst += totalGst / 2;
+      breakdown[rate].sgst += totalGst / 2;
+    }
+    return Object.entries(breakdown).map(([rate, values]) => ({
+      rate: +rate,
+      ...values
+    }));
+  }
+
   // total invoice amount (amounts are inclusive of GST)
   public get total() {
     return this.subtotal;
@@ -209,10 +229,10 @@ export class BillingComponent {
   public buildPrintable(inv: Invoice) {
     // Shop header data (customise as needed)
     const shop = {
-      name: 'Surya Shopping Centre',
-      addr1: '106, Main Road',
+      name: 'RAAJAMANI TRADERSS',
+      addr1: '192, Kovai Road',
       addr2: 'Annur - PIN-641653',
-      gstin: 'GSTIN: 33AA45WER35SVX',
+      gstin: 'GSTIN: 33AAGPE8531J1ZT',
       phone: 'Phone: 9994813066'
     };
 
@@ -230,6 +250,34 @@ export class BillingComponent {
       </tr>`;
     }).join('');
 
+    const gstBreakdown = this.gstBreakdown;
+    const gstBreakdownHtml = `
+      <div style="flex: 1;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 12px; border: 1px solid #ccc;">
+          <thead>
+            <tr>
+              <th style="border: 1px solid #ccc; padding: 4px; background-color: #f2f2f2;">GST Rate</th>
+              <th style="border: 1px solid #ccc; padding: 4px; background-color: #f2f2f2;">Taxable</th>
+              <th style="border: 1px solid #ccc; padding: 4px; background-color: #f2f2f2;">CGST</th>
+              <th style="border: 1px solid #ccc; padding: 4px; background-color: #f2f2f2;">SGST</th>
+              <th style="border: 1px solid #ccc; padding: 4px; background-color: #f2f2f2;">Total GST</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${gstBreakdown.map(item => `
+              <tr>
+                <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">${item.rate}%</td>
+                <td style="border: 1px solid #ccc; padding: 4px; text-align: right;">₹${item.taxable.toFixed(2)}</td>
+                <td style="border: 1px solid #ccc; padding: 4px; text-align: right;">₹${item.cgst.toFixed(2)}</td>
+                <td style="border: 1px solid #ccc; padding: 4px; text-align: right;">₹${item.sgst.toFixed(2)}</td>
+                <td style="border: 1px solid #ccc; padding: 4px; text-align: right;">₹${item.totalGst.toFixed(2)}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+
     const cgst = inv.totalGst / 2;
     const sgst = inv.totalGst / 2;
 
@@ -241,7 +289,7 @@ export class BillingComponent {
     `;
 
     return `<!doctype html><html><head><meta charset="utf-8"><title>Invoice</title><style>
-      @page { size: A5 portrait; margin: 8mm; }
+      @page { size: A4 portrait; margin: 8mm; }
       body{font-family:Arial;padding:10px;color:#111;max-width:148mm;margin:0 auto}
       .header{display:flex;justify-content:space-between;margin-bottom:12px}
       .seller{font-weight:normal}
@@ -293,9 +341,9 @@ export class BillingComponent {
         </tbody>
       </table>
 
-      <div style="display:flex;margin-top:8px">
-        <div style="flex:1"></div>
-        <div style="width:320px">
+      <div style="display:flex;margin-top:8px; align-items: flex-start;">
+        ${gstBreakdownHtml}
+        <div style="width:320px; margin-left: 10px;">
           <table class="right-table">
             <tbody>
               ${summaryHtml}
