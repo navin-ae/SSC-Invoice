@@ -18,6 +18,7 @@ export class InvoiceCartComponent {
   @Input() now!: Date;
   @Input() nowTs!: number;
   @Input() selectedCustomer: any;
+  @Input() gstBreakdown: { rate: number; taxable: number; cgst: number; sgst: number; totalGst: number }[] = [];
 
   @Output() updateQty = new EventEmitter<{ item: InvoiceItem; qty: number }>();
   @Output() removeItem = new EventEmitter<string>();

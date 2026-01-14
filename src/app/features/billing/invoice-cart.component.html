@@ -52,7 +52,26 @@
 
   <div class="totals-row">
     <div class="summary">
-      <div>Taxable: ₹{{ taxableTotal.toFixed(2) }} | GST: ₹{{ totalGst.toFixed(2) }}</div>
+      <table class="gst-breakdown-table">
+        <thead>
+          <tr>
+            <th>GST Rate</th>
+            <th>Taxable</th>
+            <th>CGST</th>
+            <th>SGST</th>
+            <th>Total GST</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of gstBreakdown">
+            <td>{{ item.rate }}%</td>
+            <td>₹{{ item.taxable.toFixed(2) }}</td>
+            <td>₹{{ item.cgst.toFixed(2) }}</td>
+            <td>₹{{ item.sgst.toFixed(2) }}</td>
+            <td>₹{{ item.totalGst.toFixed(2) }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
     <div class="big-total">₹{{ total.toFixed(0) }}</div>
   </div>

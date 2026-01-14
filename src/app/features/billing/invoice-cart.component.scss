@@ -18,3 +18,21 @@
     display: flex;
     gap: 8px;
 }
+
+.gst-breakdown-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+.gst-breakdown-table th,
+.gst-breakdown-table td {
+    border: 1px solid #ddd;
+    padding: 4px;
+    text-align: right;
+}
+
+.gst-breakdown-table th {
+    background-color: #f2f2f2;
+    text-align: center;
+}
