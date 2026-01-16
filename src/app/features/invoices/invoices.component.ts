@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { invoiceStore, Invoice } from '../../core/stores/invoice-store';
 import { buildPrintable, exportInvoicePdf } from '../../core/utils/invoice-print';
 
+import { MatButtonModule } from '@angular/material/button';
+
 const store = invoiceStore;
 
 @Component({
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatButtonModule],
   selector: 'app-invoices',
   templateUrl: './invoices.component.html',
   styleUrls: ['./invoices.component.scss']
@@ -17,7 +19,9 @@ export class InvoicesComponent {
 
   public view(inv: Invoice) {
     const win = window.open('', '_blank');
-    if (!win) return alert('Unable to open window');
+    if (!win) {
+      return alert('Unable to open window');
+    }
     const html = buildPrintable(inv);
     win.document.write(html);
     win.document.close();
