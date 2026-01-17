@@ -43,7 +43,13 @@ export function buildPrintable(inv: Invoice) {
     addr1: '192, Kovai Road',
     addr2: 'Annur - PIN-641653',
     gstin: 'GSTIN: 33AAGPE8531J1ZT',
-    phone: 'Phone: 9994813066'
+    phone: 'Phone: 9994813066',
+    bank: {
+      name: 'Tamilnadu Mercandile bank',
+      ac: 'A/C No: 1715000005704XX',
+      ifsc: 'IFSC: TMBL0001742',
+
+    }
   };
 
   const rows = inv.items.map((i, idx) => {
@@ -98,87 +104,124 @@ export function buildPrintable(inv: Invoice) {
 
   return `<!doctype html><html><head><meta charset="utf-8"><title>Invoice</title><style>
     @page { size: A4 portrait; margin: 8mm; }
-    body{font-family:Arial;padding:10px;color:#111;max-width:148mm;margin:0 auto}
-    .header{display:flex;justify-content:space-between;margin-bottom:12px}
-    .seller{font-weight:normal}
-    .seller .name{font-weight:700}
+    html, body { width:210mm; height:297mm; margin:0; padding:0; background:#ffffff }
+    body{font-family:Arial;padding:0;color:#111;margin:0}
+    /* page wrapper with visible border inside page margins */
+    .page{box-sizing:border-box;border:1px solid #111;padding:10mm;margin:0 auto;width:190mm;max-width:190mm}
+    .header{display:block;text-align:center;margin-bottom:6px}
+    .seller{font-weight:normal;width:100%;text-align:center}
+    .seller .name{font-weight:800;font-size:18px}
+    .seller .addr{font-size:12px;margin-top:4px}
+    .meta{display:flex;justify-content:space-between;margin-top:8px;font-size:13px}
+
     table{width:100%;border-collapse:separate;border-spacing:0}
     th,td{padding:6px;font-size:13px;border-top:0;border-bottom:0;border-left:1px solid #ccc;border-right:1px solid #ccc}
-    thead th{border-top:1px solid #ccc; border-bottom:1px solid #ccc}
+    thead th{border-top:1px solid #ccc; border-bottom:1px solid #ccc;background:#f9f9f9}
     tr th:first-child, tr td:first-child{border-left:1px solid #ccc}
     tr th:last-child, tr td:last-child{border-right:1px solid #ccc}
     tbody tr:last-child td{border-bottom:1px solid #ccc}
-    .right-table{width:300px;border:0;margin-left:auto;border-collapse:separate}
+
+    .right-table{width:320px;border:0;margin-left:auto;border-collapse:separate}
     .right-table td{border-left:1px solid #ddd;border-right:1px solid #ddd;border-top:0;border-bottom:0;padding:6px}
     .right-table tr:last-child td{border-bottom:1px solid #ddd}
     .no-border td{border:0;padding:2px}
+
+    /* ensure prints include the border and consistent sizing */
+    @media print {
+      body{margin:0}
+      .page{border:1px solid #111;padding:10mm;margin:0}
+      @page { margin: 8mm }
+    }
   </style></head><body>
-    <div class="header">
-      <div class="seller">
-        <div class="name" style="font-size:16px">${shop.name}</div>
-        <div>${shop.addr1}</div>
-        <div>${shop.addr2}</div>
-        <div>${shop.gstin}</div>
-        <div>${shop.phone}</div>
+    <div class="page">
+      <div class="header">
+        <div class="seller">
+          <div class="name">${shop.name}</div>
+          <div class="addr">${shop.addr1} • ${shop.addr2}</div>
+          <div class="addr">${shop.gstin} • ${shop.phone}</div>
+        </div>
       </div>
-      <div class="inv-meta" style="text-align:right">
-        <div>Invoice No: <strong>${inv.invoiceNo}</strong></div>
-        <div>Date: ${new Date(inv.date).toLocaleDateString()}</div>
-        <div>Time: ${new Date(inv.date).toLocaleTimeString()}</div>
-        <div>Bill To: ${inv.customerName ?? 'Walk-in'}</div>
+
+      <div style="height:1px;background:#ddd;margin:6px 0"></div>
+
+      <div class="meta">
+        <div style="flex:1;">
+          <div><strong>Bill To:</strong> ${inv.customerName ?? 'Walk-in'}</div>
+          ${inv.customerAddress ? `<div>${inv.customerAddress}</div>` : ''}
+        </div>
+        <div style="text-align:right;min-width:200px">
+          <div>Invoice No: <strong>${inv.invoiceNo}</strong></div>
+          <div>Date: ${new Date(inv.date).toLocaleDateString()}</div>
+          <div>Time: ${new Date(inv.date).toLocaleTimeString()}</div>
+        </div>
+      </div>
+
+      <table style="margin-top:8px">
+        <thead>
+          <tr>
+            <th style="width:40px">S.No</th>
+            <th>Description</th>
+            <th style="width:80px">HSN/SAC</th>
+            <th style="width:60px">GST</th>
+            <th style="width:60px">Qty</th>
+            <th style="width:100px">Rate</th>
+            <th style="width:120px">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows}
+        </tbody>
+      </table>
+
+      <div style="display:flex;margin-top:8px; align-items: flex-start;">
+        ${gstBreakdownHtml}
+        <div style="width:320px; margin-left: 10px;">
+          <table class="right-table">
+            <tbody>
+              ${summaryHtml}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div style="margin-top:12px;font-size:12px">Amount in words: INR ${amountInWords(inv.total)}</div>
+
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:18px">
+        <div style="font-size:12px;max-width:60%">
+          <div style="font-weight:700;margin-bottom:6px">Bank Details</div>
+          <div>${shop.bank.name}</div>
+          <div>${shop.bank.ac}</div>
+          <div>${shop.bank.ifsc}</div>
+          
+        </div>
+
+        <div style="text-align:center;width:240px">
+          <div style="height:60px"></div>
+          <div style="font-weight:700">For ${shop.name}</div>
+          <div style="margin-top:8px">Authorised Signatory</div>
+        </div>
       </div>
     </div>
-
-    <table>
-      <thead>
-        <tr>
-          <th style="width:40px">S.No</th>
-          <th>Description</th>
-          <th style="width:80px">HSN/SAC</th>
-          <th style="width:60px">GST</th>
-          <th style="width:60px">Qty</th>
-          <th style="width:100px">Rate</th>
-          <th style="width:120px">Amount</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${rows}
-      </tbody>
-    </table>
-
-    <div style="display:flex;margin-top:8px; align-items: flex-start;">
-      ${gstBreakdownHtml}
-      <div style="width:320px; margin-left: 10px;">
-        <table class="right-table">
-          <tbody>
-            ${summaryHtml}
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div style="margin-top:12px;font-size:12px">Amount in words: INR ${amountInWords(inv.total)}</div>
   </body></html>`;
 }
 
 export async function exportInvoicePdf(inv: Invoice, filename?: string) {
   const html = buildPrintable(inv);
-  // create an offscreen iframe so styles in head are applied
-  const iframe = document.createElement('iframe');
-  iframe.style.position = 'fixed';
-  iframe.style.left = '-9999px';
-  iframe.style.top = '0';
-  iframe.width = '800';
-  iframe.height = '1100';
-  document.body.appendChild(iframe);
-  const doc = iframe.contentDocument || (iframe.contentWindow && iframe.contentWindow.document);
-  if (!doc) throw new Error('Unable to access iframe document');
-  doc.open();
-  doc.write(html);
-  doc.close();
 
-  // wait briefly for styles to apply and layout to stabilise
-  await new Promise<void>((resolve) => setTimeout(resolve, 250));
+  // Create a hidden container in the current document and insert the full HTML
+  // This ensures html2pdf/html2canvas operate in the same document and pick up styles reliably
+  const container = document.createElement('div');
+  container.style.position = 'fixed';
+  container.style.left = '-9999px';
+  container.style.top = '0';
+  container.style.width = '210mm';
+  container.style.height = '297mm';
+  container.style.overflow = 'hidden';
+  container.innerHTML = html;
+  document.body.appendChild(container);
+
+  // wait for styles/fonts/layout to stabilise
+  await new Promise<void>((resolve) => setTimeout(resolve, 700));
 
   // dynamic import of html2pdf.js
   // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -193,17 +236,44 @@ export async function exportInvoicePdf(inv: Invoice, filename?: string) {
 
   const opt = {
     filename: filename || `${inv.invoiceNo}.pdf`,
-    margin: 8,
+    // small safe margin so the outer .page border is not clipped
+    margin: [8, 8, 8, 8],
     image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2 },
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    html2canvas: { scale: 2, useCORS: true, allowTaint: true, backgroundColor: '#ffffff' },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    pagebreak: { mode: ['css', 'legacy'] }
   };
 
   try {
-    await html2pdf().from(iframe.contentWindow!.document.body).set(opt).save();
+    // Prefer capturing the .page wrapper from the container (same DOM) so styles apply correctly
+    const pageEl = container.querySelector('.page') || container;
+    await html2pdf().from(pageEl as any).set(opt).save();
+  } catch (err) {
+    // fallback: use an iframe-based approach (older behavior) if the above fails
+    const iframe = document.createElement('iframe');
+    iframe.style.position = 'fixed';
+    iframe.style.left = '-9999px';
+    iframe.style.top = '0';
+    iframe.style.width = '210mm';
+    iframe.style.height = '297mm';
+    iframe.width = '210mm';
+    iframe.height = '297mm';
+    document.body.appendChild(iframe);
+    const doc = iframe.contentDocument || (iframe.contentWindow && iframe.contentWindow.document);
+    if (!doc) throw err;
+    doc.open();
+    doc.write(html);
+    doc.close();
+    await new Promise<void>((resolve) => setTimeout(resolve, 700));
+    const src = iframe.contentWindow!.document.body || iframe.contentWindow!.document.documentElement;
+    try {
+      await html2pdf().from(src as any).set(opt).save();
+    } finally {
+      setTimeout(() => { try { document.body.removeChild(iframe); } catch {} }, 300);
+    }
   } finally {
-    // remove iframe
-    setTimeout(() => { try { document.body.removeChild(iframe); } catch {} }, 300);
+    // remove container
+    setTimeout(() => { try { document.body.removeChild(container); } catch {} }, 300);
   }
 }
 

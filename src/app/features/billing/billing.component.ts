@@ -33,7 +33,7 @@ export class BillingComponent {
 
   public addSampleData() {
     if (!this.customers().length) {
-      customerStore.add({ name: 'Retail'});
+      customerStore.add({ name: 'Retail', address: '106, Main Road, Annur - 641653' });
 
     }
     if (!this.products().length) {
@@ -93,6 +93,7 @@ export class BillingComponent {
       date: new Date().toISOString(),
       customerId: this.selectedCustomer?.id,
       customerName: this.selectedCustomer?.name,
+      customerAddress: this.selectedCustomer?.address,
       items: this.invoiceItems,
       subtotal: this.taxableTotal,
       totalGst: this.totalGst,
@@ -233,6 +234,7 @@ export class BillingComponent {
       date: new Date().toISOString(),
       customerId: this.selectedCustomer?.id,
       customerName: this.selectedCustomer?.name,
+      customerAddress: this.selectedCustomer?.address,
       items: this.invoiceItems,
       subtotal: this.taxableTotal,
       totalGst: this.totalGst,

@@ -5,6 +5,7 @@ export interface Customer {
   name: string;
   contact?: string;
   gst?: string;
+  address?: string;
 }
 
 const STORAGE_KEY = 'ssc_customers_v1';
