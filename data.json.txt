@@ -1,0 +1,3310 @@
+{
+  "exportedAt": "2026-01-17T12:31:43.020Z",
+  "data": {
+    "customers": [
+      {
+        "name": "Wholesale",
+        "type": "Retail",
+        "id": "mjeb56qs"
+      },
+      {
+        "name": "Retail",
+        "type": "Retail",
+        "id": "mjebml7i"
+      },
+      {
+        "name": "Semi - Wholesale",
+        "type": "Retail",
+        "id": "mjebtcmm"
+      }
+    ],
+    "products": [
+      {
+        "name": "Classmate Notebook (192 Pages)",
+        "category": "Notebooks",
+        "hsn": "4820",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 65,
+          "mjebml7i": 70,
+          "mjebtcmm": 70
+        },
+        "id": "nb_001_lng"
+      },
+      {
+        "name": "King Size Notebook (Unruled)",
+        "category": "Notebooks",
+        "hsn": "4820",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 50,
+          "mjebml7i": 55,
+          "mjebtcmm": 55
+        },
+        "id": "nb_002_kng"
+      },
+      {
+        "name": "A4 Register (300 Pages)",
+        "category": "Notebooks",
+        "hsn": "4820",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 120,
+          "mjebml7i": 135,
+          "mjebtcmm": 135
+        },
+        "id": "nb_003_a4"
+      },
+      {
+        "name": "Spiral Notebook",
+        "category": "Notebooks",
+        "hsn": "4820",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 150,
+          "mjebml7i": 170,
+          "mjebtcmm": 170
+        },
+        "id": "nb_004_spr"
+      },
+      {
+        "name": "Graph Book (40 Pages)",
+        "category": "Notebooks",
+        "hsn": "4820",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 25,
+          "mjebml7i": 30,
+          "mjebtcmm": 30
+        },
+        "id": "nb_005_grp"
+      },
+      {
+        "name": "Practical Record Note (Physics)",
+        "category": "Notebooks",
+        "hsn": "4820",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 90,
+          "mjebml7i": 100,
+          "mjebtcmm": 100
+        },
+        "id": "nb_006_phy"
+      },
+      {
+        "name": "Drawing Book (A3)",
+        "category": "Notebooks",
+        "hsn": "4820",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 55,
+          "mjebml7i": 65,
+          "mjebtcmm": 65
+        },
+        "id": "nb_007_drw"
+      },
+      {
+        "name": "Scrap Book",
+        "category": "Notebooks",
+        "hsn": "4820",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 40,
+          "mjebml7i": 45,
+          "mjebtcmm": 45
+        },
+        "id": "nb_008_scr"
+      },
+      {
+        "name": "Reynolds Ball Pen (Blue)",
+        "category": "Stationery",
+        "hsn": "9608",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 10,
+          "mjebml7i": 12,
+          "mjebtcmm": 12
+        },
+        "id": "pn_001_blu"
+      },
+      {
+        "name": "Reynolds Ball Pen (Black)",
+        "category": "Stationery",
+        "hsn": "9608",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 10,
+          "mjebml7i": 12,
+          "mjebtcmm": 12
+        },
+        "id": "pn_002_blk"
+      },
+      {
+        "name": "Technotip Gel Pen",
+        "category": "Stationery",
+        "hsn": "9608",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 20,
+          "mjebml7i": 25,
+          "mjebtcmm": 25
+        },
+        "id": "pn_003_gel"
+      },
+      {
+        "name": "Parker Vector Pen",
+        "category": "Luxury Stationery",
+        "hsn": "9608",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 350,
+          "mjebml7i": 399,
+          "mjebtcmm": 399
+        },
+        "id": "pn_004_pkr"
+      },
+      {
+        "name": "Pilot V5 Pen",
+        "category": "Stationery",
+        "hsn": "9608",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 55,
+          "mjebml7i": 60,
+          "mjebtcmm": 60
+        },
+        "id": "pn_005_plt"
+      },
+      {
+        "name": "Whiteboard Marker (Black)",
+        "category": "Stationery",
+        "hsn": "9608",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 35,
+          "mjebml7i": 40,
+          "mjebtcmm": 40
+        },
+        "id": "pn_006_mrk"
+      },
+      {
+        "name": "Permanent Marker (Red)",
+        "category": "Stationery",
+        "hsn": "9608",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 25,
+          "mjebml7i": 30,
+          "mjebtcmm": 30
+        },
+        "id": "pn_007_pmr"
+      },
+      {
+        "name": "Highlighter (Fluorescent)",
+        "category": "Stationery",
+        "hsn": "9608",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 20,
+          "mjebml7i": 25,
+          "mjebtcmm": 25
+        },
+        "id": "pn_008_hgh"
+      },
+      {
+        "name": "Apsara Platinum Pencil (Pack)",
+        "category": "Stationery",
+        "hsn": "9609",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 50,
+          "mjebml7i": 55,
+          "mjebtcmm": 55
+        },
+        "id": "pc_001_aps"
+      },
+      {
+        "name": "Nataraj Pencil Box",
+        "category": "Stationery",
+        "hsn": "9609",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 45,
+          "mjebml7i": 50,
+          "mjebtcmm": 50
+        },
+        "id": "pc_002_nat"
+      },
+      {
+        "name": "Mechanical Pencil (0.5mm)",
+        "category": "Stationery",
+        "hsn": "9608",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 30,
+          "mjebml7i": 35,
+          "mjebtcmm": 35
+        },
+        "id": "pc_003_mec"
+      },
+      {
+        "name": "Pencil Leads (0.5mm)",
+        "category": "Stationery",
+        "hsn": "9609",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 10,
+          "mjebml7i": 15,
+          "mjebtcmm": 15
+        },
+        "id": "pc_004_led"
+      },
+      {
+        "name": "Camlin Geometry Box",
+        "category": "Stationery",
+        "hsn": "9017",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 120,
+          "mjebml7i": 140,
+          "mjebtcmm": 140
+        },
+        "id": "gm_001_box"
+      },
+      {
+        "name": "Plastic Ruler (15cm)",
+        "category": "Stationery",
+        "hsn": "9017",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 5,
+          "mjebml7i": 8,
+          "mjebtcmm": 8
+        },
+        "id": "gm_002_scl"
+      },
+      {
+        "name": "Steel Ruler (30cm)",
+        "category": "Stationery",
+        "hsn": "9017",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 25,
+          "mjebml7i": 30,
+          "mjebtcmm": 30
+        },
+        "id": "gm_003_stl"
+      },
+      {
+        "name": "Eraser (Non-Dust)",
+        "category": "Stationery",
+        "hsn": "4016",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 5,
+          "mjebml7i": 7,
+          "mjebtcmm": 7
+        },
+        "id": "er_001_nod"
+      },
+      {
+        "name": "Fevicol (50g)",
+        "category": "Adhesive",
+        "hsn": "3506",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 20,
+          "mjebml7i": 25,
+          "mjebtcmm": 25
+        },
+        "id": "ad_001_fev"
+      },
+      {
+        "name": "Fevistik (8g)",
+        "category": "Adhesive",
+        "hsn": "3506",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 10,
+          "mjebml7i": 15,
+          "mjebtcmm": 15
+        },
+        "id": "ad_002_stk"
+      },
+      {
+        "name": "Cello Tape (1 inch)",
+        "category": "Adhesive",
+        "hsn": "3919",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 15,
+          "mjebml7i": 20,
+          "mjebtcmm": 20
+        },
+        "id": "ad_003_tap"
+      },
+      {
+        "name": "Color Pencil Set (12 shades)",
+        "category": "Art",
+        "hsn": "9609",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 60,
+          "mjebml7i": 70,
+          "mjebtcmm": 70
+        },
+        "id": "ar_001_col"
+      },
+      {
+        "name": "Oil Pastels (25 shades)",
+        "category": "Art",
+        "hsn": "9609",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 95,
+          "mjebml7i": 110,
+          "mjebtcmm": 110
+        },
+        "id": "ar_002_oil"
+      },
+      {
+        "name": "Water Color Cakes",
+        "category": "Art",
+        "hsn": "3213",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 110,
+          "mjebml7i": 130,
+          "mjebtcmm": 130
+        },
+        "id": "ar_003_wtr"
+      },
+      {
+        "name": "Sketch Pens (12 Pack)",
+        "category": "Art",
+        "hsn": "9608",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 40,
+          "mjebml7i": 50,
+          "mjebtcmm": 50
+        },
+        "id": "ar_004_skc"
+      },
+      {
+        "name": "Paint Brush Set",
+        "category": "Art",
+        "hsn": "9603",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 80,
+          "mjebml7i": 100,
+          "mjebtcmm": 100
+        },
+        "id": "ar_005_brs"
+      },
+      {
+        "name": "Chart Paper (White)",
+        "category": "Paper",
+        "hsn": "4802",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 5,
+          "mjebml7i": 8,
+          "mjebtcmm": 8
+        },
+        "id": "pp_001_wht"
+      },
+      {
+        "name": "Stapler (Small)",
+        "category": "Office",
+        "hsn": "8472",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 45,
+          "mjebml7i": 55,
+          "mjebtcmm": 55
+        },
+        "id": "of_001_stp"
+      },
+      {
+        "name": "Stapler Pins (No. 10)",
+        "category": "Office",
+        "hsn": "8305",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 10,
+          "mjebml7i": 15,
+          "mjebtcmm": 15
+        },
+        "id": "of_002_pin"
+      },
+      {
+        "name": "Paper Punch (Single)",
+        "category": "Office",
+        "hsn": "8472",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 55,
+          "mjebml7i": 65,
+          "mjebtcmm": 65
+        },
+        "id": "of_003_pnc"
+      },
+      {
+        "name": "L-Folder",
+        "category": "Files",
+        "hsn": "3926",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 10,
+          "mjebml7i": 15,
+          "mjebtcmm": 15
+        },
+        "id": "fl_001_lfl"
+      },
+      {
+        "name": "Stick File",
+        "category": "Files",
+        "hsn": "3926",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 15,
+          "mjebml7i": 20,
+          "mjebtcmm": 20
+        },
+        "id": "fl_002_stk"
+      },
+      {
+        "name": "Button Folder",
+        "category": "Files",
+        "hsn": "3926",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 20,
+          "mjebml7i": 25,
+          "mjebtcmm": 25
+        },
+        "id": "fl_003_btn"
+      },
+      {
+        "name": "Index File (Box File)",
+        "category": "Files",
+        "hsn": "4820",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 110,
+          "mjebml7i": 130,
+          "mjebtcmm": 130
+        },
+        "id": "fl_004_box"
+      },
+      {
+        "name": "Brown Sheet Roll (Cover)",
+        "category": "Paper",
+        "hsn": "4811",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 15,
+          "mjebml7i": 20,
+          "mjebtcmm": 20
+        },
+        "id": "pp_002_brn"
+      },
+      {
+        "name": "Sura Guide 10th Maths",
+        "category": "Guides",
+        "hsn": "4901",
+        "gstRate": 0,
+        "prices": {
+          "mjeb56qs": 280,
+          "mjebml7i": 300,
+          "mjebtcmm": 300
+        },
+        "id": "bk_001_10m"
+      },
+      {
+        "name": "Sura Guide 10th Science",
+        "category": "Guides",
+        "hsn": "4901",
+        "gstRate": 0,
+        "prices": {
+          "mjeb56qs": 290,
+          "mjebml7i": 310,
+          "mjebtcmm": 310
+        },
+        "id": "bk_002_10s"
+      },
+      {
+        "name": "Sura Guide 12th Physics",
+        "category": "Guides",
+        "hsn": "4901",
+        "gstRate": 0,
+        "prices": {
+          "mjeb56qs": 320,
+          "mjebml7i": 350,
+          "mjebtcmm": 350
+        },
+        "id": "bk_003_12p"
+      },
+      {
+        "name": "Konar Guide Tamil",
+        "category": "Guides",
+        "hsn": "4901",
+        "gstRate": 0,
+        "prices": {
+          "mjeb56qs": 150,
+          "mjebml7i": 170,
+          "mjebtcmm": 170
+        },
+        "id": "bk_004_tam"
+      },
+      {
+        "name": "Oxford Dictionary (Mini)",
+        "category": "Books",
+        "hsn": "4901",
+        "gstRate": 0,
+        "prices": {
+          "mjeb56qs": 190,
+          "mjebml7i": 210,
+          "mjebtcmm": 210
+        },
+        "id": "bk_005_dic"
+      },
+      {
+        "name": "World Map",
+        "category": "Books",
+        "hsn": "4905",
+        "gstRate": 0,
+        "prices": {
+          "mjeb56qs": 5,
+          "mjebml7i": 10,
+          "mjebtcmm": 10
+        },
+        "id": "bk_006_map"
+      },
+      {
+        "name": "India Map",
+        "category": "Books",
+        "hsn": "4905",
+        "gstRate": 0,
+        "prices": {
+          "mjeb56qs": 5,
+          "mjebml7i": 10,
+          "mjebtcmm": 10
+        },
+        "id": "bk_007_ind"
+      },
+      {
+        "name": "Graph Pad",
+        "category": "Stationery",
+        "hsn": "4820",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 35,
+          "mjebml7i": 45,
+          "mjebtcmm": 45
+        },
+        "id": "pp_003_gpd"
+      },
+      {
+        "name": "Sticky Notes",
+        "category": "Stationery",
+        "hsn": "4820",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 45,
+          "mjebml7i": 55,
+          "mjebtcmm": 55
+        },
+        "id": "pp_004_stk"
+      },
+      {
+        "name": "Correction Pen (Whitener)",
+        "category": "Stationery",
+        "hsn": "3824",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 25,
+          "mjebml7i": 30,
+          "mjebtcmm": 30
+        },
+        "id": "pn_009_wht"
+      },
+      {
+        "name": "Exam Pad (Cardboard)",
+        "category": "Stationery",
+        "hsn": "4820",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 40,
+          "mjebml7i": 50,
+          "mjebtcmm": 50
+        },
+        "id": "ex_001_crd"
+      },
+      {
+        "name": "Exam Pad (Acrylic/Plastic)",
+        "category": "Stationery",
+        "hsn": "3926",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 80,
+          "mjebml7i": 95,
+          "mjebtcmm": 95
+        },
+        "id": "ex_002_acr"
+      },
+      {
+        "name": "School Bag (Small)",
+        "category": "Accessories",
+        "hsn": "4202",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 450,
+          "mjebml7i": 550,
+          "mjebtcmm": 550
+        },
+        "id": "bg_001_sml"
+      },
+      {
+        "name": "Lunch Box (Plastic)",
+        "category": "Accessories",
+        "hsn": "3924",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 150,
+          "mjebml7i": 180,
+          "mjebtcmm": 180
+        },
+        "id": "lb_001_pls"
+      },
+      {
+        "name": "Water Bottle (Steel)",
+        "category": "Accessories",
+        "hsn": "7323",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 300,
+          "mjebml7i": 350,
+          "mjebtcmm": 350
+        },
+        "id": "wb_001_stl"
+      },
+      {
+        "name": "Scissors (Small)",
+        "category": "Office",
+        "hsn": "8213",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 45,
+          "mjebml7i": 55,
+          "mjebtcmm": 55
+        },
+        "id": "tl_001_sci"
+      },
+      {
+        "name": "Cutter Knife",
+        "category": "Office",
+        "hsn": "8211",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 20,
+          "mjebml7i": 25,
+          "mjebtcmm": 25
+        },
+        "id": "tl_002_cut"
+      },
+      {
+        "name": "Double Sided Tape",
+        "category": "Adhesive",
+        "hsn": "3919",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 25,
+          "mjebml7i": 30,
+          "mjebtcmm": 30
+        },
+        "id": "ad_004_dbl"
+      },
+      {
+        "name": "Glitter Pen Set",
+        "category": "Art",
+        "hsn": "9608",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 60,
+          "mjebml7i": 75,
+          "mjebtcmm": 75
+        },
+        "id": "ar_006_glt"
+      },
+      {
+        "name": "Clay (Modeling)",
+        "category": "Art",
+        "hsn": "3407",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 50,
+          "mjebml7i": 60,
+          "mjebtcmm": 60
+        },
+        "id": "ar_007_cly"
+      },
+      {
+        "name": "CD/DVD Marker",
+        "category": "Stationery",
+        "hsn": "9608",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 15,
+          "mjebml7i": 20,
+          "mjebtcmm": 20
+        },
+        "id": "pn_010_cdm"
+      },
+      {
+        "name": "Ink Bottle (Royal Blue)",
+        "category": "Stationery",
+        "hsn": "3215",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 25,
+          "mjebml7i": 30,
+          "mjebtcmm": 30
+        },
+        "id": "ik_001_roy"
+      },
+      {
+        "name": "Ink Cartridges (Pack)",
+        "category": "Stationery",
+        "hsn": "9608",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 15,
+          "mjebml7i": 20,
+          "mjebtcmm": 20
+        },
+        "id": "ik_002_crt"
+      },
+      {
+        "name": "Stamp Pad (Blue)",
+        "category": "Office",
+        "hsn": "9612",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 35,
+          "mjebml7i": 45,
+          "mjebtcmm": 45
+        },
+        "id": "of_004_stmp"
+      },
+      {
+        "name": "TNPL Copier Paper A4 (500 Sheets)",
+        "category": "Paper",
+        "hsn": "4802",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 280,
+          "mjebml7i": 320,
+          "mjebtcmm": 320
+        },
+        "id": "pp_tnpl_a4"
+      },
+      {
+        "name": "Copygold A4 Paper (75 GSM)",
+        "category": "Paper",
+        "hsn": "4802",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 290,
+          "mjebml7i": 340,
+          "mjebtcmm": 340
+        },
+        "id": "pp_cpg_a4"
+      },
+      {
+        "name": "JK Easy Copier A4",
+        "category": "Paper",
+        "hsn": "4802",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 285,
+          "mjebml7i": 330,
+          "mjebtcmm": 330
+        },
+        "id": "pp_jk_a4"
+      },
+      {
+        "name": "A3 Copier Paper (500 Sheets)",
+        "category": "Paper",
+        "hsn": "4802",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 580,
+          "mjebml7i": 650,
+          "mjebtcmm": 650
+        },
+        "id": "pp_gen_a3"
+      },
+      {
+        "name": "A5 Notepad (Spiral)",
+        "category": "Notebooks",
+        "hsn": "4820",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 40,
+          "mjebml7i": 50,
+          "mjebtcmm": 50
+        },
+        "id": "nb_a5_spr"
+      },
+      {
+        "name": "Legal Size Paper (FS)",
+        "category": "Paper",
+        "hsn": "4802",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 320,
+          "mjebml7i": 380,
+          "mjebtcmm": 380
+        },
+        "id": "pp_leg_fs"
+      },
+      {
+        "name": "Doms Zoom Triangle Pencils",
+        "category": "Stationery",
+        "hsn": "9609",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 50,
+          "mjebml7i": 60,
+          "mjebtcmm": 60
+        },
+        "id": "pc_dom_tri"
+      },
+      {
+        "name": "Doms Neon Eraser (Pack)",
+        "category": "Stationery",
+        "hsn": "4016",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 30,
+          "mjebml7i": 40,
+          "mjebtcmm": 40
+        },
+        "id": "er_dom_neo"
+      },
+      {
+        "name": "Doms Dustless Chalk (White)",
+        "category": "School Supplies",
+        "hsn": "9609",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 45,
+          "mjebml7i": 55,
+          "mjebtcmm": 55
+        },
+        "id": "ch_dom_wht"
+      },
+      {
+        "name": "Doms Oil Pastels (50 Shades)",
+        "category": "Art",
+        "hsn": "9609",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 180,
+          "mjebml7i": 220,
+          "mjebtcmm": 220
+        },
+        "id": "ar_dom_oil50"
+      },
+      {
+        "name": "Camlin Exam Scale (30cm)",
+        "category": "Stationery",
+        "hsn": "9017",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 25,
+          "mjebml7i": 30,
+          "mjebtcmm": 30
+        },
+        "id": "gm_cam_scl"
+      },
+      {
+        "name": "Camlin White Glue (100ml)",
+        "category": "Adhesive",
+        "hsn": "3506",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 35,
+          "mjebml7i": 45,
+          "mjebtcmm": 45
+        },
+        "id": "ad_cam_glue"
+      },
+      {
+        "name": "Camlin Kokuyo Geometry Box",
+        "category": "Stationery",
+        "hsn": "9017",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 150,
+          "mjebml7i": 180,
+          "mjebtcmm": 180
+        },
+        "id": "gm_cam_box"
+      },
+      {
+        "name": "Reynolds 045 Ball Pen (Blue)",
+        "category": "Stationery",
+        "hsn": "9608",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 8,
+          "mjebml7i": 10,
+          "mjebtcmm": 10
+        },
+        "id": "pn_rey_045"
+      },
+      {
+        "name": "Reynolds Trimax Gold",
+        "category": "Stationery",
+        "hsn": "9608",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 50,
+          "mjebml7i": 60,
+          "mjebtcmm": 60
+        },
+        "id": "pn_rey_tri"
+      },
+      {
+        "name": "Reynolds Jetter Classic",
+        "category": "Stationery",
+        "hsn": "9608",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 30,
+          "mjebml7i": 40,
+          "mjebtcmm": 40
+        },
+        "id": "pn_rey_jet"
+      },
+      {
+        "name": "Rorito Flymax Gel",
+        "category": "Stationery",
+        "hsn": "9608",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 15,
+          "mjebml7i": 20,
+          "mjebtcmm": 20
+        },
+        "id": "pn_ror_fly"
+      },
+      {
+        "name": "Cello Butterflow Ball Pen",
+        "category": "Stationery",
+        "hsn": "9608",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 10,
+          "mjebml7i": 15,
+          "mjebtcmm": 15
+        },
+        "id": "pn_cel_but"
+      },
+      {
+        "name": "Cello Gripper Ball Pen",
+        "category": "Stationery",
+        "hsn": "9608",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 8,
+          "mjebml7i": 12,
+          "mjebtcmm": 12
+        },
+        "id": "pn_cel_grp"
+      },
+      {
+        "name": "Hauser XO Ball Pen",
+        "category": "Stationery",
+        "hsn": "9608",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 8,
+          "mjebml7i": 10,
+          "mjebtcmm": 10
+        },
+        "id": "pn_hau_xo"
+      },
+      {
+        "name": "Uniball Eye Roller Pen",
+        "category": "Luxury Stationery",
+        "hsn": "9608",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 75,
+          "mjebml7i": 90,
+          "mjebtcmm": 90
+        },
+        "id": "pn_uni_eye"
+      },
+      {
+        "name": "Octane Gel Pen",
+        "category": "Stationery",
+        "hsn": "9608",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 10,
+          "mjebml7i": 15,
+          "mjebtcmm": 15
+        },
+        "id": "pn_oct_gel"
+      },
+      {
+        "name": "Glue Gun (Small)",
+        "category": "Crafts",
+        "hsn": "8419",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 250,
+          "mjebml7i": 350,
+          "mjebtcmm": 350
+        },
+        "id": "cr_glu_gun"
+      },
+      {
+        "name": "Glue Gun Sticks (Pack of 10)",
+        "category": "Crafts",
+        "hsn": "3506",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 80,
+          "mjebml7i": 100,
+          "mjebtcmm": 100
+        },
+        "id": "cr_glu_stk"
+      },
+      {
+        "name": "Oddy Glue Stick (15g)",
+        "category": "Adhesive",
+        "hsn": "3506",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 25,
+          "mjebml7i": 30,
+          "mjebtcmm": 30
+        },
+        "id": "ad_ody_stk"
+      },
+      {
+        "name": "Pen Stand (Mesh Metal)",
+        "category": "Desk Accessories",
+        "hsn": "8304",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 120,
+          "mjebml7i": 150,
+          "mjebtcmm": 150
+        },
+        "id": "dk_pen_std"
+      },
+      {
+        "name": "Table Organizer",
+        "category": "Desk Accessories",
+        "hsn": "3926",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 250,
+          "mjebml7i": 300,
+          "mjebtcmm": 300
+        },
+        "id": "dk_tab_org"
+      },
+      {
+        "name": "Whiteboard Duster",
+        "category": "School Supplies",
+        "hsn": "9603",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 35,
+          "mjebml7i": 45,
+          "mjebtcmm": 45
+        },
+        "id": "sc_wh_dst"
+      },
+      {
+        "name": "Notice Board Pins (Box)",
+        "category": "Office",
+        "hsn": "7317",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 20,
+          "mjebml7i": 25,
+          "mjebtcmm": 25
+        },
+        "id": "of_brd_pin"
+      },
+      {
+        "name": "Cobra File (Spring File)",
+        "category": "Files",
+        "hsn": "3926",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 25,
+          "mjebml7i": 35,
+          "mjebtcmm": 35
+        },
+        "id": "fl_cbr_spr"
+      },
+      {
+        "name": "Ring Binder File (A4)",
+        "category": "Files",
+        "hsn": "3926",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 100,
+          "mjebml7i": 125,
+          "mjebtcmm": 125
+        },
+        "id": "fl_rng_a4"
+      },
+      {
+        "name": "Clear Bag (My Clear Bag)",
+        "category": "Files",
+        "hsn": "3926",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 8,
+          "mjebml7i": 12,
+          "mjebtcmm": 12
+        },
+        "id": "fl_clr_bag"
+      },
+      {
+        "name": "Report File (Strip)",
+        "category": "Files",
+        "hsn": "3926",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 12,
+          "mjebml7i": 15,
+          "mjebtcmm": 15
+        },
+        "id": "fl_rpt_str"
+      },
+      {
+        "name": "Plastic Scale (Small 15cm)",
+        "category": "Stationery",
+        "hsn": "9017",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 5,
+          "mjebml7i": 10,
+          "mjebtcmm": 10
+        },
+        "id": "gm_pls_sml"
+      },
+      {
+        "name": "Tape Dispenser (Desktop)",
+        "category": "Office",
+        "hsn": "8472",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 120,
+          "mjebml7i": 150,
+          "mjebtcmm": 150
+        },
+        "id": "of_tap_dsp"
+      },
+      {
+        "name": "Punching Machine (Double Hole)",
+        "category": "Office",
+        "hsn": "8472",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 90,
+          "mjebml7i": 120,
+          "mjebtcmm": 120
+        },
+        "id": "of_pun_dbl"
+      },
+      {
+        "name": "Stamp Pad Ink (Violet)",
+        "category": "Office",
+        "hsn": "3215",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 20,
+          "mjebml7i": 25,
+          "mjebtcmm": 25
+        },
+        "id": "ik_stmp_vio"
+      },
+      {
+        "name": "Carbon Paper (Blue/100 Sheets)",
+        "category": "Office",
+        "hsn": "4816",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 180,
+          "mjebml7i": 220,
+          "mjebtcmm": 220
+        },
+        "id": "pp_crb_blu"
+      },
+      {
+        "name": "Ledger Book (Ruled)",
+        "category": "Office",
+        "hsn": "4820",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 150,
+          "mjebml7i": 180,
+          "mjebtcmm": 180
+        },
+        "id": "bk_ldg_rul"
+      },
+      {
+        "name": "Cash Book",
+        "category": "Office",
+        "hsn": "4820",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 150,
+          "mjebml7i": 180,
+          "mjebtcmm": 180
+        },
+        "id": "bk_csh_bok"
+      },
+      {
+        "name": "Attendance Register",
+        "category": "Office",
+        "hsn": "4820",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 90,
+          "mjebml7i": 110,
+          "mjebtcmm": 110
+        },
+        "id": "bk_att_reg"
+      },
+      {
+        "name": "Kangaro Stapler (HD-10)",
+        "category": "Office",
+        "hsn": "8472",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 85,
+          "mjebml7i": 100,
+          "mjebtcmm": 100
+        },
+        "id": "of_kng_hd10"
+      },
+      {
+        "name": "Kangaro Stapler Pins (No. 10)",
+        "category": "Office",
+        "hsn": "8305",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 10,
+          "mjebml7i": 15,
+          "mjebtcmm": 15
+        },
+        "id": "of_kng_pin"
+      },
+      {
+        "name": "Glitter Powder (Pack)",
+        "category": "Crafts",
+        "hsn": "3926",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 15,
+          "mjebml7i": 20,
+          "mjebtcmm": 20
+        },
+        "id": "cr_glt_pwd"
+      },
+      {
+        "name": "Quilling Paper Strips",
+        "category": "Crafts",
+        "hsn": "4823",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 35,
+          "mjebml7i": 45,
+          "mjebtcmm": 45
+        },
+        "id": "cr_qul_str"
+      },
+      {
+        "name": "Acrylic Paint (Bottle 15ml)",
+        "category": "Art",
+        "hsn": "3213",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 20,
+          "mjebml7i": 25,
+          "mjebtcmm": 25
+        },
+        "id": "ar_acr_15"
+      },
+      {
+        "name": "Canvas Board (8x10)",
+        "category": "Art",
+        "hsn": "5901",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 60,
+          "mjebml7i": 80,
+          "mjebtcmm": 80
+        },
+        "id": "ar_cnv_810"
+      },
+      {
+        "name": "Palette (Plastic)",
+        "category": "Art",
+        "hsn": "3926",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 25,
+          "mjebml7i": 35,
+          "mjebtcmm": 35
+        },
+        "id": "ar_pal_pls"
+      },
+      {
+        "name": "Drawing Pencils Set (HB-10B)",
+        "category": "Art",
+        "hsn": "9609",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 150,
+          "mjebml7i": 180,
+          "mjebtcmm": 180
+        },
+        "id": "ar_drw_set"
+      },
+      {
+        "name": "Calligraphy Pen Set",
+        "category": "Art",
+        "hsn": "9608",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 250,
+          "mjebml7i": 300,
+          "mjebtcmm": 300
+        },
+        "id": "ar_cal_set"
+      },
+      {
+        "name": "Bill Book (GST Format)",
+        "category": "Office",
+        "hsn": "4820",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 45,
+          "mjebml7i": 60,
+          "mjebtcmm": 60
+        },
+        "id": "bk_bil_gst"
+      },
+      {
+        "name": "Voucher Pad",
+        "category": "Office",
+        "hsn": "4820",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 30,
+          "mjebml7i": 40,
+          "mjebtcmm": 40
+        },
+        "id": "bk_vch_pad"
+      },
+      {
+        "name": "Lamination Pouch (A4)",
+        "category": "Office",
+        "hsn": "3920",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 450,
+          "mjebml7i": 550,
+          "mjebtcmm": 550
+        },
+        "id": "of_lam_a4"
+      },
+      {
+        "name": "ID Card Holder",
+        "category": "Accessories",
+        "hsn": "3926",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 10,
+          "mjebml7i": 15,
+          "mjebtcmm": 15
+        },
+        "id": "ac_id_crd"
+      },
+      {
+        "name": "Lanyard (ID Tag Rope)",
+        "category": "Accessories",
+        "hsn": "6307",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 15,
+          "mjebml7i": 20,
+          "mjebtcmm": 20
+        },
+        "id": "ac_lny_rop"
+      },
+      {
+        "name": "Key Chain (Fancy)",
+        "category": "Accessories",
+        "hsn": "7326",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 30,
+          "mjebml7i": 50,
+          "mjebtcmm": 50
+        },
+        "id": "ac_key_chn"
+      },
+      {
+        "name": "Pen Box (Gift Case)",
+        "category": "Stationery",
+        "hsn": "4202",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 80,
+          "mjebml7i": 120,
+          "mjebtcmm": 120
+        },
+        "id": "pn_box_gft"
+      },
+      {
+        "name": "Pencil Pouch (Fabric)",
+        "category": "Accessories",
+        "hsn": "4202",
+        "gstRate": 18,
+        "prices": {
+          "mjeb56qs": 60,
+          "mjebml7i": 80,
+          "mjebtcmm": 80
+        },
+        "id": "ac_pch_fab"
+      },
+      {
+        "name": "Visitor Book",
+        "category": "Office",
+        "hsn": "4820",
+        "gstRate": 12,
+        "prices": {
+          "mjeb56qs": 180,
+          "mjebml7i": 220,
+          "mjebtcmm": 220
+        },
+        "id": "bk_vis_bok"
+      }
+    ],
+    "invoices": [
+      {
+        "id": "mki1t40a",
+        "invoiceNo": "INV-1768638685834",
+        "date": "2026-01-17T08:31:25.834Z",
+        "customerId": "mjeb56qs",
+        "customerName": "Wholesale",
+        "items": [
+          {
+            "id": "mki1szmu",
+            "productId": "nb_002_kng",
+            "name": "King Size Notebook (Unruled)",
+            "hsn": "4820",
+            "qty": 1,
+            "rate": 50,
+            "gstRate": 12,
+            "amount": 50
+          },
+          {
+            "id": "mki1t11b",
+            "productId": "nb_008_scr",
+            "name": "Scrap Book",
+            "hsn": "4820",
+            "qty": 1,
+            "rate": 40,
+            "gstRate": 12,
+            "amount": 40
+          },
+          {
+            "id": "mki1t1nz",
+            "productId": "pn_005_plt",
+            "name": "Pilot V5 Pen",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 55,
+            "gstRate": 18,
+            "amount": 55
+          },
+          {
+            "id": "mki1t2jd",
+            "productId": "ar_001_col",
+            "name": "Color Pencil Set (12 shades)",
+            "hsn": "9609",
+            "qty": 1,
+            "rate": 60,
+            "gstRate": 0,
+            "amount": 60
+          }
+        ],
+        "subtotal": 186.96731234866826,
+        "totalGst": 18.032687651331727,
+        "total": 205
+      },
+      {
+        "id": "mki1mnbr",
+        "invoiceNo": "INV-1768638384279",
+        "date": "2026-01-17T08:26:24.279Z",
+        "customerId": "mjeb56qs",
+        "customerName": "Wholesale",
+        "items": [
+          {
+            "id": "mki1mi3l",
+            "productId": "nb_006_phy",
+            "name": "Practical Record Note (Physics)",
+            "hsn": "4820",
+            "qty": 1,
+            "rate": 90,
+            "gstRate": 12,
+            "amount": 90
+          },
+          {
+            "id": "mki1mipc",
+            "productId": "nb_008_scr",
+            "name": "Scrap Book",
+            "hsn": "4820",
+            "qty": 1,
+            "rate": 40,
+            "gstRate": 12,
+            "amount": 40
+          },
+          {
+            "id": "mki1mjb3",
+            "productId": "pn_001_blu",
+            "name": "Reynolds Ball Pen (Blue)",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 10,
+            "gstRate": 18,
+            "amount": 10
+          },
+          {
+            "id": "mki1mjwn",
+            "productId": "pn_006_mrk",
+            "name": "Whiteboard Marker (Black)",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 35,
+            "gstRate": 18,
+            "amount": 35
+          },
+          {
+            "id": "mki1mkj3",
+            "productId": "pc_002_nat",
+            "name": "Nataraj Pencil Box",
+            "hsn": "9609",
+            "qty": 1,
+            "rate": 45,
+            "gstRate": 0,
+            "amount": 45
+          }
+        ],
+        "subtotal": 199.20702179176754,
+        "totalGst": 20.792978208232462,
+        "total": 220
+      },
+      {
+        "id": "mki1hrdm",
+        "invoiceNo": "INV-1768638156250",
+        "date": "2026-01-17T08:22:36.250Z",
+        "customerId": "mjeb56qs",
+        "customerName": "Wholesale",
+        "items": [
+          {
+            "id": "mki1hldy",
+            "productId": "pc_002_nat",
+            "name": "Nataraj Pencil Box",
+            "hsn": "9609",
+            "qty": 1,
+            "rate": 45,
+            "gstRate": 0,
+            "amount": 45
+          },
+          {
+            "id": "mki1hm9r",
+            "productId": "er_001_nod",
+            "name": "Eraser (Non-Dust)",
+            "hsn": "4016",
+            "qty": 1,
+            "rate": 5,
+            "gstRate": 18,
+            "amount": 5
+          },
+          {
+            "id": "mki1hmwz",
+            "productId": "ad_003_tap",
+            "name": "Cello Tape (1 inch)",
+            "hsn": "3919",
+            "qty": 1,
+            "rate": 15,
+            "gstRate": 18,
+            "amount": 15
+          },
+          {
+            "id": "mki1hnjl",
+            "productId": "pp_001_wht",
+            "name": "Chart Paper (White)",
+            "hsn": "4802",
+            "qty": 1,
+            "rate": 5,
+            "gstRate": 12,
+            "amount": 5
+          },
+          {
+            "id": "mki1ho3u",
+            "productId": "fl_002_stk",
+            "name": "Stick File",
+            "hsn": "3926",
+            "qty": 1,
+            "rate": 15,
+            "gstRate": 18,
+            "amount": 15
+          },
+          {
+            "id": "mki1hoth",
+            "productId": "pn_003_gel",
+            "name": "Technotip Gel Pen",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 20,
+            "gstRate": 18,
+            "amount": 20
+          },
+          {
+            "id": "mki1hpgn",
+            "productId": "gm_001_box",
+            "name": "Camlin Geometry Box",
+            "hsn": "9017",
+            "qty": 1,
+            "rate": 120,
+            "gstRate": 18,
+            "amount": 120
+          }
+        ],
+        "subtotal": 197.76937046004844,
+        "totalGst": 27.230629539951575,
+        "total": 225
+      },
+      {
+        "id": "mki1h137",
+        "invoiceNo": "INV-1768638122179",
+        "date": "2026-01-17T08:22:02.179Z",
+        "customerId": "mjeb56qs",
+        "customerName": "Wholesale",
+        "items": [
+          {
+            "id": "mki1guha",
+            "productId": "nb_001_lng",
+            "name": "Classmate Notebook (192 Pages)",
+            "hsn": "4820",
+            "qty": 1,
+            "rate": 65,
+            "gstRate": 12,
+            "amount": 65
+          },
+          {
+            "id": "mki1gv54",
+            "productId": "nb_007_drw",
+            "name": "Drawing Book (A3)",
+            "hsn": "4820",
+            "qty": 1,
+            "rate": 55,
+            "gstRate": 12,
+            "amount": 55
+          },
+          {
+            "id": "mki1gvru",
+            "productId": "nb_008_scr",
+            "name": "Scrap Book",
+            "hsn": "4820",
+            "qty": 1,
+            "rate": 40,
+            "gstRate": 12,
+            "amount": 40
+          },
+          {
+            "id": "mki1gwcw",
+            "productId": "pn_005_plt",
+            "name": "Pilot V5 Pen",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 55,
+            "gstRate": 18,
+            "amount": 55
+          },
+          {
+            "id": "mki1gx2i",
+            "productId": "pc_003_mec",
+            "name": "Mechanical Pencil (0.5mm)",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 30,
+            "gstRate": 18,
+            "amount": 30
+          },
+          {
+            "id": "mki1gy04",
+            "productId": "ar_001_col",
+            "name": "Color Pencil Set (12 shades)",
+            "hsn": "9609",
+            "qty": 1,
+            "rate": 60,
+            "gstRate": 0,
+            "amount": 60
+          },
+          {
+            "id": "mki1gymc",
+            "productId": "gm_002_scl",
+            "name": "Plastic Ruler (15cm)",
+            "hsn": "9017",
+            "qty": 1,
+            "rate": 5,
+            "gstRate": 18,
+            "amount": 5
+          }
+        ],
+        "subtotal": 279.1283292978208,
+        "totalGst": 30.87167070217919,
+        "total": 310
+      },
+      {
+        "id": "mki1di1q",
+        "invoiceNo": "INV-1768637957534",
+        "date": "2026-01-17T08:19:17.534Z",
+        "customerId": "mjeb56qs",
+        "customerName": "Wholesale",
+        "items": [
+          {
+            "id": "mki1deh7",
+            "productId": "pc_002_nat",
+            "name": "Nataraj Pencil Box",
+            "hsn": "9609",
+            "qty": 1,
+            "rate": 45,
+            "gstRate": 0,
+            "amount": 45
+          },
+          {
+            "id": "mki1df4u",
+            "productId": "pc_001_aps",
+            "name": "Apsara Platinum Pencil (Pack)",
+            "hsn": "9609",
+            "qty": 1,
+            "rate": 50,
+            "gstRate": 0,
+            "amount": 50
+          },
+          {
+            "id": "mki1dfsq",
+            "productId": "gm_003_stl",
+            "name": "Steel Ruler (30cm)",
+            "hsn": "9017",
+            "qty": 1,
+            "rate": 25,
+            "gstRate": 18,
+            "amount": 25
+          },
+          {
+            "id": "mki1dgfo",
+            "productId": "pn_007_pmr",
+            "name": "Permanent Marker (Red)",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 25,
+            "gstRate": 18,
+            "amount": 25
+          },
+          {
+            "id": "mki1dh0x",
+            "productId": "ad_001_fev",
+            "name": "Fevicol (50g)",
+            "hsn": "3506",
+            "qty": 1,
+            "rate": 20,
+            "gstRate": 18,
+            "amount": 20
+          }
+        ],
+        "subtotal": 154.32203389830508,
+        "totalGst": 10.67796610169491,
+        "total": 165
+      },
+      {
+        "id": "mki1d50e",
+        "invoiceNo": "INV-1768637940638",
+        "date": "2026-01-17T08:19:00.638Z",
+        "customerId": "mjeb56qs",
+        "customerName": "Wholesale",
+        "items": [
+          {
+            "id": "mki1czom",
+            "productId": "nb_008_scr",
+            "name": "Scrap Book",
+            "hsn": "4820",
+            "qty": 1,
+            "rate": 40,
+            "gstRate": 12,
+            "amount": 40
+          },
+          {
+            "id": "mki1d0d8",
+            "productId": "pn_001_blu",
+            "name": "Reynolds Ball Pen (Blue)",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 10,
+            "gstRate": 18,
+            "amount": 10
+          },
+          {
+            "id": "mki1d17k",
+            "productId": "pn_004_pkr",
+            "name": "Parker Vector Pen",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 350,
+            "gstRate": 18,
+            "amount": 350
+          },
+          {
+            "id": "mki1d22g",
+            "productId": "gm_002_scl",
+            "name": "Plastic Ruler (15cm)",
+            "hsn": "9017",
+            "qty": 1,
+            "rate": 5,
+            "gstRate": 18,
+            "amount": 5
+          },
+          {
+            "id": "mki1d326",
+            "productId": "er_001_nod",
+            "name": "Eraser (Non-Dust)",
+            "hsn": "4016",
+            "qty": 1,
+            "rate": 5,
+            "gstRate": 18,
+            "amount": 5
+          }
+        ],
+        "subtotal": 349.2736077481841,
+        "totalGst": 60.72639225181599,
+        "total": 410
+      },
+      {
+        "id": "mki1axnl",
+        "invoiceNo": "INV-1768637837793",
+        "date": "2026-01-17T08:17:17.793Z",
+        "customerId": "mjeb56qs",
+        "customerName": "Wholesale",
+        "items": [
+          {
+            "id": "mki1asv6",
+            "productId": "nb_008_scr",
+            "name": "Scrap Book",
+            "hsn": "4820",
+            "qty": 1,
+            "rate": 40,
+            "gstRate": 12,
+            "amount": 40
+          },
+          {
+            "id": "mki1attt",
+            "productId": "pn_006_mrk",
+            "name": "Whiteboard Marker (Black)",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 35,
+            "gstRate": 18,
+            "amount": 35
+          },
+          {
+            "id": "mki1ault",
+            "productId": "pn_004_pkr",
+            "name": "Parker Vector Pen",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 350,
+            "gstRate": 18,
+            "amount": 350
+          },
+          {
+            "id": "mki1avhi",
+            "productId": "gm_002_scl",
+            "name": "Plastic Ruler (15cm)",
+            "hsn": "9017",
+            "qty": 1,
+            "rate": 5,
+            "gstRate": 18,
+            "amount": 5
+          },
+          {
+            "id": "mki1aw7y",
+            "productId": "er_001_nod",
+            "name": "Eraser (Non-Dust)",
+            "hsn": "4016",
+            "qty": 1,
+            "rate": 5,
+            "gstRate": 18,
+            "amount": 5
+          }
+        ],
+        "subtotal": 370.46004842615014,
+        "totalGst": 64.53995157384989,
+        "total": 435
+      },
+      {
+        "id": "mkhzfq2q",
+        "invoiceNo": "INV-1768634702018",
+        "date": "2026-01-17T07:25:02.018Z",
+        "customerId": "mjeb56qs",
+        "customerName": "Wholesale",
+        "items": [
+          {
+            "id": "mkhzfmax",
+            "productId": "nb_002_kng",
+            "name": "King Size Notebook (Unruled)",
+            "hsn": "4820",
+            "qty": 1,
+            "rate": 50,
+            "gstRate": 12,
+            "amount": 50
+          },
+          {
+            "id": "mkhzfmod",
+            "productId": "pn_001_blu",
+            "name": "Reynolds Ball Pen (Blue)",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 10,
+            "gstRate": 18,
+            "amount": 10
+          },
+          {
+            "id": "mkhzfn2k",
+            "productId": "nb_007_drw",
+            "name": "Drawing Book (A3)",
+            "hsn": "4820",
+            "qty": 1,
+            "rate": 55,
+            "gstRate": 12,
+            "amount": 55
+          },
+          {
+            "id": "mkhzfndo",
+            "productId": "pn_004_pkr",
+            "name": "Parker Vector Pen",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 350,
+            "gstRate": 18,
+            "amount": 350
+          },
+          {
+            "id": "mkhzfo7i",
+            "productId": "ad_003_tap",
+            "name": "Cello Tape (1 inch)",
+            "hsn": "3919",
+            "qty": 1,
+            "rate": 15,
+            "gstRate": 18,
+            "amount": 15
+          },
+          {
+            "id": "mkhzfoj9",
+            "productId": "ar_002_oil",
+            "name": "Oil Pastels (25 shades)",
+            "hsn": "9609",
+            "qty": 1,
+            "rate": 95,
+            "gstRate": 0,
+            "amount": 95
+          },
+          {
+            "id": "mkhzfose",
+            "productId": "of_001_stp",
+            "name": "Stapler (Small)",
+            "hsn": "8472",
+            "qty": 1,
+            "rate": 45,
+            "gstRate": 18,
+            "amount": 45
+          }
+        ],
+        "subtotal": 544.6822033898305,
+        "totalGst": 75.3177966101695,
+        "total": 620
+      },
+      {
+        "id": "mkhze64d",
+        "invoiceNo": "INV-1768634629501",
+        "date": "2026-01-17T07:23:49.501Z",
+        "customerId": "mjeb56qs",
+        "customerName": "Wholesale",
+        "items": [
+          {
+            "id": "mkhze3t7",
+            "productId": "nb_003_a4",
+            "name": "A4 Register (300 Pages)",
+            "hsn": "4820",
+            "qty": 1,
+            "rate": 120,
+            "gstRate": 12,
+            "amount": 120
+          },
+          {
+            "id": "mkhze46v",
+            "productId": "nb_007_drw",
+            "name": "Drawing Book (A3)",
+            "hsn": "4820",
+            "qty": 1,
+            "rate": 55,
+            "gstRate": 12,
+            "amount": 55
+          },
+          {
+            "id": "mkhze4gv",
+            "productId": "pn_006_mrk",
+            "name": "Whiteboard Marker (Black)",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 35,
+            "gstRate": 18,
+            "amount": 35
+          },
+          {
+            "id": "mkhze4rf",
+            "productId": "pn_005_plt",
+            "name": "Pilot V5 Pen",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 55,
+            "gstRate": 18,
+            "amount": 55
+          }
+        ],
+        "subtotal": 232.52118644067798,
+        "totalGst": 32.478813559322035,
+        "total": 265
+      },
+      {
+        "id": "mkhz9uut",
+        "invoiceNo": "INV-1768634428277",
+        "date": "2026-01-17T07:20:28.277Z",
+        "customerId": "mjeb56qs",
+        "customerName": "Wholesale",
+        "items": [
+          {
+            "id": "mkhz9r92",
+            "productId": "nb_007_drw",
+            "name": "Drawing Book (A3)",
+            "hsn": "4820",
+            "qty": 1,
+            "rate": 55,
+            "gstRate": 12,
+            "amount": 55
+          },
+          {
+            "id": "mkhz9ric",
+            "productId": "pn_004_pkr",
+            "name": "Parker Vector Pen",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 350,
+            "gstRate": 18,
+            "amount": 350
+          },
+          {
+            "id": "mkhz9rss",
+            "productId": "pn_005_plt",
+            "name": "Pilot V5 Pen",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 55,
+            "gstRate": 18,
+            "amount": 55
+          },
+          {
+            "id": "mkhz9s6u",
+            "productId": "pn_007_pmr",
+            "name": "Permanent Marker (Red)",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 25,
+            "gstRate": 18,
+            "amount": 25
+          },
+          {
+            "id": "mkhz9sgt",
+            "productId": "pc_004_led",
+            "name": "Pencil Leads (0.5mm)",
+            "hsn": "9609",
+            "qty": 1,
+            "rate": 10,
+            "gstRate": 0,
+            "amount": 10
+          },
+          {
+            "id": "mkhz9ss0",
+            "productId": "pc_001_aps",
+            "name": "Apsara Platinum Pencil (Pack)",
+            "hsn": "9609",
+            "qty": 1,
+            "rate": 50,
+            "gstRate": 0,
+            "amount": 50
+          },
+          {
+            "id": "mkhz9t6j",
+            "productId": "pn_008_hgh",
+            "name": "Highlighter (Fluorescent)",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 20,
+            "gstRate": 18,
+            "amount": 20
+          }
+        ],
+        "subtotal": 490.4630750605327,
+        "totalGst": 74.5369249394673,
+        "total": 565
+      },
+      {
+        "id": "mkhz9h7l",
+        "invoiceNo": "INV-1768634410593",
+        "date": "2026-01-17T07:20:10.593Z",
+        "customerId": "mjeb56qs",
+        "customerName": "Wholesale",
+        "items": [
+          {
+            "id": "mkhz9e78",
+            "productId": "nb_003_a4",
+            "name": "A4 Register (300 Pages)",
+            "hsn": "4820",
+            "qty": 1,
+            "rate": 120,
+            "gstRate": 12,
+            "amount": 120
+          },
+          {
+            "id": "mkhz9eqs",
+            "productId": "nb_005_grp",
+            "name": "Graph Book (40 Pages)",
+            "hsn": "4820",
+            "qty": 1,
+            "rate": 25,
+            "gstRate": 12,
+            "amount": 25
+          },
+          {
+            "id": "mkhz9f17",
+            "productId": "pn_001_blu",
+            "name": "Reynolds Ball Pen (Blue)",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 10,
+            "gstRate": 18,
+            "amount": 10
+          },
+          {
+            "id": "mkhz9fan",
+            "productId": "nb_008_scr",
+            "name": "Scrap Book",
+            "hsn": "4820",
+            "qty": 1,
+            "rate": 40,
+            "gstRate": 12,
+            "amount": 40
+          },
+          {
+            "id": "mkhz9fjn",
+            "productId": "nb_007_drw",
+            "name": "Drawing Book (A3)",
+            "hsn": "4820",
+            "qty": 1,
+            "rate": 55,
+            "gstRate": 12,
+            "amount": 55
+          },
+          {
+            "id": "mkhz9fsk",
+            "productId": "pn_004_pkr",
+            "name": "Parker Vector Pen",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 350,
+            "gstRate": 18,
+            "amount": 350
+          }
+        ],
+        "subtotal": 519.3704600484261,
+        "totalGst": 80.62953995157386,
+        "total": 600
+      },
+      {
+        "id": "mkhyc7nw",
+        "invoiceNo": "INV-1768632858572",
+        "date": "2026-01-17T06:54:18.572Z",
+        "customerId": "mjeb56qs",
+        "customerName": "Wholesale",
+        "items": [
+          {
+            "id": "mkhyc51a",
+            "productId": "gm_003_stl",
+            "name": "Steel Ruler (30cm)",
+            "hsn": "9017",
+            "qty": 3,
+            "rate": 25,
+            "gstRate": 18,
+            "amount": 75
+          },
+          {
+            "id": "mkhyc58v",
+            "productId": "pc_003_mec",
+            "name": "Mechanical Pencil (0.5mm)",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 30,
+            "gstRate": 18,
+            "amount": 30
+          },
+          {
+            "id": "mkhyc5hk",
+            "productId": "pc_002_nat",
+            "name": "Nataraj Pencil Box",
+            "hsn": "9609",
+            "qty": 2,
+            "rate": 45,
+            "gstRate": 0,
+            "amount": 90
+          },
+          {
+            "id": "mkhyc6at",
+            "productId": "pc_001_aps",
+            "name": "Apsara Platinum Pencil (Pack)",
+            "hsn": "9609",
+            "qty": 1,
+            "rate": 50,
+            "gstRate": 0,
+            "amount": 50
+          },
+          {
+            "id": "mkhyc6hm",
+            "productId": "gm_002_scl",
+            "name": "Plastic Ruler (15cm)",
+            "hsn": "9017",
+            "qty": 1,
+            "rate": 5,
+            "gstRate": 18,
+            "amount": 5
+          },
+          {
+            "id": "mkhyc6wx",
+            "productId": "ad_003_tap",
+            "name": "Cello Tape (1 inch)",
+            "hsn": "3919",
+            "qty": 1,
+            "rate": 15,
+            "gstRate": 18,
+            "amount": 15
+          }
+        ],
+        "subtotal": 245.9322033898305,
+        "totalGst": 19.067796610169484,
+        "total": 265
+      },
+      {
+        "id": "mkhybp5x",
+        "invoiceNo": "INV-1768632834597",
+        "date": "2026-01-17T06:53:54.597Z",
+        "customerId": "mjeb56qs",
+        "customerName": "Wholesale",
+        "items": [
+          {
+            "id": "mkhybmi2",
+            "productId": "nb_007_drw",
+            "name": "Drawing Book (A3)",
+            "hsn": "4820",
+            "qty": 1,
+            "rate": 55,
+            "gstRate": 12,
+            "amount": 55
+          },
+          {
+            "id": "mkhybmr1",
+            "productId": "pn_004_pkr",
+            "name": "Parker Vector Pen",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 350,
+            "gstRate": 18,
+            "amount": 350
+          },
+          {
+            "id": "mkhybn03",
+            "productId": "pn_005_plt",
+            "name": "Pilot V5 Pen",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 55,
+            "gstRate": 18,
+            "amount": 55
+          },
+          {
+            "id": "mkhybn97",
+            "productId": "pn_006_mrk",
+            "name": "Whiteboard Marker (Black)",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 35,
+            "gstRate": 18,
+            "amount": 35
+          },
+          {
+            "id": "mkhybnio",
+            "productId": "pc_003_mec",
+            "name": "Mechanical Pencil (0.5mm)",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 30,
+            "gstRate": 18,
+            "amount": 30
+          },
+          {
+            "id": "mkhybnrg",
+            "productId": "pc_001_aps",
+            "name": "Apsara Platinum Pencil (Pack)",
+            "hsn": "9609",
+            "qty": 1,
+            "rate": 50,
+            "gstRate": 0,
+            "amount": 50
+          }
+        ],
+        "subtotal": 497.41222760290555,
+        "totalGst": 77.58777239709443,
+        "total": 575
+      },
+      {
+        "id": "mkhybc13",
+        "invoiceNo": "INV-1768632817575",
+        "date": "2026-01-17T06:53:37.575Z",
+        "customerId": "mjeb56qs",
+        "customerName": "Wholesale",
+        "items": [
+          {
+            "id": "mkhyb92g",
+            "productId": "nb_003_a4",
+            "name": "A4 Register (300 Pages)",
+            "hsn": "4820",
+            "qty": 1,
+            "rate": 120,
+            "gstRate": 12,
+            "amount": 120
+          },
+          {
+            "id": "mkhyb9jf",
+            "productId": "nb_004_spr",
+            "name": "Spiral Notebook",
+            "hsn": "4820",
+            "qty": 1,
+            "rate": 150,
+            "gstRate": 12,
+            "amount": 150
+          }
+        ],
+        "subtotal": 241.07142857142856,
+        "totalGst": 28.928571428571445,
+        "total": 270
+      },
+      {
+        "id": "mke76apw",
+        "invoiceNo": "INV-1768405834436",
+        "date": "2026-01-14T15:50:34.436Z",
+        "customerId": "mjebml7i",
+        "customerName": "Retail",
+        "items": [
+          {
+            "id": "mke75f2d",
+            "productId": "nb_002_kng",
+            "name": "King Size Notebook (Unruled)",
+            "hsn": "4820",
+            "qty": 1,
+            "rate": 55,
+            "gstRate": 12,
+            "amount": 55
+          },
+          {
+            "id": "mke75fxd",
+            "productId": "nb_001_lng",
+            "name": "Classmate Notebook (192 Pages)",
+            "hsn": "4820",
+            "qty": 1,
+            "rate": 70,
+            "gstRate": 12,
+            "amount": 70
+          },
+          {
+            "id": "mke75gzu",
+            "productId": "pn_005_plt",
+            "name": "Pilot V5 Pen",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 60,
+            "gstRate": 18,
+            "amount": 60
+          },
+          {
+            "id": "mke75hr5",
+            "productId": "pn_006_mrk",
+            "name": "Whiteboard Marker (Black)",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 40,
+            "gstRate": 18,
+            "amount": 40
+          },
+          {
+            "id": "mke75iz1",
+            "productId": "pc_004_led",
+            "name": "Pencil Leads (0.5mm)",
+            "hsn": "9609",
+            "qty": 1,
+            "rate": 15,
+            "gstRate": 0,
+            "amount": 15
+          },
+          {
+            "id": "mke75jq2",
+            "productId": "ad_001_fev",
+            "name": "Fevicol (50g)",
+            "hsn": "3506",
+            "qty": 1,
+            "rate": 25,
+            "gstRate": 18,
+            "amount": 25
+          },
+          {
+            "id": "mke75kqx",
+            "productId": "gm_003_stl",
+            "name": "Steel Ruler (30cm)",
+            "hsn": "9017",
+            "qty": 3,
+            "rate": 30,
+            "gstRate": 18,
+            "amount": 90
+          },
+          {
+            "id": "mke75lq5",
+            "productId": "ar_005_brs",
+            "name": "Paint Brush Set",
+            "hsn": "9603",
+            "qty": 1,
+            "rate": 100,
+            "gstRate": 18,
+            "amount": 100
+          },
+          {
+            "id": "mke75oln",
+            "productId": "bk_005_dic",
+            "name": "Oxford Dictionary (Mini)",
+            "hsn": "4901",
+            "qty": 2,
+            "rate": 210,
+            "gstRate": 0,
+            "amount": 420
+          },
+          {
+            "id": "mke75qib",
+            "productId": "bg_001_sml",
+            "name": "School Bag (Small)",
+            "hsn": "4202",
+            "qty": 1,
+            "rate": 550,
+            "gstRate": 18,
+            "amount": 550
+          },
+          {
+            "id": "mke75s97",
+            "productId": "ar_006_glt",
+            "name": "Glitter Pen Set",
+            "hsn": "9608",
+            "qty": 6,
+            "rate": 75,
+            "gstRate": 18,
+            "amount": 450
+          },
+          {
+            "id": "mke75t67",
+            "productId": "tl_001_sci",
+            "name": "Scissors (Small)",
+            "hsn": "8213",
+            "qty": 1,
+            "rate": 55,
+            "gstRate": 18,
+            "amount": 55
+          },
+          {
+            "id": "mke75u77",
+            "productId": "pn_010_cdm",
+            "name": "CD/DVD Marker",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 20,
+            "gstRate": 18,
+            "amount": 20
+          },
+          {
+            "id": "mke75wz7",
+            "productId": "gm_001_box",
+            "name": "Camlin Geometry Box",
+            "hsn": "9017",
+            "qty": 2,
+            "rate": 140,
+            "gstRate": 18,
+            "amount": 280
+          },
+          {
+            "id": "mke7619c",
+            "productId": "pn_007_pmr",
+            "name": "Permanent Marker (Red)",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 30,
+            "gstRate": 18,
+            "amount": 30
+          }
+        ],
+        "subtotal": 1987.285108958838,
+        "totalGst": 272.71489104116216,
+        "total": 2260
+      },
+      {
+        "id": "mke71mzm",
+        "invoiceNo": "INV-1768405617058",
+        "date": "2026-01-14T15:46:57.058Z",
+        "customerId": "mjebml7i",
+        "customerName": "Retail",
+        "items": [
+          {
+            "id": "mke71dsw",
+            "productId": "nb_002_kng",
+            "name": "King Size Notebook (Unruled)",
+            "hsn": "4820",
+            "qty": 1,
+            "rate": 55,
+            "gstRate": 12,
+            "amount": 55
+          },
+          {
+            "id": "mke71e6a",
+            "productId": "nb_003_a4",
+            "name": "A4 Register (300 Pages)",
+            "hsn": "4820",
+            "qty": 1,
+            "rate": 135,
+            "gstRate": 12,
+            "amount": 135
+          },
+          {
+            "id": "mke71efi",
+            "productId": "nb_004_spr",
+            "name": "Spiral Notebook",
+            "hsn": "4820",
+            "qty": 1,
+            "rate": 170,
+            "gstRate": 12,
+            "amount": 170
+          },
+          {
+            "id": "mke71epa",
+            "productId": "pn_001_blu",
+            "name": "Reynolds Ball Pen (Blue)",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 12,
+            "gstRate": 18,
+            "amount": 12
+          },
+          {
+            "id": "mke71eyy",
+            "productId": "nb_008_scr",
+            "name": "Scrap Book",
+            "hsn": "4820",
+            "qty": 1,
+            "rate": 45,
+            "gstRate": 12,
+            "amount": 45
+          },
+          {
+            "id": "mke71fcc",
+            "productId": "pn_005_plt",
+            "name": "Pilot V5 Pen",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 60,
+            "gstRate": 18,
+            "amount": 60
+          },
+          {
+            "id": "mke71fmy",
+            "productId": "pn_007_pmr",
+            "name": "Permanent Marker (Red)",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 30,
+            "gstRate": 18,
+            "amount": 30
+          },
+          {
+            "id": "mke71gg8",
+            "productId": "pp_001_wht",
+            "name": "Chart Paper (White)",
+            "hsn": "4802",
+            "qty": 1,
+            "rate": 8,
+            "gstRate": 12,
+            "amount": 8
+          },
+          {
+            "id": "mke71gpi",
+            "productId": "ar_005_brs",
+            "name": "Paint Brush Set",
+            "hsn": "9603",
+            "qty": 1,
+            "rate": 100,
+            "gstRate": 18,
+            "amount": 100
+          },
+          {
+            "id": "mke71h04",
+            "productId": "ar_004_skc",
+            "name": "Sketch Pens (12 Pack)",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 50,
+            "gstRate": 18,
+            "amount": 50
+          },
+          {
+            "id": "mke71h94",
+            "productId": "of_003_pnc",
+            "name": "Paper Punch (Single)",
+            "hsn": "8472",
+            "qty": 1,
+            "rate": 65,
+            "gstRate": 18,
+            "amount": 65
+          },
+          {
+            "id": "mke71hlg",
+            "productId": "fl_003_btn",
+            "name": "Button Folder",
+            "hsn": "3926",
+            "qty": 1,
+            "rate": 25,
+            "gstRate": 18,
+            "amount": 25
+          },
+          {
+            "id": "mke71hvw",
+            "productId": "bk_002_10s",
+            "name": "Sura Guide 10th Science",
+            "hsn": "4901",
+            "qty": 1,
+            "rate": 310,
+            "gstRate": 0,
+            "amount": 310
+          },
+          {
+            "id": "mke71j3w",
+            "productId": "ex_002_acr",
+            "name": "Exam Pad (Acrylic/Plastic)",
+            "hsn": "3926",
+            "qty": 1,
+            "rate": 95,
+            "gstRate": 18,
+            "amount": 95
+          },
+          {
+            "id": "mke71jfs",
+            "productId": "tl_001_sci",
+            "name": "Scissors (Small)",
+            "hsn": "8213",
+            "qty": 1,
+            "rate": 55,
+            "gstRate": 18,
+            "amount": 55
+          },
+          {
+            "id": "mke71juc",
+            "productId": "ar_006_glt",
+            "name": "Glitter Pen Set",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 75,
+            "gstRate": 18,
+            "amount": 75
+          }
+        ],
+        "subtotal": 1159.2584745762715,
+        "totalGst": 130.7415254237288,
+        "total": 1290
+      },
+      {
+        "id": "mke7161g",
+        "invoiceNo": "INV-1768405595092",
+        "date": "2026-01-14T15:46:35.092Z",
+        "customerId": "mjebml7i",
+        "customerName": "Retail",
+        "items": [
+          {
+            "id": "mke70lnw",
+            "productId": "nb_001_lng",
+            "name": "Classmate Notebook (192 Pages)",
+            "hsn": "4820",
+            "qty": 1,
+            "rate": 70,
+            "gstRate": 12,
+            "amount": 70
+          },
+          {
+            "id": "mke70mbe",
+            "productId": "nb_004_spr",
+            "name": "Spiral Notebook",
+            "hsn": "4820",
+            "qty": 1,
+            "rate": 170,
+            "gstRate": 12,
+            "amount": 170
+          },
+          {
+            "id": "mke70mxq",
+            "productId": "nb_008_scr",
+            "name": "Scrap Book",
+            "hsn": "4820",
+            "qty": 6,
+            "rate": 45,
+            "gstRate": 12,
+            "amount": 270
+          },
+          {
+            "id": "mke70n7q",
+            "productId": "pn_001_blu",
+            "name": "Reynolds Ball Pen (Blue)",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 12,
+            "gstRate": 18,
+            "amount": 12
+          },
+          {
+            "id": "mke70nhi",
+            "productId": "pn_002_blk",
+            "name": "Reynolds Ball Pen (Black)",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 12,
+            "gstRate": 18,
+            "amount": 12
+          },
+          {
+            "id": "mke70nrc",
+            "productId": "pn_007_pmr",
+            "name": "Permanent Marker (Red)",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 30,
+            "gstRate": 18,
+            "amount": 30
+          },
+          {
+            "id": "mke70o5o",
+            "productId": "pn_005_plt",
+            "name": "Pilot V5 Pen",
+            "hsn": "9608",
+            "qty": 10,
+            "rate": 60,
+            "gstRate": 18,
+            "amount": 600
+          },
+          {
+            "id": "mke70oik",
+            "productId": "pc_001_aps",
+            "name": "Apsara Platinum Pencil (Pack)",
+            "hsn": "9609",
+            "qty": 1,
+            "rate": 55,
+            "gstRate": 0,
+            "amount": 55
+          },
+          {
+            "id": "mke70ovi",
+            "productId": "pc_003_mec",
+            "name": "Mechanical Pencil (0.5mm)",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 35,
+            "gstRate": 18,
+            "amount": 35
+          },
+          {
+            "id": "mke70pq4",
+            "productId": "fl_002_stk",
+            "name": "Stick File",
+            "hsn": "3926",
+            "qty": 1,
+            "rate": 20,
+            "gstRate": 18,
+            "amount": 20
+          },
+          {
+            "id": "mke70qhl",
+            "productId": "of_003_pnc",
+            "name": "Paper Punch (Single)",
+            "hsn": "8472",
+            "qty": 1,
+            "rate": 65,
+            "gstRate": 18,
+            "amount": 65
+          },
+          {
+            "id": "mke70qv6",
+            "productId": "ar_005_brs",
+            "name": "Paint Brush Set",
+            "hsn": "9603",
+            "qty": 1,
+            "rate": 100,
+            "gstRate": 18,
+            "amount": 100
+          },
+          {
+            "id": "mke70ros",
+            "productId": "ex_001_crd",
+            "name": "Exam Pad (Cardboard)",
+            "hsn": "4820",
+            "qty": 4,
+            "rate": 50,
+            "gstRate": 12,
+            "amount": 200
+          },
+          {
+            "id": "mke70s1g",
+            "productId": "bg_001_sml",
+            "name": "School Bag (Small)",
+            "hsn": "4202",
+            "qty": 1,
+            "rate": 550,
+            "gstRate": 18,
+            "amount": 550
+          },
+          {
+            "id": "mke70she",
+            "productId": "tl_001_sci",
+            "name": "Scissors (Small)",
+            "hsn": "8213",
+            "qty": 1,
+            "rate": 55,
+            "gstRate": 18,
+            "amount": 55
+          },
+          {
+            "id": "mke70svc",
+            "productId": "ar_007_cly",
+            "name": "Clay (Modeling)",
+            "hsn": "3407",
+            "qty": 1,
+            "rate": 60,
+            "gstRate": 12,
+            "amount": 60
+          },
+          {
+            "id": "mke70tfi",
+            "productId": "ik_002_crt",
+            "name": "Ink Cartridges (Pack)",
+            "hsn": "9608",
+            "qty": 1,
+            "rate": 20,
+            "gstRate": 18,
+            "amount": 20
+          },
+          {
+            "id": "mke70tv2",
+            "productId": "lb_001_pls",
+            "name": "Lunch Box (Plastic)",
+            "hsn": "3924",
+            "qty": 1,
+            "rate": 180,
+            "gstRate": 18,
+            "amount": 180
+          }
+        ],
+        "subtotal": 2165.3813559322034,
+        "totalGst": 338.6186440677966,
+        "total": 2504
+      },
+      {
+        "id": "mke56hrz",
+        "invoiceNo": "INV-1768402484351",
+        "date": "2026-01-14T14:54:44.351Z",
+        "customerId": "mjeb56qs",
+        "customerName": "Wholesale",
+        "items": [
+          {
+            "id": "mke569yr",
+            "productId": "mjebsnq8",
+            "name": "Pencil",
+            "hsn": "244",
+            "qty": 2,
+            "rate": 45,
+            "gstRate": 12,
+            "amount": 90
+          },
+          {
+            "id": "mke56aro",
+            "productId": "mjebsvns",
+            "name": "Note",
+            "hsn": "",
+            "qty": 2,
+            "rate": 45,
+            "gstRate": 18,
+            "amount": 90
+          },
+          {
+            "id": "mke56c4u",
+            "productId": "mjebt4p6",
+            "name": "Ink Pen",
+            "hsn": "",
+            "qty": 1,
+            "rate": 46,
+            "gstRate": 18,
+            "amount": 46
+          },
+          {
+            "id": "mke56cgw",
+            "productId": "mka3xysu",
+            "name": "Crayons",
+            "hsn": "9609",
+            "qty": 1,
+            "rate": 8.5,
+            "gstRate": 0,
+            "amount": 8.5
+          },
+          {
+            "id": "mke56ct9",
+            "productId": "mka3k59p",
+            "name": "Calculator",
+            "hsn": "233",
+            "qty": 1,
+            "rate": 125,
+            "gstRate": 18,
+            "amount": 125
+          },
+          {
+            "id": "mke56dpk",
+            "productId": "mjebyvx8",
+            "name": "Ink",
+            "hsn": "",
+            "qty": 1,
+            "rate": 20,
+            "gstRate": 18,
+            "amount": 20
+          },
+          {
+            "id": "mke56e9t",
+            "productId": "mjebyp28",
+            "name": "Sharpner",
+            "hsn": "",
+            "qty": 1,
+            "rate": 34,
+            "gstRate": 18,
+            "amount": 34
+          },
+          {
+            "id": "mke56ejq",
+            "productId": "mka3yjfx",
+            "name": "Exam pads",
+            "hsn": "4820",
+            "qty": 1,
+            "rate": 55,
+            "gstRate": 12,
+            "amount": 55
+          }
+        ],
+        "subtotal": 404.91343825665854,
+        "totalGst": 63.58656174334141,
+        "total": 468.5
+      },
+      {
+        "id": "mka3t5jl",
+        "invoiceNo": "INV-1768158317649",
+        "date": "2026-01-11T19:05:17.649Z",
+        "customerId": "mjeb56qs",
+        "customerName": "Wholesale",
+        "items": [
+          {
+            "id": "mka3t0s5",
+            "productId": "mjeavqiz",
+            "name": "Black Pen",
+            "hsn": "3455",
+            "qty": 1,
+            "rate": 0,
+            "gstRate": 12,
+            "amount": 0
+          },
+          {
+            "id": "mka3t1ad",
+            "productId": "mka37b54",
+            "name": "Sura Guide",
+            "hsn": "23",
+            "qty": 1,
+            "rate": 300,
+            "gstRate": 5,
+            "amount": 300
+          },
+          {
+            "id": "mka3t1lv",
+            "productId": "mka3k59p",
+            "name": "Calculator",
+            "hsn": "233",
+            "qty": 1,
+            "rate": 125,
+            "gstRate": 18,
+            "amount": 125
+          },
+          {
+            "id": "mka3t2ee",
+            "productId": "mjebt4p6",
+            "name": "Ink Pen",
+            "hsn": "",
+            "qty": 1,
+            "rate": 46,
+            "gstRate": 18,
+            "amount": 46
+          }
+        ],
+        "subtotal": 430.62953995157386,
+        "totalGst": 40.37046004842613,
+        "total": 471
+      },
+      {
+        "id": "mka3ogwa",
+        "invoiceNo": "INV-1768158099082",
+        "date": "2026-01-11T19:01:39.082Z",
+        "customerId": "mjeb56qs",
+        "customerName": "Wholesale",
+        "items": [
+          {
+            "id": "mka3oe4q",
+            "productId": "mjeavqiz",
+            "name": "Black Pen",
+            "hsn": "3455",
+            "qty": 1,
+            "rate": 0,
+            "gstRate": 12,
+            "amount": 0
+          },
+          {
+            "id": "mka3oex5",
+            "productId": "mka37b54",
+            "name": "Sura Guide",
+            "hsn": "23",
+            "qty": 1,
+            "rate": 300,
+            "gstRate": 5,
+            "amount": 300
+          },
+          {
+            "id": "mka3ofvt",
+            "productId": "mka3k59p",
+            "name": "Calculator",
+            "hsn": "233",
+            "qty": 1,
+            "rate": 125,
+            "gstRate": 18,
+            "amount": 125
+          }
+        ],
+        "subtotal": 391.64648910411626,
+        "totalGst": 33.35351089588376,
+        "total": 425
+      },
+      {
+        "id": "mka3kj61",
+        "invoiceNo": "INV-1768157915401",
+        "date": "2026-01-11T18:58:35.401Z",
+        "customerId": "mjeb56qs",
+        "customerName": "Wholesale",
+        "items": [
+          {
+            "id": "mka3k8ul",
+            "productId": "mjeavqiz",
+            "name": "Black Pen",
+            "hsn": "3455",
+            "qty": 1,
+            "rate": 0,
+            "gstRate": 12,
+            "amount": 0
+          },
+          {
+            "id": "mka3kb9h",
+            "productId": "mka37b54",
+            "name": "Sura Guide",
+            "hsn": "23",
+            "qty": 1,
+            "rate": 300,
+            "gstRate": 5,
+            "amount": 300
+          },
+          {
+            "id": "mka3kcc8",
+            "productId": "mka3k59p",
+            "name": "Calculator",
+            "hsn": "233",
+            "qty": 1,
+            "rate": 125,
+            "gstRate": 18,
+            "amount": 125
+          }
+        ],
+        "subtotal": 391.64648910411626,
+        "totalGst": 33.35351089588376,
+        "total": 425
+      },
+      {
+        "id": "mka0jul0",
+        "invoiceNo": "INV-1768152844692",
+        "date": "2026-01-11T17:34:04.692Z",
+        "customerId": "mjeb56qs",
+        "customerName": "Rangaraj",
+        "items": [
+          {
+            "id": "mka0glf5",
+            "productId": "mjeavqiz",
+            "name": "Black Pen",
+            "hsn": "",
+            "qty": 4,
+            "rate": 0,
+            "gstRate": 18,
+            "amount": 0
+          },
+          {
+            "id": "mka0gnj3",
+            "productId": "mjebsnq8",
+            "name": "Pencil",
+            "hsn": "",
+            "qty": 6,
+            "rate": 45,
+            "gstRate": 18,
+            "amount": 270
+          },
+          {
+            "id": "mka0jcwl",
+            "productId": "mjebyvx8",
+            "name": "Ink",
+            "hsn": "",
+            "qty": 3,
+            "rate": 20,
+            "gstRate": 18,
+            "amount": 60
+          },
+          {
+            "id": "mka0je9p",
+            "productId": "mjebyp28",
+            "name": "Sharpner",
+            "hsn": "",
+            "qty": 1,
+            "rate": 34,
+            "gstRate": 18,
+            "amount": 34
+          },
+          {
+            "id": "mka0jhgn",
+            "productId": "mjebsvns",
+            "name": "Note",
+            "hsn": "",
+            "qty": 1,
+            "rate": 45,
+            "gstRate": 18,
+            "amount": 45
+          },
+          {
+            "id": "mka0jji8",
+            "productId": "mjebt4p6",
+            "name": "Ink Pen",
+            "hsn": "",
+            "qty": 1,
+            "rate": 46,
+            "gstRate": 18,
+            "amount": 46
+          }
+        ],
+        "subtotal": 385.59322033898303,
+        "totalGst": 69.40677966101697,
+        "total": 455
+      },
+      {
+        "id": "mk9zchkb",
+        "invoiceNo": "INV-1768150821611",
+        "date": "2026-01-11T17:00:21.611Z",
+        "customerId": "mjeb56qs",
+        "customerName": "Rangaraj",
+        "items": [
+          {
+            "id": "mk9z9jqb",
+            "productId": "mjebsnq8",
+            "name": "Nataraj brand Pencil",
+            "hsn": "",
+            "qty": 5,
+            "rate": 45,
+            "gstRate": 18,
+            "amount": 225
+          },
+          {
+            "id": "mk9zcank",
+            "productId": "mjebyvx8",
+            "name": "Ink",
+            "hsn": "",
+            "qty": 2,
+            "rate": 20,
+            "gstRate": 18,
+            "amount": 40
+          },
+          {
+            "id": "mk9zcbxn",
+            "productId": "mjebyp28",
+            "name": "Sharpner",
+            "hsn": "",
+            "qty": 1,
+            "rate": 34,
+            "gstRate": 18,
+            "amount": 34
+          }
+        ],
+        "subtotal": 253.3898305084746,
+        "totalGst": 45.61016949152541,
+        "total": 299
+      }
+    ]
+  }
+}
