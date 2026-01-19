@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { InvoiceItem } from '../../core/stores/invoice-store';
@@ -11,22 +11,21 @@ import { InvoiceItem } from '../../core/stores/invoice-store';
   styleUrls: ['./invoice-cart.component.scss']
 })
 export class InvoiceCartComponent {
-  @Input() invoiceItems: InvoiceItem[] = [];
-  @Input() taxableTotal: number = 0;
-  @Input() totalGst: number = 0;
-  @Input() total: number = 0;
-  @Input() now!: Date;
-  @Input() nowTs!: number;
-  @Input() selectedCustomer: any;
-  @Input() gstBreakdown: { rate: number; taxable: number; cgst: number; sgst: number; totalGst: number }[] = [];
+  public invoiceItems = input<InvoiceItem[]>([]);
+  public taxableTotal = input(0);
+  public totalGst = input(0);
+  public total = input(0);
+  public now = input.required<Date>();
+  public nowTs = input.required<number>();
+  public selectedCustomer = input.required<any>();
+  public gstBreakdown = input<{ rate: number; taxable: number; cgst: number; sgst: number; totalGst: number }[]>([]);
 
-  @Output() updateQty = new EventEmitter<{ item: InvoiceItem; qty: number }>();
-  @Output() removeItem = new EventEmitter<string>();
-  @Output() printBill = new EventEmitter<void>();
-  @Output() downloadPdf = new EventEmitter<void>();
-  @Output() newBill = new EventEmitter<void>();
-
-  onQtyChange(item: InvoiceItem, event: Event) {
+  @Output() public updateQty = new EventEmitter<{ item: InvoiceItem; qty: number }>();
+  @Output() public removeItem = new EventEmitter<string>();
+  @Output() public printBill = new EventEmitter<void>();
+  @Output() public downloadPdf = new EventEmitter<void>();
+  @Output() public newBill = new EventEmitter<void>();
+  public onQtyChange(item: InvoiceItem, event: Event) {
     const target = event.target as HTMLInputElement;
     const qty = target?.valueAsNumber ?? item.qty;
     this.updateQty.emit({ item, qty });
