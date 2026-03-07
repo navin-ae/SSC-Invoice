@@ -21,7 +21,7 @@ Features implemented
 - Two-panel billing UI (add/edit items, GST, print)
 - Invoice history and delete
 - Backup/Restore (export JSON, import JSON)
-- Onboarding wizard and sample data
+
 
 Notes
 

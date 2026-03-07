@@ -1,8 +1,32 @@
 <div class="invoices-root">
   <h2>Invoices</h2>
-  <div role="alert" *ngIf="!invoices().length">No invoices yet.</div>
-  <div class="list" *ngIf="invoices().length">
-    <div class="row" *ngFor="let inv of invoices()">
+
+  <div class="filters">
+    <label>Filter:
+      <select (change)="onFilterChange($event)">
+        <option value="all">All</option>
+        <option value="last7">Last 7 days</option>
+        <option value="thisMonth">This month</option>
+        <option value="lastMonth">Last month</option>
+        <option value="thisYear">This year</option>
+        <option value="lastYear">Last year</option>
+        <option value="finQuarter">Financial quarter</option>
+        <option value="finYear">Financial year</option>
+        <option value="custom">Custom (not implemented)</option>
+      </select>
+    </label>
+    <button mat-stroked-button (click)="applyFilter()">Apply</button>
+    <button mat-stroked-button (click)="exportCsv()">Export CSV</button>
+    <button mat-stroked-button (click)="exportXlsx()">Export XLSX</button>
+    <button mat-stroked-button (click)="exportGstr1()">Export GSTR-1</button>
+    <button mat-stroked-button (click)="exportPdfsZip()">Export PDFs (ZIP)</button>
+    <button mat-stroked-button (click)="viewFiltered()">View Filtered</button>
+    <div class="range" *ngIf="currentRange">{{currentRange}}</div>
+  </div>
+
+  <div role="alert" *ngIf="!filteredInvoices.length">No invoices yet.</div>
+  <div class="list" *ngIf="filteredInvoices.length">
+    <div class="row" *ngFor="let inv of filteredInvoices">
         <div class="info">{{inv.invoiceNo}} — {{inv.customerName || 'Walk-in'}} — {{inv.date | date:'short'}} — ₹{{inv.total.toFixed(2)}}</div>
       <div class="actions">
         <button mat-stroked-button (click)="view(inv)">View</button>
