@@ -1,8 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { customerStore as store, Customer } from '../../core/stores/customer-store';
-import { HttpClient } from '@angular/common/http';
+import { CustomerApiService } from '../../core/services/customer-api.service';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -23,32 +23,68 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './customers.component.html',
   styleUrls: ['./customers.component.scss'],
 })
-export class CustomersComponent {
+export class CustomersComponent implements OnInit {
   public customers = store.customers;
 
   public form: Partial<Customer> = { name: '' };
   public editingId?: string;
-  private httpService=inject(HttpClient);
+  private apiService = inject(CustomerApiService);
+
+  ngOnInit() {
+    // Load customers from backend (with fallback to local storage)
+    this.apiService.list().subscribe({
+      next: (customers) => {
+        console.log('Customers loaded:', customers);
+      },
+      error: (err) => {
+        console.error('Error loading customers:', err);
+        // API service already handles fallback to local storage
+      },
+    });
+  }
 
   public add() {
     if (!this.form.name) return alert('Name required');
     if (this.editingId) {
-      store.update(this.editingId, { name: this.form.name! });
-      this.editingId = undefined;
+      this.apiService.update(this.editingId, { name: this.form.name! }).subscribe({
+        next: () => {
+          console.log('Customer updated');
+          this.editingId = undefined;
+          this.form = { name: '' };
+        },
+        error: (err) => {
+          console.error('Error updating customer:', err);
+          alert('Failed to update customer (using local storage)');
+          this.editingId = undefined;
+          this.form = { name: '' };
+        },
+      });
     } else {
-      // const data={ customer_name: this.form.name };
-    
-      // this.httpService.post<Customer>('http://127.0.0.1:8000/api/customers', data).subscribe(response => {
-      //   console.log('Customer added via backend:', response);
-      // });
-      store.add({ name: this.form.name! });
+      this.apiService.create({ name: this.form.name! }).subscribe({
+        next: () => {
+          console.log('Customer created');
+          this.form = { name: '' };
+        },
+        error: (err) => {
+          console.error('Error creating customer:', err);
+          alert('Failed to create customer (using local storage)');
+          this.form = { name: '' };
+        },
+      });
     }
-    this.form = { name: '' };
   }
 
   public remove(id: string) {
     if (!confirm('Delete customer?')) return;
-    store.remove(id);
+    this.apiService.delete(id).subscribe({
+      next: () => {
+        console.log('Customer deleted');
+      },
+      error: (err) => {
+        console.error('Error deleting customer:', err);
+        alert('Failed to delete customer (using local storage)');
+      },
+    });
   }
 
   public edit(c: Customer) {

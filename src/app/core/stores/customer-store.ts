@@ -47,12 +47,17 @@ export function createCustomerStore() {
     persist();
   }
 
+  function setAll(items: Customer[]) {
+    customers.set(items);
+    persist();
+  }
+
   function clear() {
     customers.set([]);
     persist();
   }
 
-  return { customers, add, update, remove, clear };
+  return { customers, add, update, remove, setAll, clear };
 }
 
 // singleton instance for app-wide usage
