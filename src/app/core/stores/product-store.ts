@@ -47,12 +47,17 @@ export function createProductStore() {
     persist();
   }
 
+  function setAll(items: Product[]) {
+    products.set(items);
+    persist();
+  }
+
   function clear() {
     products.set([]);
     persist();
   }
 
-  return { products, add, update, remove, clear };
+  return { products, add, update, remove, setAll, clear };
 }
 
 // singleton store for convenience

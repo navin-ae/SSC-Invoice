@@ -48,7 +48,7 @@ export class CustomerApiService {
    * Create a new customer on backend.
    * On error, falls back to local store add.
    */
-  create(customer: Omit<Customer, 'id'>): Observable<Customer> {
+  public create(customer: Omit<Customer, 'id'>): Observable<Customer> {
     const payload: CustomerBackendPayload = {
       customer_name: customer.name,
       contact: customer.contact,

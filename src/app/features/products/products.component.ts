@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Product, productStore } from '../../core/stores/product-store';
 import { customerStore } from '../../core/stores/customer-store';
+import { ProductApiService } from '../../core/services/product-api.service';
 
 const store = productStore;
 
@@ -13,7 +14,7 @@ const store = productStore;
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.scss']
 })
-export class ProductsComponent {
+export class ProductsComponent implements OnInit {
   public products = store.products;
   public customers = customerStore.customers;
 
@@ -24,6 +25,21 @@ export class ProductsComponent {
   public pageSize = 20;
   // track which customer prices were manually edited (should not be overwritten by retail default)
   public overrides = new Set<string>();
+
+  private apiService = inject(ProductApiService);
+
+  ngOnInit() {
+    // Load products from backend (with fallback to local storage)
+    this.apiService.list().subscribe({
+      next: (products) => {
+        console.log('Products loaded:', products);
+      },
+      error: (err) => {
+        console.error('Error loading products:', err);
+        // API service already handles fallback to local storage
+      },
+    });
+  }
 
   // determine the retail customer id (prefer customer named 'Retail', fallback to first)
   public get retailId(): string | undefined {
@@ -58,26 +74,48 @@ export class ProductsComponent {
     custs.forEach(c => { prices[c.id] = Number(this.form.prices?.[c.id] ?? 0); });
 
     if (this.editingId) {
-      store.update(this.editingId, {
+      this.apiService.update(this.editingId, {
         name: this.form.name!,
         hsn: this.form.hsn,
         gstRate: this.form.gstRate,
         prices
+      }).subscribe({
+        next: () => {
+          console.log('Product updated');
+          this.editingId = undefined;
+          this.form = { name: '', hsn: '', gstRate: 12, prices: {} };
+          this.overrides = new Set();
+          this.page = 1;
+        },
+        error: (err) => {
+          console.error('Error updating product:', err);
+          alert('Failed to update product (using local storage)');
+          this.editingId = undefined;
+          this.form = { name: '', hsn: '', gstRate: 12, prices: {} };
+          this.overrides = new Set();
+        },
       });
-      this.editingId = undefined;
     } else {
-      store.add({
+      this.apiService.create({
         name: this.form.name!,
         hsn: this.form.hsn,
         gstRate: this.form.gstRate,
         prices
+      }).subscribe({
+        next: () => {
+          console.log('Product created');
+          this.form = { name: '', hsn: '', gstRate: 12, prices: {} };
+          this.overrides = new Set();
+          this.page = 1;
+        },
+        error: (err) => {
+          console.error('Error creating product:', err);
+          alert('Failed to create product (using local storage)');
+          this.form = { name: '', hsn: '', gstRate: 12, prices: {} };
+          this.overrides = new Set();
+        },
       });
     }
-
-    this.form = { name: '', hsn: '', gstRate: 12, prices: {} };
-    this.overrides = new Set();
-    // reset pagination to show new item on first page
-    this.page = 1;
   }
 
   public edit(p: Product) {
@@ -104,7 +142,15 @@ export class ProductsComponent {
 
   public remove(id: string) {
     if (!confirm('Delete product?')) return;
-    store.remove(id);
+    this.apiService.delete(id).subscribe({
+      next: () => {
+        console.log('Product deleted');
+      },
+      error: (err) => {
+        console.error('Error deleting product:', err);
+        alert('Failed to delete product (using local storage)');
+      },
+    });
   }
 
   // called when a price input changes for a customer

@@ -30,7 +30,7 @@ export class CustomersComponent implements OnInit {
   public editingId?: string;
   private apiService = inject(CustomerApiService);
 
-  ngOnInit() {
+  public ngOnInit() {
     // Load customers from backend (with fallback to local storage)
     this.apiService.list().subscribe({
       next: (customers) => {
