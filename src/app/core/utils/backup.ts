@@ -16,16 +16,14 @@ export async function importAllData(fileContent: string) {
     const parsed = JSON.parse(fileContent);
     const d = parsed.data ?? parsed;
     if (d.customers) {
-      // replace customers
-      localStorage.setItem('ssc_customers_v1', JSON.stringify(d.customers));
+      customerStore.setAll(d.customers);
     }
     if (d.products) {
-      localStorage.setItem('ssc_products_v1', JSON.stringify(d.products));
+      productStore.setAll(d.products);
     }
     if (d.invoices) {
-      localStorage.setItem('ssc_invoices_v1', JSON.stringify(d.invoices));
+      invoiceStore.setAll(d.invoices);
     }
-    // reload stores by reloading page to ensure signals re-read
     return true;
   } catch (e) {
     console.error(e);

@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { API_CONFIG } from '../config/api.config';
 import { Product, productStore } from '../stores/product-store';
@@ -27,7 +27,6 @@ export class ProductApiService {
   public list(): Observable<Product[]> {
     return this.http.get<any[]>(this.apiUrl).pipe(
       tap((backendProducts) => {
-        // Transform backend format to frontend format
         const transformed: Product[] = backendProducts.map((p) => ({
           id: p.id,
           name: p.name,
@@ -35,13 +34,11 @@ export class ProductApiService {
           gstRate: p.gst_rate,
           prices: p.prices || {},
         }));
-        // Sync with local store
         productStore.setAll(transformed);
       }),
       catchError((error) => {
-        console.warn('Failed to fetch products from backend, using local storage:', error);
-        // Return local store data
-        return of(productStore.products());
+        console.error('Failed to fetch products from backend:', error);
+        return throwError(() => error);
       })
     );
   }
@@ -67,14 +64,11 @@ console.log("Creating product with payload:", payload);
           gstRate: response.gst_rate,
           prices: response.prices || {},
         };
-        // Sync with local store
-        productStore.add(transformed);
+        productStore.addFromBackend(transformed);
       }),
       catchError((error) => {
-        console.warn('Failed to create product on backend, using local storage:', error);
-        // Fall back to local store
-        const id = productStore.add(product);
-        return of({ ...product, id });
+        console.error('Failed to create product on backend:', error);
+        return throwError(() => error);
       })
     );
   }
@@ -99,15 +93,11 @@ console.log("Creating product with payload:", payload);
           gstRate: response.gst_rate,
           prices: response.prices || {},
         };
-        // Sync with local store
         productStore.update(id, transformed);
       }),
       catchError((error) => {
-        console.warn(`Failed to update product ${id} on backend, using local storage:`, error);
-        // Fall back to local store
-        productStore.update(id, product);
-        const existing = productStore.products().find((p) => p.id === id);
-        return of(existing || { id, ...product } as Product);
+        console.error(`Failed to update product ${id} on backend:`, error);
+        return throwError(() => error);
       })
     );
   }
@@ -119,14 +109,11 @@ console.log("Creating product with payload:", payload);
   public delete(id: string): Observable<{ ok: boolean }> {
     return this.http.delete<{ ok: boolean }>(`${this.apiUrl}/${id}`).pipe(
       tap(() => {
-        // Sync with local store
         productStore.remove(id);
       }),
       catchError((error) => {
-        console.warn(`Failed to delete product ${id} on backend, using local storage:`, error);
-        // Fall back to local store
-        productStore.remove(id);
-        return of({ ok: true });
+        console.error(`Failed to delete product ${id} on backend:`, error);
+        return throwError(() => error);
       })
     );
   }

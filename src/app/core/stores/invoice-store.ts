@@ -24,31 +24,15 @@ export interface Invoice {
   total: number;
 }
 
-const STORAGE_KEY = 'ssc_invoices_v1';
-
-function read(): Invoice[] {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
-  }
-}
-
-function write(items: Invoice[]) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-}
-
 export function createInvoiceStore() {
-  const invoices = signal<Invoice[]>(read());
+  const invoices = signal<Invoice[]>([]);
 
-  function persist() {
-    write(invoices());
+  function add(inv: Invoice) {
+    invoices.set([inv, ...invoices()]);
   }
 
   function save(inv: Invoice) {
     invoices.set([inv, ...invoices()]);
-    persist();
   }
 
   function list() {
@@ -57,10 +41,17 @@ export function createInvoiceStore() {
 
   function clear() {
     invoices.set([]);
-    persist();
   }
 
-  return { invoices, save, list, clear };
+  function setAll(items: Invoice[]) {
+    invoices.set(items);
+  }
+
+  function remove(id: string) {
+    invoices.set(invoices().filter(x => x.id !== id));
+  }
+
+  return { invoices, add, save, list, clear, setAll, remove };
 }
 
 export const invoiceStore = createInvoiceStore();

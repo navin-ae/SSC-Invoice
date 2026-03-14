@@ -26,20 +26,17 @@ export class CustomerApiService {
   list(): Observable<Customer[]> {
     return this.http.get<any[]>(this.apiUrl).pipe(
       tap((backendCustomers) => {
-        // Transform backend format to frontend format
         const transformed: Customer[] = backendCustomers.map((c) => ({
           id: c.id,
           name: c.customer_name,
           contact: c.contact,
           gst: c.gst,
         }));
-        // Sync with local store
         customerStore.setAll(transformed);
       }),
       catchError((error) => {
-        console.warn('Failed to fetch customers from backend, using local storage:', error);
-        // Return local store data
-        return of(customerStore.customers());
+        console.error('Failed to fetch customers from backend:', error);
+        return throwError(() => error);
       })
     );
   }
@@ -63,14 +60,11 @@ export class CustomerApiService {
           contact: response.contact,
           gst: response.gst,
         };
-        // Sync with local store
-        customerStore.add(transformed);
+        customerStore.addFromBackend(transformed);
       }),
       catchError((error) => {
-        console.warn('Failed to create customer on backend, using local storage:', error);
-        // Fall back to local store
-        const id = customerStore.add(customer);
-        return of({ ...customer, id });
+        console.error('Failed to create customer on backend:', error);
+        return throwError(() => error);
       })
     );
   }
@@ -93,15 +87,11 @@ export class CustomerApiService {
           contact: response.contact,
           gst: response.gst,
         };
-        // Sync with local store
         customerStore.update(id, transformed);
       }),
       catchError((error) => {
-        console.warn(`Failed to update customer ${id} on backend, using local storage:`, error);
-        // Fall back to local store
-        customerStore.update(id, customer);
-        const existing = customerStore.customers().find((c) => c.id === id);
-        return of(existing || { id, ...customer } as Customer);
+        console.error(`Failed to update customer ${id} on backend:`, error);
+        return throwError(() => error);
       })
     );
   }
@@ -113,14 +103,11 @@ export class CustomerApiService {
   delete(id: string): Observable<{ ok: boolean }> {
     return this.http.delete<{ ok: boolean }>(`${this.apiUrl}/${id}`).pipe(
       tap(() => {
-        // Sync with local store
         customerStore.remove(id);
       }),
       catchError((error) => {
-        console.warn(`Failed to delete customer ${id} on backend, using local storage:`, error);
-        // Fall back to local store
-        customerStore.remove(id);
-        return of({ ok: true });
+        console.error(`Failed to delete customer ${id} on backend:`, error);
+        return throwError(() => error);
       })
     );
   }

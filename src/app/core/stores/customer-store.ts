@@ -8,56 +8,38 @@ export interface Customer {
   address?: string;
 }
 
-const STORAGE_KEY = 'ssc_customers_v1';
-
-function read(): Customer[] {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
-  }
-}
-
-function write(items: Customer[]) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-}
-
 export function createCustomerStore() {
-  const customers = signal<Customer[]>(read());
-
-  function persist() {
-    write(customers());
-  }
+  const customers = signal<Customer[]>([]);
 
   function add(c: Omit<Customer, 'id'>) {
     const id = Date.now().toString(36);
     customers.set([...customers(), { ...c, id }]);
-    persist();
     return id;
+  }
+
+  // For adding customers received from backend API (preserves the backend ID)
+  function addFromBackend(c: Customer) {
+    customers.set([...customers(), c]);
+    return c.id;
   }
 
   function update(id: string, patch: Partial<Customer>) {
     customers.set(customers().map(x => x.id === id ? { ...x, ...patch } : x));
-    persist();
   }
 
   function remove(id: string) {
     customers.set(customers().filter(x => x.id !== id));
-    persist();
   }
 
   function setAll(items: Customer[]) {
     customers.set(items);
-    persist();
   }
 
   function clear() {
     customers.set([]);
-    persist();
   }
 
-  return { customers, add, update, remove, setAll, clear };
+  return { customers, add, addFromBackend, update, remove, setAll, clear };
 }
 
 // singleton instance for app-wide usage

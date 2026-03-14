@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { invoiceStore, Invoice } from '../../core/stores/invoice-store';
+import { InvoiceApiService } from '../../core/services/invoice-api.service';
 import { buildPrintable, exportInvoicePdf } from '../../core/utils/invoice-print';
 import { exportInvoicesCsv } from '../../core/utils/invoice-export';
 import { exportInvoicesXlsx, exportGstr1Xlsx, exportInvoicesZip } from '../../core/utils/invoice-export-advanced';
@@ -16,7 +17,8 @@ const store = invoiceStore;
   templateUrl: './invoices.component.html',
   styleUrls: ['./invoices.component.scss']
 })
-export class InvoicesComponent {
+export class InvoicesComponent implements OnInit {
+  private invoiceApi = inject(InvoiceApiService);
   public invoices = store.invoices;
   public selectedFilter = 'all';
   public rangeStart?: Date;
@@ -27,6 +29,18 @@ export class InvoicesComponent {
 
   constructor() {
     this.applyFilter();
+  }
+
+  public ngOnInit() {
+    // Load invoices from backend on component init
+    this.invoiceApi.list().subscribe({
+      next: () => {
+        console.log('Invoices loaded from backend');
+      },
+      error: (err) => {
+        console.warn('Error loading invoices from backend:', err);
+      }
+    });
   }
 
   public onFilterChange(e: Event | string) {
@@ -140,10 +154,14 @@ export class InvoicesComponent {
 
   public delete(id: string) {
     if (!confirm('Delete invoice?')) return;
-    const list = store.list().filter(i => i.id !== id);
-    localStorage.setItem('ssc_invoices_v1', JSON.stringify(list));
-    // refresh signal by reloading
-    location.reload();
+    this.invoiceApi.delete(id).subscribe({
+      next: () => {
+        console.log('Invoice deleted from database');
+      },
+      error: (err) => {
+        alert('Error deleting invoice: ' + (err?.message || 'Unknown error'));
+      }
+    });
   }
 
   // helpers
