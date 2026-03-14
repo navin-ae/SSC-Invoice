@@ -1,11 +1,63 @@
-.billing-root {
-    display: flex;
-    gap: 20px;
-    padding: 18px;
-    justify-content: space-between;
+.billing-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 14px;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-app-invoice-product-selector{
+.welcome-card h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #1b4077;
+}
+
+.welcome-card p {
+  margin: 6px 0;
+  color: #2f477b;
+  font-size: 1rem;
+}
+
+.welcome-card .pro-tip {
+  color: #1a4a8e;
+  font-weight: 600;
+}
+
+.billing-root {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.panel {
+  background: #fff;
+  border: 1px solid #dce3ef;
+  border-radius: 12px;
+  box-shadow: 0 1px 8px rgba(5, 31, 72, 0.06);
+  padding: 12px;
+  width: calc(50% - 8px);
+  min-width: 320px;
+}
+
+.panel h2 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+  color: #1a3f76;
+}
+
+@media (max-width: 1024px) {
+  .panel {
     width: 100%;
+  }
+}
+
+app-invoice-product-selector {
+  width: 100%;
 }
 

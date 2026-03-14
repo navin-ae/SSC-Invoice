@@ -7,26 +7,34 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 20px;
-  background: linear-gradient(90deg, #ffffff, #f6f9fc);
-  border-bottom: 1px solid #e6e9ef;
+  padding: 16px 22px;
+  background: linear-gradient(90deg, #f3f7ff, #edf4ff);
+  border-bottom: 1px solid #dbe3f0;
+  box-shadow: 0 2px 8px rgba(18, 63, 123, 0.08);
 }
 .brand {
-  font-size: 20px;
-  font-weight: 700;
-  color: #1a73e8;
+  font-size: 26px;
+  font-weight: 800;
+  color: #1d4bd8;
   cursor: pointer;
+  letter-spacing: 0.5px;
 }
 .main-nav a {
-  margin-left: 12px;
+  margin-left: 10px;
   text-decoration: none;
-  color: #333;
-  padding: 8px 12px;
-  border-radius: 6px;
+  color: #173467;
+  padding: 10px 14px;
+  border-radius: 8px;
   font-size: 16px;
+  font-weight: 600;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
 }
-.main-nav a:hover {
-  background: #eef4ff;
+.main-nav a:hover,
+.main-nav a.active {
+  background: #dbeafe;
+  color: #0f2d67;
+  border-color: #acc5f6;
 }
 
 .app-main {

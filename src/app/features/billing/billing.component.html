@@ -1,25 +1,35 @@
-<div class="billing-root">
-  <app-invoice-product-selector
-    [customers]="customers"
-    [products]="products"
-    [selectedCustomerId]="selectedCustomerId"
-    (selectedCustomerIdChange)="onSelectedCustomerChange($event)"
-    (addToInvoice)="onAddToInvoice($event)"
-  ></app-invoice-product-selector>
+<div class="billing-wrapper">
+ 
 
-  <app-invoice-cart
-    [invoiceItems]="invoiceItems"
-    [taxableTotal]="taxableTotal"
-    [totalGst]="totalGst"
-    [total]="total"
-    [now]="now"
-    [nowTs]="nowTs"
-    [selectedCustomer]="selectedCustomer"
-    [gstBreakdown]="gstBreakdown"
-    (updateQty)="onUpdateQty($event)"
-    (removeItem)="onRemoveItem($event)"
-    (printBill)="onPrintBill()"
-    (downloadPdf)="onDownloadPdf()"
-    (newBill)="onNewBill()"
-  ></app-invoice-cart>
+  <div class="billing-root">
+    <section class="panel left-panel">
+    
+      <app-invoice-product-selector
+        [customers]="customers"
+        [products]="products"
+        [selectedCustomerId]="selectedCustomerId"
+        (selectedCustomerIdChange)="onSelectedCustomerChange($event)"
+        (addToInvoice)="onAddToInvoice($event)"
+      ></app-invoice-product-selector>
+    </section>
+
+    <section class="panel right-panel">
+    
+      <app-invoice-cart
+        [invoiceItems]="invoiceItems"
+        [taxableTotal]="taxableTotal"
+        [totalGst]="totalGst"
+        [total]="total"
+        [now]="now"
+        [nowTs]="nowTs"
+        [selectedCustomer]="selectedCustomer"
+        [gstBreakdown]="gstBreakdown"
+        (updateQty)="onUpdateQty($event)"
+        (removeItem)="onRemoveItem($event)"
+        (printBill)="onPrintBill()"
+        (downloadPdf)="onDownloadPdf()"
+        (newBill)="onNewBill()"
+      ></app-invoice-cart>
+    </section>
+  </div>
 </div>
