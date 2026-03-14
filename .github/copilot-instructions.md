@@ -1,62 +1,85 @@
-## Copilot / AI Agent Instructions (concise)
+## Copilot / AI Agent Instructions
 
-Purpose: help AI agents produce scalable, testable Angular applications for this product-inventory & billing app.
+**Application**: SSC Shop Billing System — A local-first retail billing & inventory management app with GST compliance (India-specific).
 
-- Quick commands
-  - Dev: `npm start` (runs `ng serve`)
-  - Build: `npm run build` (`ng build`)
-  - Watch: `npm run watch`
-  - Tests: `npm test` (`ng test` — Vitest + jsdom)
+**Purpose**: Develop the Angular frontend for invoice creation, customer/product management, and backup/restore workflows.
 
-- Architecture & conventions (must follow)
-  - Style: feature-first layout. Place feature code under `src/app/features/<feature>`; shared/core under `src/app/core` and types under `src/app/types`.
-  - Components: standalone components + `bootstrapApplication` (see [src/main.ts](src/main.ts)).
-  - State: use Angular Signals for local and shared state. Prefer composable signal-based stores in `core` (e.g., `createProductStore()` returning signals and actions).
-  - Templates: prefer the reactive control-flow syntax (`@if`, `@for`) for clarity and predictable change detection.
-  - Routing: lazy-load feature components with `loadComponent` in [src/app/app.routes.ts](src/app/app.routes.ts).
-  - Styles: SCSS; keep component-level styles with the component file.
-  - TypeScript: strict mode enabled — keep types explicit and small DTOs under `src/app/types`.
-  - Formatting: use Prettier configuration from `package.json` (respect the `*.html` Angular parser).
+**Quick commands**
+- Dev: `npm start` (runs `ng serve`)
+- Build: `npm run build` (`ng build`)
+- Tests: `npm test` (Vitest + jsdom)
 
-- Testing & CI
-  - Unit tests: use `ng test` (Vitest). Write isolated tests for stores and standalone components using `render()` helpers and `jsdom`.
-  - E2E: not configured here; do not add assumptions about existing e2e setup.
+**Core Domain Model**
+- **Customer**: id, name, contact, GST ID, address (stored in `customerStore`)
+- **Product**: id, name, HSN code, GST rate (%), per-customer pricing (stored in `productStore`)
+- **Invoice**: id, invoice#, date, customer, items[], subtotal, GST total, final total (stored in `invoiceStore`)
 
-- Small examples (follow these patterns)
-  - Feature route (lazy-load):
+Data persists to localStorage keys: `ssc_customers_v1`, `ssc_products_v1`, `ssc_invoices_v1`.
 
+**Features** (5 lazy-loaded routes)
+1. `/` — **Billing**: select customer → add products → auto-calc GST → print/export PDF
+2. `/customers` — CRUD customers
+3. `/products` — Manage inventory with HSN & GST rates
+4. `/invoices` — View/delete invoice history
+5. `/config` — Backup/restore all data as JSON; embedded customer/product managers
+
+**Architecture & conventions (must follow)**
+- **Folder structure**: Features under `src/app/features/<feature>`; stores & utils under `src/app/core`; types under `src/app/types`.
+- **Components**: Standalone + lazy-loaded routes via `loadComponent`.
+- **State**: Signal-based stores in `core` (e.g., `createProductStore()` returns `{ products, add(), update(), remove(), clear() }`).
+  - Stores wrap localStorage with JSON serialization; export singletons (`productStore`, `customerStore`, `invoiceStore`).
+- **Templates**: Use `@if` / `@for` reactive control flow syntax.
+- **Routing**: Lazy-load all features in [src/app/app.routes.ts](src/app/app.routes.ts).
+- **Styles**: SCSS; keep component styles in component file.
+- **TypeScript**: Strict mode; explicit types and small DTOs in `src/app/types`.
+- **Formatting**: Prettier from `package.json` (Angular HTML parser for `*.html`).
+
+**Testing**
+- Unit tests: `ng test` (Vitest + jsdom). Test stores and components in isolation.
+- E2E: not configured; skip e2e assumptions.
+
+**Examples (follow these patterns)**
+1. **Store pattern** (in `core/stores/`):
 ```ts
-import { Routes } from '@angular/router';
+import { signal } from '@angular/core';
 
-export const routes: Routes = [
-  { path: 'products', loadComponent: () => import('./features/products/products.component').then(m => m.ProductsComponent) }
-];
+export interface Product { id: string; name: string; hsn?: string; gstRate?: number; prices: Record<string, number>; }
+
+const STORAGE_KEY = 'ssc_products_v1';
+export function createProductStore() {
+  const products = signal<Product[]>(read());
+  function persist() { localStorage.setItem(STORAGE_KEY, JSON.stringify(products())); }
+  function add(p: Omit<Product, 'id'>) { const id = Date.now().toString(36); products.set([...products(), { ...p, id }]); persist(); }
+  function update(id: string, patch: Partial<Product>) { products.set(products().map(x => x.id === id ? { ...x, ...patch } : x)); persist(); }
+  function remove(id: string) { products.set(products().filter(x => x.id !== id)); persist(); }
+  return { products, add, update, remove };
+}
+export const productStore = createProductStore();
 ```
 
-  - Standalone component + signals (skeleton):
-
+2. **Standalone component with signals**:
 ```ts
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { productStore } from '../../core/stores/product-store';
 
 @Component({
   standalone: true,
+  imports: [CommonModule],
   selector: 'app-products',
   templateUrl: './products.html',
   styleUrls: ['./products.scss']
 })
 export class ProductsComponent {
-  products = signal<Product[]>([]);
-  loading = signal(false);
+  products = productStore.products;
+  addProduct(name: string) { productStore.add({ name, prices: {} }); }
 }
 ```
 
-- Docs & references (official)
-  - Angular: https://angular.io
-  - Signals guide: https://angular.io/guide/signals
-  - Standalone components: https://angular.io/guide/standalone-components
-  - Router lazy loading: https://angular.io/guide/router
-  - Template reactive control flow: https://angular.io/guide/control-flow (use `@if`/`@for` patterns)
-  - CLI & build: https://angular.io/cli
-  - Testing: https://angular.io/guide/testing
+**References**
+- Angular Signals: https://angular.io/guide/signals
+- Standalone components: https://angular.io/guide/standalone-components
+- Router: https://angular.io/guide/router
+- Control flow: https://angular.io/guide/control-flow
 
-Follow these rules when making changes; ask for clarification before introducing global architectural changes.
+**Rules**: Follow architecture strictly. No global state outside stores. No imports from features into features. Ask before architectural changes.
