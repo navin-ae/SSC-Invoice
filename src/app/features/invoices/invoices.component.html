@@ -2,8 +2,9 @@
   <h2>Invoices</h2>
 
   <div class="filters">
-    <label>Filter:
-      <select (change)="onFilterChange($event)">
+    <div class="filter-group">
+      <label for="invoice-filter">Show:</label>
+      <select id="invoice-filter" (change)="onFilterChange($event)">
         <option value="all">All</option>
         <option value="last7">Last 7 days</option>
         <option value="thisMonth">This month</option>
@@ -12,16 +13,17 @@
         <option value="lastYear">Last year</option>
         <option value="finQuarter">Financial quarter</option>
         <option value="finYear">Financial year</option>
-        <option value="custom">Custom (not implemented)</option>
       </select>
-    </label>
-    <button mat-stroked-button (click)="applyFilter()">Apply</button>
-    <button mat-stroked-button (click)="exportCsv()">Export CSV</button>
-    <button mat-stroked-button (click)="exportXlsx()">Export XLSX</button>
-    <button mat-stroked-button (click)="exportGstr1()">Export GSTR-1</button>
-    <button mat-stroked-button (click)="exportPdfsZip()">Export PDFs (ZIP)</button>
-    <button mat-stroked-button (click)="viewFiltered()">View Filtered</button>
-    <div class="range" *ngIf="currentRange">{{currentRange}}</div>
+      <button mat-stroked-button (click)="applyFilter()">Apply</button>
+    </div>
+
+    <div class="actions-row">
+      <button mat-stroked-button (click)="exportCsv()">Export CSV</button>
+      <button mat-stroked-button (click)="exportXlsx()">Export XLSX</button>
+      <button mat-stroked-button (click)="exportPdfsZip()">Export PDFs (ZIP)</button>
+    </div>
+
+    <div class="range" *ngIf="currentRange">Showing: {{currentRange}}</div>
   </div>
 
   <div role="alert" *ngIf="!filteredInvoices.length">No invoices yet.</div>

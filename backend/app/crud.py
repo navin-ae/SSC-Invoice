@@ -120,8 +120,17 @@ def create_invoice(db: Session, inv: schemas.InvoiceCreate):
     # Generate invoice number if not provided
     invoice_no = inv.invoiceNo if inv.invoiceNo and not inv.invoiceNo.startswith('INV-') else get_next_invoice_number(db)
     
-    # The items are Pydantic models, they need to be converted to dicts for the JSON field
-    items_as_dicts = [item.model_dump() for item in inv.items]
+    # Convert invoice line items to plain data for JSON column.
+    items_as_dicts = []
+    for item in inv.items:
+        if hasattr(item, 'model_dump'):
+            items_as_dicts.append(item.model_dump())
+        elif hasattr(item, 'dict'):
+            items_as_dicts.append(item.dict())
+        elif isinstance(item, dict):
+            items_as_dicts.append(item)
+        else:
+            items_as_dicts.append(item.__dict__)
 
     db_invoice = models.Invoice(
         id=iid,
