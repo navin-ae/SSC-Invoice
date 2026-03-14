@@ -49,7 +49,7 @@ export class InvoiceApiService {
 
   /**
    * Fetch all invoices from backend.
-   * On error, falls back to local store.
+   * In backend-only mode, always use database records.
    */
   public list(): Observable<Invoice[]> {
     return this.http.get<InvoiceBackendResponse[]>(this.apiUrl).pipe(
@@ -68,7 +68,7 @@ export class InvoiceApiService {
 
   /**
    * Create a new invoice on backend.
-   * On error, falls back to local store add.
+   * Backend-only: always persisted via API. No local fallback.
    */
   public create(invoice: Omit<Invoice, 'id'>): Observable<Invoice> {
     const payload: InvoiceBackendPayload = {
@@ -85,7 +85,7 @@ export class InvoiceApiService {
     return this.http.post<InvoiceBackendResponse>(this.apiUrl, payload).pipe(
       tap((response) => {
         const transformed = this.transformBackendToFrontend(response);
-        invoiceStore.add(transformed);
+        invoiceStore.addFromBackend(transformed);
       }),
       catchError((error) => {
         console.error('Failed to create invoice on backend:', error);

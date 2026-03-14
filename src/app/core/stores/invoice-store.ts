@@ -31,6 +31,11 @@ export function createInvoiceStore() {
     invoices.set([inv, ...invoices()]);
   }
 
+  function addFromBackend(inv: Invoice) {
+    // preserve server-provided id and numbering
+    invoices.set([inv, ...invoices()]);
+  }
+
   function save(inv: Invoice) {
     invoices.set([inv, ...invoices()]);
   }
@@ -51,7 +56,7 @@ export function createInvoiceStore() {
     invoices.set(invoices().filter(x => x.id !== id));
   }
 
-  return { invoices, add, save, list, clear, setAll, remove };
+  return { invoices, add, addFromBackend, save, list, clear, setAll, remove };
 }
 
 export const invoiceStore = createInvoiceStore();

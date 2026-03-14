@@ -27,7 +27,12 @@
   <div role="alert" *ngIf="!filteredInvoices.length">No invoices yet.</div>
   <div class="list" *ngIf="filteredInvoices.length">
     <div class="row" *ngFor="let inv of filteredInvoices">
-        <div class="info">{{inv.invoiceNo}} — {{inv.customerName || 'Walk-in'}} — {{inv.date | date:'short'}} — ₹{{inv.total.toFixed(2)}}</div>
+      <div class="info">
+        <div><strong>Invoice #:</strong> {{inv.invoiceNo || 'N/A'}}</div>
+        <div><strong>Customer:</strong> {{inv.customerName || 'Walk-in'}}</div>
+        <div><strong>Date:</strong> {{inv.date | date:'mediumDate'}} <strong>Time:</strong> {{inv.date | date:'shortTime'}}</div>
+        <div><strong>Total:</strong> ₹{{inv.total.toFixed(2)}}</div>
+      </div>
       <div class="actions">
         <button mat-stroked-button (click)="view(inv)">View</button>
         <button mat-stroked-button (click)="print(inv)">Print</button>
