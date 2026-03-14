@@ -71,19 +71,40 @@ def on_startup():
 def health():
     return {"status": "ok"}
 # Customers
-@app.get("/api/customers")
+@app.get("/api/customers", response_model=List[schemas.CustomerOut])
 def list_customers(db: Session = Depends(database.get_db)):
-    return crud.get_customers(db)
+    customers = crud.get_customers(db)
+    return [
+        {
+            "id": c.id,
+            "customer_name": c.customer_name,
+            "contact": c.contact,
+            "gst": c.gst,
+        }
+        for c in customers
+    ]
 
-@app.post("/api/customers")
+@app.post("/api/customers", response_model=schemas.CustomerOut)
 def add_customer(payload: schemas.CustomerCreate, db: Session = Depends(database.get_db)):
     print("Adding customer:", payload)
-    return crud.create_customer(db, payload)
+    customer = crud.create_customer(db, payload)
+    return {
+        "id": customer.id,
+        "customer_name": customer.customer_name,
+        "contact": customer.contact,
+        "gst": customer.gst,
+    }
 
 @app.put("/api/customers/{customer_id}", response_model=schemas.CustomerOut)
 def update_customer(customer_id: str, payload: schemas.CustomerCreate, db: Session = Depends(database.get_db)):
     payload.id = customer_id
-    return crud.upsert_customer(db, payload)
+    customer = crud.upsert_customer(db, payload)
+    return {
+        "id": customer.id,
+        "customer_name": customer.customer_name,
+        "contact": customer.contact,
+        "gst": customer.gst,
+    }
 
 
 @app.delete('/api/customers/{customer_id}')
@@ -96,16 +117,40 @@ def delete_customer(customer_id: str, db: Session = Depends(database.get_db)):
 # Products
 @app.get("/api/products", response_model=List[schemas.ProductOut])
 def list_products(db: Session = Depends(database.get_db)):
-    return crud.get_products(db)
+    products = crud.get_products(db)
+    return [
+        {
+            "id": p.id,
+            "name": p.name,
+            "hsn": p.hsn,
+            "gst_rate": p.gst_rate,
+            "prices": p.prices or {},
+        }
+        for p in products
+    ]
 
 @app.post("/api/products", response_model=schemas.ProductOut)
 def add_product(payload: schemas.ProductCreate, db: Session = Depends(database.get_db)):
-    return crud.create_product(db, payload)
+    product = crud.create_product(db, payload)
+    return {
+        "id": product.id,
+        "name": product.name,
+        "hsn": product.hsn,
+        "gst_rate": product.gst_rate,
+        "prices": product.prices or {},
+    }
 
 @app.put("/api/products/{product_id}", response_model=schemas.ProductOut)
 def update_product(product_id: str, payload: schemas.ProductCreate, db: Session = Depends(database.get_db)):
     payload.id = product_id
-    return crud.upsert_product(db, payload)
+    product = crud.upsert_product(db, payload)
+    return {
+        "id": product.id,
+        "name": product.name,
+        "hsn": product.hsn,
+        "gst_rate": product.gst_rate,
+        "prices": product.prices or {},
+    }
 
 @app.delete("/api/products/{product_id}")
 def delete_product(product_id: str, db: Session = Depends(database.get_db)):
@@ -117,11 +162,36 @@ def delete_product(product_id: str, db: Session = Depends(database.get_db)):
 # Invoices
 @app.get("/api/invoices", response_model=List[schemas.InvoiceOut])
 def list_invoices(db: Session = Depends(database.get_db)):
-    return crud.get_invoices(db)
+    invoices = crud.get_invoices(db)
+    return [
+        {
+            "id": inv.id,
+            "invoiceNo": inv.invoice_no,
+            "date": inv.date,
+            "customerId": inv.customer_id,
+            "customerName": inv.customer_name,
+            "items": inv.items,
+            "subtotal": inv.subtotal,
+            "totalGst": inv.total_gst,
+            "total": inv.total,
+        }
+        for inv in invoices
+    ]
 
 @app.post("/api/invoices", response_model=schemas.InvoiceOut)
 def save_invoice(payload: schemas.InvoiceCreate, db: Session = Depends(database.get_db)):
-    return crud.create_invoice(db, payload)
+    invoice = crud.create_invoice(db, payload)
+    return {
+        "id": invoice.id,
+        "invoiceNo": invoice.invoice_no,
+        "date": invoice.date,
+        "customerId": invoice.customer_id,
+        "customerName": invoice.customer_name,
+        "items": invoice.items,
+        "subtotal": invoice.subtotal,
+        "totalGst": invoice.total_gst,
+        "total": invoice.total,
+    }
 
 @app.delete('/api/invoices/{invoice_id}')
 def delete_invoice(invoice_id: str, db: Session = Depends(database.get_db)):

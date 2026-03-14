@@ -94,15 +94,38 @@ def delete_product(db: Session, product_id: str):
 def get_invoices(db: Session):
     return db.query(models.Invoice).order_by(models.Invoice.created_at.desc()).all()
 
+def get_next_invoice_number(db: Session) -> str:
+    """Generate the next invoice number by incrementing a counter."""
+    # Get or create the counter
+    counter = db.query(models.InvoiceCounter).filter(
+        models.InvoiceCounter.id == "default"
+    ).first()
+    
+    if not counter:
+        counter = models.InvoiceCounter(id="default", next_number=1)
+        db.add(counter)
+    
+    # Get the next number
+    invoice_number = counter.next_number
+    counter.next_number += 1
+    
+    db.commit()
+    
+    # Format as INV-{number} (e.g., INV-000001, INV-000002, etc.)
+    return f"INV-{invoice_number:06d}"
+
 def create_invoice(db: Session, inv: schemas.InvoiceCreate):
     iid = inv.id or (str(int(uuid.uuid4().int >> 64)))
+    
+    # Generate invoice number if not provided
+    invoice_no = inv.invoiceNo if inv.invoiceNo and not inv.invoiceNo.startswith('INV-') else get_next_invoice_number(db)
     
     # The items are Pydantic models, they need to be converted to dicts for the JSON field
     items_as_dicts = [item.model_dump() for item in inv.items]
 
     db_invoice = models.Invoice(
         id=iid,
-        invoice_no=inv.invoiceNo,
+        invoice_no=invoice_no,
         date=inv.date,
         customer_id=inv.customerId,
         customer_name=inv.customerName,
@@ -135,5 +158,13 @@ def clear_products(db: Session):
 
 def clear_invoices(db: Session):
     db.query(models.Invoice).delete()
+    # Reset the invoice counter
+    counter = db.query(models.InvoiceCounter).filter(
+        models.InvoiceCounter.id == "default"
+    ).first()
+    if counter:
+        counter.next_number = 1
+    else:
+        db.add(models.InvoiceCounter(id="default", next_number=1))
     db.commit()
 

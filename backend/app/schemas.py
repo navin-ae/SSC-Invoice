@@ -9,9 +9,11 @@ class CustomerCreate(BaseModel):
     contact: Optional[str] = None
     gst: Optional[str] = None
 
-class CustomerOut(CustomerCreate):
+class CustomerOut(BaseModel):
     id: str
-    created_at: datetime
+    customer_name: str
+    contact: Optional[str] = None
+    gst: Optional[str] = None
     model_config = ConfigDict(from_attributes=True)
 
 class ProductCreate(BaseModel):
@@ -21,9 +23,12 @@ class ProductCreate(BaseModel):
     gst_rate: Optional[int] = None
     prices: Dict[str, float]
 
-class ProductOut(ProductCreate):
+class ProductOut(BaseModel):
     id: str
-    created_at: datetime
+    name: str
+    hsn: Optional[str] = None
+    gst_rate: Optional[int] = None
+    prices: Dict[str, float]
     model_config = ConfigDict(from_attributes=True)
 
 class InvoiceItem(BaseModel):
@@ -47,9 +52,16 @@ class InvoiceCreate(BaseModel):
     totalGst: float
     total: float
 
-class InvoiceOut(InvoiceCreate):
+class InvoiceOut(BaseModel):
     id: str
-    created_at: datetime
+    invoiceNo: str
+    date: Optional[str]
+    customerId: Optional[str]
+    customerName: Optional[str]
+    items: List[InvoiceItem]
+    subtotal: float
+    totalGst: float
+    total: float
     model_config = ConfigDict(from_attributes=True)
 
 

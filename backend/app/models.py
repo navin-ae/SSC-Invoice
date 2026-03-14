@@ -19,10 +19,15 @@ class Product(Base):
     prices = Column(JSON, nullable=True, server_default='{}')
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
+class InvoiceCounter(Base):
+    __tablename__ = "invoice_counters"
+    id = Column(String, primary_key=True, default="default", index=True)
+    next_number = Column(Integer, default=1, nullable=False)
+
 class Invoice(Base):
     __tablename__ = "invoices"
     id = Column(String, primary_key=True, index=True)
-    invoice_no = Column(String, nullable=False)
+    invoice_no = Column(String, nullable=False, unique=True, index=True)
     date = Column(String, nullable=True)
     customer_id = Column(String, nullable=True)
     customer_name = Column(String, nullable=True)
