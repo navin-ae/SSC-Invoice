@@ -47,8 +47,7 @@ export class BillingComponent {
         prices1[c.id] = idx % 2 === 0 ? 45 : 40;
         prices2[c.id] = idx % 2 === 0 ? 12 : 10;
       });
-      productStore.add({ name: 'Unruled Note', prices: prices1, hsn: '490199' });
-      productStore.add({ name: 'Blue Pen', prices: prices2 });
+     
     }
   }
 

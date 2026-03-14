@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { CustomerApiService } from './core/services/customer-api.service';
+import { ProductApiService } from './core/services/product-api.service';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +10,19 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   templateUrl: './app.html',
   styleUrls: ['./app.scss'],
 })
-export class App {
+export class App implements OnInit {
+  private customerApi = inject(CustomerApiService);
+  private productApi = inject(ProductApiService);
 
- 
+  ngOnInit() {
+    this.customerApi.list().subscribe({
+      next: () => console.log('Customers loaded from API'),
+      error: (err) => console.error('Failed to load customers at startup', err),
+    });
+    this.productApi.list().subscribe({
+      next: () => console.log('Products loaded from API'),
+      error: (err) => console.error('Failed to load products at startup', err),
+    });
+  }
 }
+
