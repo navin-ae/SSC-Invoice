@@ -9,6 +9,7 @@ export interface InvoiceItem {
   rate: number;
   gstRate: number;
   amount: number; // qty * rate
+  isCustom?: boolean; // true for ad-hoc items not in product list
 }
 
 export interface Invoice {

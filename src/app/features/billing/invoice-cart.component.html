@@ -30,7 +30,12 @@
       <tbody>
         <tr *ngFor="let it of invoiceItems(); let i = index">
           <td>{{ i + 1 }}</td>
-          <td>{{ it.name }}</td>
+          <td>
+            {{ it.name }}
+            @if (it.isCustom) {
+              <span class="custom-badge">[Custom]</span>
+            }
+          </td>
           <td style="text-align:center">{{ it.hsn || '-' }}</td>
           <td style="text-align:center">{{ it.gstRate }}%</td>
           <td>

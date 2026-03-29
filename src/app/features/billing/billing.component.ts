@@ -9,6 +9,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { InvoiceProductSelectorComponent } from './invoice-product-selector.component';
 import { InvoiceCartComponent } from './invoice-cart.component';
+import { CustomItemInput } from './custom-item-form.component';
 import { buildPrintable, exportInvoicePdf } from '../../core/utils/invoice-print';
 @Component({
   standalone: true,
@@ -28,6 +29,9 @@ export class BillingComponent {
   public nowTs: number = Date.now();
   public invoiceItems: InvoiceItem[] = [];
   public showPicker = false;
+  public showSaveCustomItemsDialog: boolean = false;
+  public customItemsToSave: InvoiceItem[] = [];
+  public customItemSaveSelection: Record<string, boolean> = {};
 
   public get selectedCustomer(): Customer | undefined {
     return this.customers().find(c => c.id === this.selectedCustomerId);
@@ -70,6 +74,10 @@ export class BillingComponent {
     this.addToInvoice(payload.product, payload.qty);
   }
 
+  public onAddCustomItem(customItem: CustomItemInput) {
+    this.addCustomItem(customItem);
+  }
+
   public onUpdateQty(payload: { item: InvoiceItem; qty: number }) {
     this.updateQty(payload.item, payload.qty);
   }
@@ -110,8 +118,8 @@ export class BillingComponent {
         } catch (e) {
           alert('Error generating PDF: ' + (e as any)?.message || e);
         }
-        // clear invoice
-        this.invoiceItems = [];
+        // Show save custom items dialog if there are custom items
+        this.openSaveCustomItemsDialog(savedInvoice.items);
       },
       error: (err) => {
         alert('Error saving invoice: ' + (err?.message || 'Unknown error'));
@@ -154,6 +162,21 @@ export class BillingComponent {
     } else {
       this.invoiceItems = [...this.invoiceItems, item];
     }
+  }
+
+  public addCustomItem(customItem: CustomItemInput) {
+    const item: InvoiceItem = {
+      id: Date.now().toString(36),
+      productId: `custom_${Date.now()}`, // Unique custom item ID
+      name: customItem.name,
+      hsn: customItem.hsn,
+      qty: 1,
+      rate: customItem.price,
+      gstRate: customItem.gstRate,
+      amount: customItem.price,
+      isCustom: true // Mark as custom item
+    };
+    this.invoiceItems = [...this.invoiceItems, item];
   }
 
   // map known HSN codes to GST percentages; returns undefined if no mapping
@@ -265,7 +288,8 @@ export class BillingComponent {
         win.document.close();
         win.focus();
         setTimeout(() => { win.print(); win.close(); }, 300);
-        this.invoiceItems = [];
+        // Show save custom items dialog if there are custom items
+        this.openSaveCustomItemsDialog(savedInvoice.items);
       },
       error: (err) => {
         alert('Error saving invoice: ' + (err?.message || 'Unknown error'));
@@ -279,6 +303,77 @@ export class BillingComponent {
 
   public newBill() {
     if (!confirm('Start a new bill?')) return;
+    this.invoiceItems = [];
+  }
+
+  private openSaveCustomItemsDialog(invoiceItems: InvoiceItem[]) {
+    // Filter only custom items and those without HSN
+    const customItems = invoiceItems.filter(item => item.isCustom);
+    
+    if (!customItems.length) {
+      this.invoiceItems = [];
+      return;
+    }
+
+    // Initialize selection and items to save
+    this.customItemsToSave = customItems;
+    this.customItemSaveSelection = {};
+    customItems.forEach(item => {
+      this.customItemSaveSelection[item.id] = false; // Default: unchecked
+    });
+
+    // Show dialog
+    this.showSaveCustomItemsDialog = true;
+  }
+
+  public toggleCustomItemSelection(itemId: string) {
+    this.customItemSaveSelection[itemId] = !this.customItemSaveSelection[itemId];
+  }
+
+  public cancelSaveCustomItems() {
+    this.showSaveCustomItemsDialog = false;
+    this.customItemsToSave = [];
+    this.customItemSaveSelection = {};
+    this.invoiceItems = [];
+  }
+
+  public saveSelectedCustomItems() {
+    const selectedItems = this.customItemsToSave.filter(
+      item => this.customItemSaveSelection[item.id]
+    );
+
+    if (!selectedItems.length) {
+      alert('No items selected to save');
+      return;
+    }
+
+    // Save each selected item to products
+    const customer = this.selectedCustomer;
+    const groupId = customer?.groupId;
+
+    selectedItems.forEach(item => {
+      // Create product from custom item
+      const prices: Record<string, number> = {};
+      
+      // Assign price to customer's group
+      if (groupId) {
+        prices[groupId] = item.rate;
+      }
+
+      productStore.add({
+        name: item.name,
+        hsn: item.hsn || '',
+        gstRate: item.gstRate,
+        prices
+      });
+    });
+
+    alert(`Successfully saved ${selectedItems.length} item(s) to product list!`);
+    
+    // Close dialog and clear invoice
+    this.showSaveCustomItemsDialog = false;
+    this.customItemsToSave = [];
+    this.customItemSaveSelection = {};
     this.invoiceItems = [];
   }
 }

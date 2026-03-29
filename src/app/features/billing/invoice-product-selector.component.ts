@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Customer } from '../../core/stores/customer-store';
 import { Product } from '../../core/stores/product-store';
+import { CustomItemFormComponent, CustomItemInput } from './custom-item-form.component';
 
 @Component({
   standalone: true,
   selector: 'app-invoice-product-selector',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, CustomItemFormComponent],
   templateUrl: './invoice-product-selector.component.html',
   styleUrls: ['./invoice-product-selector.component.scss']
 })
@@ -18,8 +19,10 @@ export class InvoiceProductSelectorComponent {
 
   @Output() selectedCustomerIdChange = new EventEmitter<string | null>();
   @Output() addToInvoice = new EventEmitter<{ product: Product; qty: number }>();
+  @Output() addCustomItem = new EventEmitter<CustomItemInput>();
 
   public search: string = '';
+  public showCustomItemForm: boolean = false;
 
   public filteredProducts() {
     const q = (this.search || '').trim().toLowerCase();
@@ -29,5 +32,18 @@ export class InvoiceProductSelectorComponent {
       const hsn = (p.hsn || '').toLowerCase();
       return name.includes(q) || hsn.includes(q);
     });
+  }
+
+  public toggleCustomItemForm() {
+    this.showCustomItemForm = !this.showCustomItemForm;
+  }
+
+  public onCustomItemCreated(item: CustomItemInput) {
+    this.addCustomItem.emit(item);
+    this.showCustomItemForm = false;
+  }
+
+  public onCustomItemCancelled() {
+    this.showCustomItemForm = false;
   }
 }

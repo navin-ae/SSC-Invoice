@@ -8,7 +8,21 @@
   <h3>Products</h3>
   <div style="display: flex; gap: 8px; align-items: center">
     <input class="product-search" placeholder="Quick search..." [(ngModel)]="search" />
+    <button 
+      class="btn-custom-item"
+      (click)="toggleCustomItemForm()"
+      title="Add item not in product list"
+    >
+      ➕
+    </button>
   </div>
+
+  @if (showCustomItemForm) {
+    <app-custom-item-form
+      (itemCreated)="onCustomItemCreated($event)"
+      (cancelled)="onCustomItemCancelled()"
+    ></app-custom-item-form>
+  }
 
   <div class="products-grid" style="margin-top: 8px">
     <div

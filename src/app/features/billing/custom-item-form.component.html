@@ -1,0 +1,106 @@
+<div class="custom-item-form-container">
+  <div class="form-header">
+    <h3>Add Custom Item</h3>
+  </div>
+
+  <div class="form-content">
+    @if (errorMessage) {
+      <div class="error-message">{{ errorMessage }}</div>
+    }
+
+    <div class="form-group">
+      <label for="item-name">Item Name *</label>
+      <input
+        id="item-name"
+        type="text"
+        class="form-input"
+        [(ngModel)]="name"
+        placeholder="e.g., Installation Service, Wrapping, etc."
+        (keyup.enter)="onAddItem()"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="item-price">Price *</label>
+      <input
+        id="item-price"
+        type="number"
+        class="form-input"
+        [(ngModel)]="price"
+        placeholder="0.00"
+        min="0"
+        step="0.01"
+        (keyup.enter)="onAddItem()"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="item-hsn">HSN Code (Optional)</label>
+      <input
+        id="item-hsn"
+        type="text"
+        class="form-input"
+        [(ngModel)]="hsn"
+        placeholder="e.g., 9999"
+        (keyup.enter)="onAddItem()"
+      />
+    </div>
+
+    <div class="form-group">
+      <label>GST Rate *</label>
+      <div class="gst-selector">
+        <div class="gst-standard">
+          @for (rate of standardGstRates; track rate) {
+            <button
+              type="button"
+              class="gst-btn"
+              [class.active]="gstRate === rate && !useCustomGst"
+              (click)="gstRate = rate; useCustomGst = false"
+            >
+              {{ rate }}%
+            </button>
+          }
+        </div>
+
+        <div class="gst-custom">
+          <label>
+            <input
+              type="checkbox"
+              [(ngModel)]="useCustomGst"
+              (change)="onGstTypeChange()"
+            />
+            Custom GST%
+          </label>
+          @if (useCustomGst) {
+            <input
+              type="number"
+              class="form-input gst-input"
+              [(ngModel)]="gstRate"
+              min="0"
+              max="100"
+              step="0.01"
+              placeholder="Enter GST rate"
+            />
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button
+        type="button"
+        class="btn-primary"
+        (click)="onAddItem()"
+      >
+        Add Item
+      </button>
+      <button
+        type="button"
+        class="btn-secondary"
+        (click)="onCancel()"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>

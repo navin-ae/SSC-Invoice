@@ -42,3 +42,25 @@
   background-size: .65em auto, 100%;
   margin-bottom: 1rem;
 }
+
+.btn-custom-item {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s;
+  min-width: 40px;
+  text-align: center;
+
+  &:hover {
+    background-color: #e0e0e0;
+    border-color: #999;
+  }
+
+  &:active {
+    opacity: 0.8;
+  }
+}
+

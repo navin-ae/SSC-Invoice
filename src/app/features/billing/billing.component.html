@@ -10,6 +10,7 @@
         [selectedCustomerId]="selectedCustomerId"
         (selectedCustomerIdChange)="onSelectedCustomerChange($event)"
         (addToInvoice)="onAddToInvoice($event)"
+        (addCustomItem)="onAddCustomItem($event)"
       ></app-invoice-product-selector>
     </section>
 
@@ -32,4 +33,44 @@
       ></app-invoice-cart>
     </section>
   </div>
+
+  <!-- Save Custom Items Dialog -->
+  @if (showSaveCustomItemsDialog) {
+    <div class="dialog-overlay">
+      <div class="dialog-content">
+        <h2>Save Custom Items to Product List?</h2>
+        <p class="dialog-info">Select items you'd like to add to your product inventory:</p>
+        
+        <div class="custom-items-list">
+          @for (item of customItemsToSave; track item.id) {
+            <label class="custom-item-checkbox">
+              <input
+                type="checkbox"
+                [checked]="customItemSaveSelection[item.id]"
+                (change)="toggleCustomItemSelection(item.id)"
+              />
+              <span class="item-details">
+                <strong class="item-name">{{ item.name }}</strong>
+                <span class="item-meta">
+                  @if (item.hsn) {
+                    HSN: {{ item.hsn }} •
+                  }
+                  GST: {{ item.gstRate }}% • Price: ₹{{ item.rate }}
+                </span>
+              </span>
+            </label>
+          }
+        </div>
+
+        <div class="dialog-actions">
+          <button class="btn-save" (click)="saveSelectedCustomItems()">
+            Save Selected Items
+          </button>
+          <button class="btn-cancel" (click)="cancelSaveCustomItems()">
+            Skip for Now
+          </button>
+        </div>
+      </div>
+    </div>
+  }
 </div>

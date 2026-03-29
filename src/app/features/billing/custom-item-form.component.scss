@@ -1,0 +1,163 @@
+.custom-item-form-container {
+  background: #f9f9f9;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 16px 0;
+  max-width: 500px;
+
+  .form-header {
+    margin-bottom: 20px;
+
+    h3 {
+      margin: 0;
+      color: #333;
+      font-size: 18px;
+      font-weight: 600;
+    }
+  }
+
+  .form-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .error-message {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 10px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    border-left: 4px solid #c62828;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    label {
+      font-weight: 500;
+      color: #333;
+      font-size: 14px;
+    }
+
+    .form-input {
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: border-color 0.2s;
+
+      &:focus {
+        outline: none;
+        border-color: #2196f3;
+        box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+      }
+    }
+  }
+
+  .gst-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .gst-standard {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+
+      .gst-btn {
+        padding: 8px 12px;
+        border: 2px solid #ddd;
+        border-radius: 4px;
+        background: white;
+        color: #333;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+
+        &:hover {
+          border-color: #2196f3;
+          background-color: #e3f2fd;
+        }
+
+        &.active {
+          border-color: #2196f3;
+          background-color: #2196f3;
+          color: white;
+        }
+      }
+    }
+
+    .gst-custom {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 500;
+        color: #333;
+        cursor: pointer;
+
+        input[type="checkbox"] {
+          cursor: pointer;
+          width: 16px;
+          height: 16px;
+        }
+      }
+
+      .gst-input {
+        max-width: 150px;
+      }
+    }
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      font-weight: 500;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+
+      &.btn-primary {
+        background-color: #4caf50;
+        color: white;
+
+        &:hover {
+          background-color: #45a049;
+        }
+
+        &:active {
+          opacity: 0.8;
+        }
+      }
+
+      &.btn-secondary {
+        background-color: #f5f5f5;
+        color: #333;
+        border: 1px solid #ddd;
+
+        &:hover {
+          background-color: #e0e0e0;
+        }
+
+        &:active {
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+}
