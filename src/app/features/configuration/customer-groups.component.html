@@ -1,0 +1,103 @@
+<div class="customer-groups-container">
+  <div class="header">
+    <h2>Customer Groups</h2>
+    <p class="subtitle">Organize customers into groups for batch pricing</p>
+  </div>
+
+  <div class="controls">
+    <button (click)="toggleAddForm()" class="btn btn-primary">
+      {{ showAddForm() ? 'Cancel' : '+ Add Group' }}
+    </button>
+  </div>
+
+  @if (showAddForm()) {
+    <div class="add-form card">
+      <h3>Create New Group</h3>
+      <div class="form-group">
+        <label>Group Name *</label>
+        <input 
+          type="text" 
+          [(ngModel)]="formData.name" 
+          placeholder="e.g., Retail, Wholesale, VIP"
+          class="form-input"
+        />
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <input 
+          type="text" 
+          [(ngModel)]="formData.description" 
+          placeholder="Optional description"
+          class="form-input"
+        />
+      </div>
+      <div class="form-actions">
+        <button (click)="addGroup()" class="btn btn-success" [disabled]="!formData.name.trim()">
+          Create Group
+        </button>
+        <button (click)="toggleAddForm()" class="btn btn-secondary">Cancel</button>
+      </div>
+    </div>
+  }
+
+  <div class="groups-list">
+    @if (customerGroupStore.groups().length === 0) {
+      <div class="empty-state">
+        <p>No customer groups yet. Create one to get started!</p>
+      </div>
+    } @else {
+      @for (group of customerGroupStore.groups(); track group.id) {
+        <div class="group-card">
+          <div class="group-header">
+            <div class="group-info">
+              <h3>{{ group.name }}</h3>
+              @if (group.description) {
+                <p class="description">{{ group.description }}</p>
+              }
+            </div>
+            <div class="group-meta">
+              <span class="customer-count">{{ getCustomerCountForGroup(group.id) }} customers</span>
+            </div>
+          </div>
+
+          @if (editingGroupId() === group.id) {
+            <div class="edit-form">
+              <div class="form-group">
+                <label>Group Name</label>
+                <input 
+                  type="text" 
+                  [(ngModel)]="formData.name" 
+                  class="form-input"
+                />
+              </div>
+              <div class="form-group">
+                <label>Description</label>
+                <input 
+                  type="text" 
+                  [(ngModel)]="formData.description" 
+                  class="form-input"
+                />
+              </div>
+              <div class="form-actions">
+                <button (click)="saveEdit(group.id)" class="btn btn-success">Save</button>
+                <button (click)="cancelEdit()" class="btn btn-secondary">Cancel</button>
+              </div>
+            </div>
+          } @else {
+            <div class="group-actions">
+              <button (click)="startEdit(group)" class="btn btn-secondary btn-sm">Edit</button>
+              <button (click)="deleteGroup(group.id)" class="btn btn-danger btn-sm">Delete</button>
+            </div>
+          }
+        </div>
+      }
+    }
+  </div>
+
+  @if (customerGroupStore.groups().length > 0) {
+    <div class="assign-section">
+      <h3>Assign Customers to Groups</h3>
+      <app-assign-customers-to-groups></app-assign-customers-to-groups>
+    </div>
+  }
+</div>

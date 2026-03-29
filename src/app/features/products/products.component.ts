@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Product, productStore } from '../../core/stores/product-store';
 import { customerStore } from '../../core/stores/customer-store';
+import { customerGroupStore } from '../../core/stores/customer-group';
 import { ProductApiService } from '../../core/services/product-api.service';
 
 const store = productStore;
@@ -16,6 +17,7 @@ const store = productStore;
 })
 export class ProductsComponent implements OnInit {
   public products = store.products;
+  public groups = customerGroupStore.groups;
   public customers = customerStore.customers;
 
   public form: Partial<Product> = { name: '', hsn: '', gstRate: 12, prices: {} };
@@ -23,7 +25,7 @@ export class ProductsComponent implements OnInit {
   public query = '';
   public page = 1;
   public pageSize = 20;
-  // track which customer prices were manually edited (should not be overwritten by retail default)
+  // track which group prices were manually edited
   public overrides = new Set<string>();
 
   private apiService = inject(ProductApiService);
@@ -41,10 +43,10 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-  // determine the retail customer id (prefer customer named 'Retail', fallback to first)
-  public get retailId(): string | undefined {
-    const list = this.customers() || [];
-    const r = list.find(c => (c.name || '').toLowerCase() === 'retail');
+  // determine the first group as template (prefer group named 'Retail')
+  public get templateGroupId(): string | undefined {
+    const list = this.groups() || [];
+    const r = list.find(g => (g.name || '').toLowerCase() === 'retail');
     return r ? r.id : (list[0] && list[0].id);
   }
 
@@ -68,10 +70,10 @@ export class ProductsComponent implements OnInit {
 
   public add() {
     if (!this.form.name) return alert('Name required');
-    // build prices per customer id
+    // build prices per group id
     const prices: Record<string, number> = {};
-    const custs = this.customers();
-    custs.forEach(c => { prices[c.id] = Number(this.form.prices?.[c.id] ?? 0); });
+    const grps = this.groups();
+    grps.forEach(g => { prices[g.id] = Number(this.form.prices?.[g.id] ?? 0); });
 
     if (this.editingId) {
       this.apiService.update(this.editingId, {
@@ -121,15 +123,15 @@ export class ProductsComponent implements OnInit {
   public edit(p: Product) {
     this.editingId = p.id;
     this.form = { name: p.name, hsn: p.hsn, gstRate: p.gstRate, prices: { ...p.prices } };
-    // compute overrides: if a customer's price differs from retail price, consider it overridden
+    // compute overrides: if a group's price differs from template price, consider it overridden
     this.overrides = new Set();
-    const rid = this.retailId;
-    if (rid) {
-      const retailPrice = this.form.prices?.[rid];
-      this.customers().forEach(c => {
-        if (c.id === rid) return;
-        const cur = this.form.prices?.[c.id];
-        if (typeof retailPrice !== 'undefined' && cur !== retailPrice) this.overrides.add(c.id);
+    const tid = this.templateGroupId;
+    if (tid) {
+      const templatePrice = this.form.prices?.[tid];
+      this.groups().forEach(g => {
+        if (g.id === tid) return;
+        const cur = this.form.prices?.[g.id];
+        if (typeof templatePrice !== 'undefined' && cur !== templatePrice) this.overrides.add(g.id);
       });
     }
   }
@@ -153,20 +155,24 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-  // called when a price input changes for a customer
-  public onPriceChange(customerId: string, value: any) {
+  // called when a price input changes for a group
+  public onPriceChange(groupId: string, value: any) {
     this.form.prices = this.form.prices || {};
     const num = Number(value || 0);
-    this.form.prices[customerId] = num;
-    // mark this customer as manually edited
-    this.overrides.add(customerId);
+    this.form.prices[groupId] = num;
+    // mark this group as manually edited
+    this.overrides.add(groupId);
 
-    // if retail was edited, propagate to non-overridden customers
-    if (customerId === this.retailId) {
-      this.customers().forEach(c => {
-        if (c.id === customerId) return;
-        if (!this.overrides.has(c.id)) this.form.prices![c.id] = num;
+    // if template was edited, propagate to non-overridden groups
+    if (groupId === this.templateGroupId) {
+      this.groups().forEach(g => {
+        if (g.id === groupId) return;
+        if (!this.overrides.has(g.id)) this.form.prices![g.id] = num;
       });
     }
+  }
+
+  public getCustomerCountForGroup(groupId: string): number {
+    return this.customers().filter(c => c.groupId === groupId).length;
   }
 }

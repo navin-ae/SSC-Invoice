@@ -132,7 +132,10 @@ export class BillingComponent {
   }
 
   public addToInvoice(p: Product, qty = 1) {
-    const rate = p.prices[this.selectedCustomerId ?? ''] ?? 0;
+    // Look up price using customer's group
+    const customer = this.selectedCustomer;
+    const groupId = customer?.groupId;
+    const rate = (groupId && p.prices[groupId]) ? p.prices[groupId] : 0;
     const gstFromHsn = this.getGstRateFromHsn(p.hsn);
     const item: InvoiceItem = {
       id: Date.now().toString(36),

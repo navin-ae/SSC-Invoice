@@ -1,7 +1,7 @@
 <div class="products-root">
   <section class="products-header">
     <h2>Products</h2>
-    <p class="subtitle">Add, update, and manage your items with per-customer pricing.</p>
+    <p class="subtitle">Add, update, and manage your items with group-based pricing.</p>
   </section>
 
   <div class="form">
@@ -9,12 +9,31 @@
     <input placeholder="HSN" [(ngModel)]="form.hsn" />
     <input type="number" placeholder="GST %" [(ngModel)]="form.gstRate" />
     <div class="prices-grid">
-      <div *ngFor="let c of customers()" class="price-row">
-        <label>{{c.name}} price</label>
-        <input type="number" [(ngModel)]="form.prices[c.id]" (ngModelChange)="onPriceChange(c.id, $event)" />
-      </div>
+      @if (groups().length === 0) {
+        <div class="no-groups-message">
+          No customer groups configured. Please create groups first in the Configuration tab.
+        </div>
+      } @else {
+        @for (group of groups(); track group.id) {
+          <div class="price-row">
+            <label>
+              {{ group.name }}
+              <span class="customer-count">({{ getCustomerCountForGroup(group.id) }} customers)</span>
+              @if (overrides.has(group.id)) {
+                <span class="override-indicator">*</span>
+              }
+            </label>
+            <input 
+              type="number" 
+              [(ngModel)]="form.prices[group.id]" 
+              (ngModelChange)="onPriceChange(group.id, $event)"
+              [class.overridden]="overrides.has(group.id)"
+            />
+          </div>
+        }
+      }
     </div>
-    <button (click)="add()">{{ editingId ? 'Save' : 'Add Product' }}</button>
+    <button (click)="add()" [disabled]="groups().length === 0">{{ editingId ? 'Save' : 'Add Product' }}</button>
     <button *ngIf="editingId" (click)="cancelEdit()">Cancel</button>
   </div>
 
@@ -38,20 +57,24 @@
     </div>
 
     <div class="grid">
-      <div class="card" *ngFor="let product of paginatedProducts">
-        <div class="card-main">
-          <div class="title">{{ product.name }}</div>
-          <div class="meta">HSN: {{ product.hsn || '—' }}</div>
-          <div class="meta">GST: {{ product.gstRate || '—' }}%</div>
-          <div class="prices">
-            <span *ngFor="let customer of customers()">{{customer.name}}: ₹{{ product.prices[customer.id] || 0 }}</span>
+      @for (product of paginatedProducts; track product.id) {
+        <div class="card">
+          <div class="card-main">
+            <div class="title">{{ product.name }}</div>
+            <div class="meta">HSN: {{ product.hsn || '—' }}</div>
+            <div class="meta">GST: {{ product.gstRate || '—' }}%</div>
+            <div class="prices">
+              @for (group of groups(); track group.id) {
+                <span>{{ group.name }}: ₹{{ product.prices[group.id] || 0 }}</span>
+              }
+            </div>
+          </div>
+          <div class="card-actions">
+            <button (click)="edit(product)">Edit</button>
+            <button (click)="remove(product.id)">Delete</button>
           </div>
         </div>
-        <div class="card-actions">
-          <button (click)="edit(product)">Edit</button>
-          <button (click)="remove(product.id)">Delete</button>
-        </div>
-      </div>
+      }
     </div>
 
     <div class="pagination">

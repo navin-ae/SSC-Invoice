@@ -24,20 +24,41 @@ export interface Invoice {
   total: number;
 }
 
+const STORAGE_KEY = 'ssc_invoices_v1';
+
+function readInvoices(): Invoice[] {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
+  } catch {
+    return [];
+  }
+}
+
+function persistInvoices(invoices: Invoice[]) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(invoices));
+}
+
 export function createInvoiceStore() {
-  const invoices = signal<Invoice[]>([]);
+  const invoices = signal<Invoice[]>(readInvoices());
 
   function add(inv: Invoice) {
-    invoices.set([inv, ...invoices()]);
+    const newInvoices = [inv, ...invoices()];
+    invoices.set(newInvoices);
+    persistInvoices(newInvoices);
   }
 
   function addFromBackend(inv: Invoice) {
     // preserve server-provided id and numbering
-    invoices.set([inv, ...invoices()]);
+    const newInvoices = [inv, ...invoices()];
+    invoices.set(newInvoices);
+    persistInvoices(newInvoices);
   }
 
   function save(inv: Invoice) {
-    invoices.set([inv, ...invoices()]);
+    const newInvoices = [inv, ...invoices()];
+    invoices.set(newInvoices);
+    persistInvoices(newInvoices);
   }
 
   function list() {
@@ -46,14 +67,18 @@ export function createInvoiceStore() {
 
   function clear() {
     invoices.set([]);
+    persistInvoices([]);
   }
 
   function setAll(items: Invoice[]) {
     invoices.set(items);
+    persistInvoices(items);
   }
 
   function remove(id: string) {
-    invoices.set(invoices().filter(x => x.id !== id));
+    const newInvoices = invoices().filter(x => x.id !== id);
+    invoices.set(newInvoices);
+    persistInvoices(newInvoices);
   }
 
   return { invoices, add, addFromBackend, save, list, clear, setAll, remove };

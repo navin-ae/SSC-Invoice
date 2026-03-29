@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { exportAllData, importAllData } from '../../core/utils/backup';
 import { CustomersComponent } from '../customers/customers.component';
 import { ProductsComponent } from '../products/products.component';
+import { CustomerGroupsComponent } from './customer-groups.component';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, CustomersComponent, ProductsComponent,MatButtonModule],
+  imports: [CommonModule, CustomersComponent, ProductsComponent, CustomerGroupsComponent, MatButtonModule],
   selector: 'app-configuration',
   templateUrl: './configuration.component.html',
   styleUrls: ['./configuration.component.scss'],

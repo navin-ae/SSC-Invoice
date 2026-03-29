@@ -1,9 +1,11 @@
 import { customerStore } from '../stores/customer-store';
 import { productStore } from '../stores/product-store';
 import { invoiceStore } from '../stores/invoice-store';
+import { customerGroupStore } from '../stores/customer-group';
 
 export function exportAllData(): string {
   const data = {
+    customerGroups: customerGroupStore.groups(),
     customers: customerStore.customers(),
     products: productStore.products(),
     invoices: invoiceStore.list()
@@ -15,6 +17,9 @@ export async function importAllData(fileContent: string) {
   try {
     const parsed = JSON.parse(fileContent);
     const d = parsed.data ?? parsed;
+    if (d.customerGroups) {
+      customerGroupStore.setAll(d.customerGroups);
+    }
     if (d.customers) {
       customerStore.setAll(d.customers);
     }

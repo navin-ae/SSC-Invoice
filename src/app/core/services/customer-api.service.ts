@@ -21,16 +21,23 @@ export class CustomerApiService {
 
   /**
    * Fetch all customers from backend.
+   * Preserves locally-assigned groupId values on sync.
    * On error, falls back to local store.
    */
   list(): Observable<Customer[]> {
     return this.http.get<any[]>(this.apiUrl).pipe(
       tap((backendCustomers) => {
+        // Get existing customers with their groupId assignments
+        const existingCustomers = customerStore.customers();
+        const groupIdMap = new Map(existingCustomers.map(c => [c.id, c.groupId]));
+
+        // Transform backend data but PRESERVE groupId from local store
         const transformed: Customer[] = backendCustomers.map((c) => ({
           id: c.id,
           name: c.customer_name,
           contact: c.contact,
           gst: c.gst,
+          groupId: groupIdMap.get(c.id), // Preserve existing groupId
         }));
         customerStore.setAll(transformed);
       }),
@@ -43,6 +50,7 @@ export class CustomerApiService {
 
   /**
    * Create a new customer on backend.
+   * Preserves groupId assignment if set locally.
    * On error, falls back to local store add.
    */
   public create(customer: Omit<Customer, 'id'>): Observable<Customer> {
@@ -59,6 +67,7 @@ export class CustomerApiService {
           name: response.customer_name,
           contact: response.contact,
           gst: response.gst,
+          groupId: customer.groupId, // Preserve groupId from local assignment
         };
         customerStore.addFromBackend(transformed);
       }),
@@ -71,6 +80,7 @@ export class CustomerApiService {
 
   /**
    * Update an existing customer on backend.
+   * Preserves groupId assignment during sync.
    * On error, falls back to local store update.
    */
   update(id: string, customer: Partial<Customer>): Observable<Customer> {
@@ -81,11 +91,14 @@ export class CustomerApiService {
 
     return this.http.put<any>(`${this.apiUrl}/${id}`, payload).pipe(
       tap((response) => {
+        // Get existing customer to preserve groupId
+        const existing = customerStore.customers().find(c => c.id === id);
         const transformed: Customer = {
           id: response.id,
           name: response.customer_name,
           contact: response.contact,
           gst: response.gst,
+          groupId: existing?.groupId, // Preserve existing groupId
         };
         customerStore.update(id, transformed);
       }),
