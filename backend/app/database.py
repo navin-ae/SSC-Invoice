@@ -4,13 +4,17 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-# Default to SQLite billing.db in backend folder when no env var is provided
-default_db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'billing.db'))
-# Format properly for Windows sqlite URL: sqlite:///C:/path/to/billing.db
-normalized_path = default_db_path.replace('\\', '/')
+# Default to SQLite billing.db in backend folder
+backend_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+default_db_file = os.path.join(backend_dir, 'billing.db')
+normalized_path = default_db_file.replace('\\', '/')
 default_sqlite_url = f"sqlite:///{normalized_path}"
 
-DATABASE_URL = os.getenv('DATABASE_URL') or os.getenv('DATABASE') or default_sqlite_url
+raw_db_url = os.getenv('DATABASE_URL') or os.getenv('DATABASE')
+if not raw_db_url or raw_db_url in ('sqlite:///./billing.db', 'sqlite:///billing.db'):
+    DATABASE_URL = default_sqlite_url
+else:
+    DATABASE_URL = raw_db_url
 
 # If pg8000 is installed and the scheme is 'postgresql://', prefer 'postgresql+pg8000://' so SQLAlchemy uses the pure-Python driver
 try:
