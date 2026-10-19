@@ -8,7 +8,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
-
 @Component({
   standalone: true,
   imports: [
@@ -31,44 +30,48 @@ export class CustomersComponent implements OnInit {
   private apiService = inject(CustomerApiService);
 
   public ngOnInit() {
-    // Load customers from backend (with fallback to local storage)
+    // Load customers from backend database
     this.apiService.list().subscribe({
       next: (customers) => {
-        console.log('Customers loaded:', customers);
+        console.log('Customers loaded from database:', customers);
       },
       error: (err) => {
-        console.error('Error loading customers:', err);
-        // API service already handles fallback to local storage
+        console.error('Error loading customers from database:', err);
       },
     });
   }
 
   public add() {
-    if (!this.form.name) return alert('Name required');
+    if (!this.form.name?.trim()) return alert('Name required');
+    const customerData = {
+      name: this.form.name.trim(),
+      contact: this.form.contact,
+      gst: this.form.gst,
+      address: this.form.address,
+      groupId: this.form.groupId,
+    };
+
     if (this.editingId) {
-      this.apiService.update(this.editingId, { name: this.form.name! }).subscribe({
+      this.apiService.update(this.editingId, customerData).subscribe({
         next: () => {
-          console.log('Customer updated');
+          console.log('Customer updated in database');
           this.editingId = undefined;
           this.form = { name: '' };
         },
         error: (err) => {
           console.error('Error updating customer:', err);
-          alert('Failed to update customer (using local storage)');
-          this.editingId = undefined;
-          this.form = { name: '' };
+          alert('Failed to update customer in database: ' + (err?.error?.detail || err?.message || 'Server error'));
         },
       });
     } else {
-      this.apiService.create({ name: this.form.name! }).subscribe({
+      this.apiService.create(customerData).subscribe({
         next: () => {
-          console.log('Customer created');
+          console.log('Customer created in database');
           this.form = { name: '' };
         },
         error: (err) => {
           console.error('Error creating customer:', err);
-          alert('Failed to create customer (using local storage)');
-          this.form = { name: '' };
+          alert('Failed to create customer in database: ' + (err?.error?.detail || err?.message || 'Server error'));
         },
       });
     }
@@ -78,18 +81,18 @@ export class CustomersComponent implements OnInit {
     if (!confirm('Delete customer?')) return;
     this.apiService.delete(id).subscribe({
       next: () => {
-        console.log('Customer deleted');
+        console.log('Customer deleted from database');
       },
       error: (err) => {
         console.error('Error deleting customer:', err);
-        alert('Failed to delete customer (using local storage)');
+        alert('Failed to delete customer from database: ' + (err?.error?.detail || err?.message || 'Server error'));
       },
     });
   }
 
   public edit(c: Customer) {
     this.editingId = c.id;
-    this.form = { name: c.name };
+    this.form = { ...c };
   }
 
   public cancelEdit() {

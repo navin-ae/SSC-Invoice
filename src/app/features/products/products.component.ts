@@ -91,7 +91,7 @@ export class ProductsComponent implements OnInit {
         },
         error: (err) => {
           console.error('Error updating product:', err);
-          alert('Failed to update product (using local storage)');
+          alert('Failed to update product in database: ' + (err?.error?.detail || err?.message || 'Server error'));
           this.editingId = undefined;
           this.form = { name: '', hsn: '', gstRate: 12, prices: {} };
           this.overrides = new Set();
@@ -112,7 +112,7 @@ export class ProductsComponent implements OnInit {
         },
         error: (err) => {
           console.error('Error creating product:', err);
-          alert('Failed to create product (using local storage)');
+          alert('Failed to create product in database: ' + (err?.error?.detail || err?.message || 'Server error'));
           this.form = { name: '', hsn: '', gstRate: 12, prices: {} };
           this.overrides = new Set();
         },
@@ -150,7 +150,7 @@ export class ProductsComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error deleting product:', err);
-        alert('Failed to delete product (using local storage)');
+        alert('Failed to delete product from database: ' + (err?.error?.detail || err?.message || 'Server error'));
       },
     });
   }

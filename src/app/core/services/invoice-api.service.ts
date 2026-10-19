@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { API_CONFIG } from '../config/api.config';
 import { Invoice, invoiceStore } from '../stores/invoice-store';
@@ -22,6 +22,7 @@ interface InvoiceBackendPayload {
   date?: string;
   customerId?: string;
   customerName?: string;
+  customerAddress?: string;
   items: InvoiceItemBackend[];
   subtotal: number;
   totalGst: number;
@@ -30,13 +31,19 @@ interface InvoiceBackendPayload {
 
 interface InvoiceBackendResponse {
   id: string;
-  invoice_no: string;
+  invoiceNo?: string;
+  invoice_no?: string;
   date?: string;
+  customerId?: string;
   customer_id?: string;
+  customerName?: string;
   customer_name?: string;
+  customerAddress?: string;
+  customer_address?: string;
   items: InvoiceItemBackend[];
   subtotal: number;
-  total_gst: number;
+  totalGst?: number;
+  total_gst?: number;
   total: number;
 }
 
@@ -48,8 +55,7 @@ export class InvoiceApiService {
   private apiUrl = `${API_CONFIG.base}/invoices`;
 
   /**
-   * Fetch all invoices from backend.
-   * In backend-only mode, always use database records.
+   * Fetch all invoices from backend database.
    */
   public list(): Observable<Invoice[]> {
     return this.http.get<InvoiceBackendResponse[]>(this.apiUrl).pipe(
@@ -67,8 +73,7 @@ export class InvoiceApiService {
   }
 
   /**
-   * Create a new invoice on backend.
-   * Backend-only: always persisted via API. No local fallback.
+   * Create a new invoice on backend database.
    */
   public create(invoice: Omit<Invoice, 'id'>): Observable<Invoice> {
     const payload: InvoiceBackendPayload = {
@@ -76,6 +81,7 @@ export class InvoiceApiService {
       date: invoice.date,
       customerId: invoice.customerId,
       customerName: invoice.customerName,
+      customerAddress: invoice.customerAddress,
       items: invoice.items,
       subtotal: invoice.subtotal,
       totalGst: invoice.totalGst,
@@ -95,8 +101,7 @@ export class InvoiceApiService {
   }
 
   /**
-   * Delete an invoice from backend.
-   * On error, falls back to local store delete.
+   * Delete an invoice from backend database.
    */
   public delete(invoiceId: string): Observable<{ ok: boolean }> {
     return this.http.delete<{ ok: boolean }>(`${this.apiUrl}/${invoiceId}`).pipe(
@@ -111,19 +116,20 @@ export class InvoiceApiService {
   }
 
   /**
-   * Transform backend response to frontend format.
+   * Transform backend response to frontend format, handling both camelCase and snake_case keys.
    */
-  private transformBackendToFrontend(response: InvoiceBackendResponse): Invoice {
+  private transformBackendToFrontend(response: any): Invoice {
     return {
       id: response.id,
-      invoiceNo: response.invoice_no,
+      invoiceNo: response.invoiceNo || response.invoice_no || '',
       date: response.date || '',
-      customerId: response.customer_id,
-      customerName: response.customer_name,
-      items: response.items,
-      subtotal: response.subtotal,
-      totalGst: response.total_gst,
-      total: response.total,
+      customerId: response.customerId || response.customer_id,
+      customerName: response.customerName || response.customer_name,
+      customerAddress: response.customerAddress || response.customer_address,
+      items: response.items || [],
+      subtotal: response.subtotal ?? 0,
+      totalGst: response.totalGst ?? response.total_gst ?? 0,
+      total: response.total ?? 0,
     };
   }
 }

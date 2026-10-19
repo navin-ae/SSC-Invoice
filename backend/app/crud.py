@@ -3,10 +3,54 @@ from sqlalchemy.orm import Session
 from sqlalchemy import func
 from . import models, schemas
 
-# This function is now responsible for creating the tables
 def init_db(engine):
     models.Base.metadata.create_all(bind=engine)
 
+# Customer Groups
+def get_customer_groups(db: Session):
+    return db.query(models.CustomerGroup).order_by(models.CustomerGroup.created_at.asc()).all()
+
+def create_customer_group(db: Session, g: schemas.CustomerGroupCreate):
+    gid = g.id or (str(int(uuid.uuid4().int >> 64)))
+    db_group = models.CustomerGroup(
+        id=gid,
+        name=g.name,
+        description=g.description
+    )
+    db.add(db_group)
+    db.commit()
+    db.refresh(db_group)
+    return db_group
+
+def upsert_customer_group(db: Session, g: schemas.CustomerGroupCreate):
+    if not g.id:
+        return create_customer_group(db, g)
+    
+    db_group = db.query(models.CustomerGroup).filter(models.CustomerGroup.id == g.id).first()
+    if db_group:
+        db_group.name = g.name
+        db_group.description = g.description
+        db.commit()
+        db.refresh(db_group)
+        return db_group
+    else:
+        return create_customer_group(db, g)
+
+def delete_customer_group(db: Session, group_id: str):
+    db_group = db.query(models.CustomerGroup).filter(models.CustomerGroup.id == group_id).first()
+    if db_group:
+        # Also disassociate any customers assigned to this group
+        db.query(models.Customer).filter(models.Customer.group_id == group_id).update({models.Customer.group_id: None})
+        db.delete(db_group)
+        db.commit()
+        return True
+    return False
+
+def clear_customer_groups(db: Session):
+    db.query(models.CustomerGroup).delete()
+    db.commit()
+
+# Customers
 def get_customers(db: Session):
     return db.query(models.Customer).order_by(models.Customer.created_at.desc()).all()
 
@@ -16,14 +60,14 @@ def create_customer(db: Session, c: schemas.CustomerCreate):
         id=cid,
         customer_name=c.customer_name,
         contact=c.contact,
-        gst=c.gst
+        gst=c.gst,
+        address=c.address,
+        group_id=c.group_id
     )
-    print("Creating customer with ID:", cid)
     db.add(db_customer)
     db.commit()
     db.refresh(db_customer)
     return db_customer
-        
 
 def upsert_customer(db: Session, c: schemas.CustomerCreate):
     if not c.id:
@@ -35,6 +79,10 @@ def upsert_customer(db: Session, c: schemas.CustomerCreate):
         db_customer.customer_name = c.customer_name
         db_customer.contact = c.contact
         db_customer.gst = c.gst
+        if c.address is not None:
+            db_customer.address = c.address
+        if c.group_id is not None:
+            db_customer.group_id = c.group_id
         db.commit()
         db.refresh(db_customer)
         return db_customer
@@ -49,6 +97,7 @@ def delete_customer(db: Session, customer_id: str):
         return True
     return False
 
+# Products
 def get_products(db: Session):
     return db.query(models.Product).order_by(models.Product.created_at.desc()).all()
 
@@ -59,7 +108,7 @@ def create_product(db: Session, p: schemas.ProductCreate):
         name=p.name,
         hsn=p.hsn,
         gst_rate=p.gst_rate,
-        prices=p.prices,
+        prices=p.prices or {},
     )
     db.add(db_product)
     db.commit()
@@ -76,7 +125,7 @@ def upsert_product(db: Session, p: schemas.ProductCreate):
         db_product.name = p.name
         db_product.hsn = p.hsn
         db_product.gst_rate = p.gst_rate
-        db_product.prices = p.prices
+        db_product.prices = p.prices or {}
         db.commit()
         db.refresh(db_product)
         return db_product
@@ -91,12 +140,12 @@ def delete_product(db: Session, product_id: str):
         return True
     return False
 
+# Invoices
 def get_invoices(db: Session):
     return db.query(models.Invoice).order_by(models.Invoice.created_at.desc()).all()
 
 def get_next_invoice_number(db: Session) -> str:
     """Generate the next invoice number by incrementing a counter."""
-    # Get or create the counter
     counter = db.query(models.InvoiceCounter).filter(
         models.InvoiceCounter.id == "default"
     ).first()
@@ -104,23 +153,24 @@ def get_next_invoice_number(db: Session) -> str:
     if not counter:
         counter = models.InvoiceCounter(id="default", next_number=1)
         db.add(counter)
+        db.flush()
     
-    # Get the next number
     invoice_number = counter.next_number
     counter.next_number += 1
-    
     db.commit()
     
-    # Format as INV-{number} (e.g., INV-000001, INV-000002, etc.)
     return f"INV-{invoice_number:06d}"
 
 def create_invoice(db: Session, inv: schemas.InvoiceCreate):
     iid = inv.id or (str(int(uuid.uuid4().int >> 64)))
     
-    # Generate invoice number if not provided
-    invoice_no = inv.invoiceNo if inv.invoiceNo and not inv.invoiceNo.startswith('INV-') else get_next_invoice_number(db)
+    # Generate invoice number if not provided or empty
+    if inv.invoiceNo and inv.invoiceNo.strip():
+        invoice_no = inv.invoiceNo.strip()
+    else:
+        invoice_no = get_next_invoice_number(db)
     
-    # Convert invoice line items to plain data for JSON column.
+    # Convert invoice line items to plain data for JSON column
     items_as_dicts = []
     for item in inv.items:
         if hasattr(item, 'model_dump'):
@@ -138,6 +188,7 @@ def create_invoice(db: Session, inv: schemas.InvoiceCreate):
         date=inv.date,
         customer_id=inv.customerId,
         customer_name=inv.customerName,
+        customer_address=inv.customerAddress,
         subtotal=inv.subtotal,
         total_gst=inv.totalGst,
         total=inv.total,
@@ -156,7 +207,7 @@ def delete_invoice(db: Session, invoice_id: str):
         return True
     return False
 
-# Functions to clear all data from tables
+# Clear data tables
 def clear_customers(db: Session):
     db.query(models.Customer).delete()
     db.commit()
@@ -167,7 +218,6 @@ def clear_products(db: Session):
 
 def clear_invoices(db: Session):
     db.query(models.Invoice).delete()
-    # Reset the invoice counter
     counter = db.query(models.InvoiceCounter).filter(
         models.InvoiceCounter.id == "default"
     ).first()
@@ -176,4 +226,3 @@ def clear_invoices(db: Session):
     else:
         db.add(models.InvoiceCounter(id="default", next_number=1))
     db.commit()
-

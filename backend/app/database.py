@@ -4,8 +4,13 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-# default to your Postgres URL when no env var is provided
-DATABASE_URL = os.getenv('DATABASE_URL') or os.getenv('DATABASE') or 'postgresql://postgres:pgadmin@localhost:5432/shop_demo'
+# Default to SQLite billing.db in backend folder when no env var is provided
+default_db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'billing.db'))
+# Format properly for Windows sqlite URL: sqlite:///C:/path/to/billing.db
+normalized_path = default_db_path.replace('\\', '/')
+default_sqlite_url = f"sqlite:///{normalized_path}"
+
+DATABASE_URL = os.getenv('DATABASE_URL') or os.getenv('DATABASE') or default_sqlite_url
 
 # If pg8000 is installed and the scheme is 'postgresql://', prefer 'postgresql+pg8000://' so SQLAlchemy uses the pure-Python driver
 try:
@@ -17,7 +22,11 @@ except Exception:
     pass
 
 # create engine using DATABASE_URL (can be overridden by env)
-engine = create_engine(DATABASE_URL, future=True)
+engine_kwargs = {"future": True}
+if DATABASE_URL.startswith("sqlite"):
+    engine_kwargs["connect_args"] = {"check_same_thread": False}
+
+engine = create_engine(DATABASE_URL, **engine_kwargs)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine, future=True)
 
 # This will be the base class for all our models. That means that

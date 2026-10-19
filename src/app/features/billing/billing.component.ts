@@ -5,6 +5,7 @@ import { customerStore, Customer } from '../../core/stores/customer-store';
 import { productStore, Product } from '../../core/stores/product-store';
 import { invoiceStore, Invoice, InvoiceItem } from '../../core/stores/invoice-store';
 import { InvoiceApiService } from '../../core/services/invoice-api.service';
+import { ProductApiService } from '../../core/services/product-api.service';
 import {MatButtonModule} from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { InvoiceProductSelectorComponent } from './invoice-product-selector.component';
@@ -21,6 +22,7 @@ import { buildPrintable, exportInvoicePdf } from '../../core/utils/invoice-print
 })
 export class BillingComponent {
   private invoiceApi = inject(InvoiceApiService);
+  private productApi = inject(ProductApiService);
   public customers = customerStore.customers;
   public products = productStore.products;
   public selectedCustomerId: string | null = null;
@@ -37,30 +39,11 @@ export class BillingComponent {
     return this.customers().find(c => c.id === this.selectedCustomerId);
   }
 
-  public addSampleData() {
-    if (!this.customers().length) {
-      customerStore.add({ name: 'Retail', address: '106, Main Road, Annur - 641653' });
-
-    }
-    if (!this.products().length) {
-      // build prices keyed by customer id
-      const custs = this.customers();
-      const prices1: Record<string, number> = {};
-      const prices2: Record<string, number> = {};
-      custs.forEach((c, idx) => {
-        prices1[c.id] = idx % 2 === 0 ? 45 : 40;
-        prices2[c.id] = idx % 2 === 0 ? 12 : 10;
-      });
-     
-    }
-  }
-
   public ngOnInit() {
-    this.addSampleData();
     const defaultCust = this.customers()[0];
-    if (defaultCust){ 
-      this.selectedCustomerId = defaultCust.id
-    };
+    if (defaultCust) { 
+      this.selectedCustomerId = defaultCust.id;
+    }
     this.now = new Date();
     this.nowTs = Date.now();
   }
@@ -360,11 +343,14 @@ export class BillingComponent {
         prices[groupId] = item.rate;
       }
 
-      productStore.add({
+      this.productApi.create({
         name: item.name,
         hsn: item.hsn || '',
         gstRate: item.gstRate,
         prices
+      }).subscribe({
+        next: () => console.log(`Custom item ${item.name} saved to product database`),
+        error: (err) => console.error(`Failed to save custom item ${item.name}:`, err)
       });
     });
 

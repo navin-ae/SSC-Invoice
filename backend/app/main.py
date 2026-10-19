@@ -48,10 +48,10 @@ import io
 
 app = FastAPI(title="SSC Billing Backend")
 
-# CORS - allow local frontend during development
+# CORS - allow local frontend and Wi-Fi devices on local store network
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:4200", "http://127.0.0.1:4200"],
+    allow_origin_regex=r"^https?://.*(:[0-9]+)?$",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -62,14 +62,66 @@ def on_startup():
     # Initialize the database and create tables (ORM)
     try:
         from .database import Base, engine
+        from sqlalchemy import text
         Base.metadata.create_all(bind=engine)
         print("Database initialized and tables created.")
-    except Exception:
-        print("Failed to initialize database metadata. Ensure SQLAlchemy is correctly installed and DATABASE_URL is valid.")
+        # Ensure any newly added columns exist in existing database tables
+        with engine.begin() as conn:
+            for alter_sql in [
+                "ALTER TABLE customers ADD COLUMN address VARCHAR",
+                "ALTER TABLE customers ADD COLUMN group_id VARCHAR",
+                "ALTER TABLE invoices ADD COLUMN customer_address VARCHAR",
+            ]:
+                try:
+                    conn.execute(text(alter_sql))
+                except Exception:
+                    pass
+    except Exception as e:
+        print(f"Failed to initialize database metadata: {e}")
 
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+# Customer Groups
+@app.get("/api/customer-groups", response_model=List[schemas.CustomerGroupOut])
+def list_customer_groups(db: Session = Depends(database.get_db)):
+    groups = crud.get_customer_groups(db)
+    return [
+        {
+            "id": g.id,
+            "name": g.name,
+            "description": g.description,
+        }
+        for g in groups
+    ]
+
+@app.post("/api/customer-groups", response_model=schemas.CustomerGroupOut)
+def add_customer_group(payload: schemas.CustomerGroupCreate, db: Session = Depends(database.get_db)):
+    group = crud.create_customer_group(db, payload)
+    return {
+        "id": group.id,
+        "name": group.name,
+        "description": group.description,
+    }
+
+@app.put("/api/customer-groups/{group_id}", response_model=schemas.CustomerGroupOut)
+def update_customer_group(group_id: str, payload: schemas.CustomerGroupCreate, db: Session = Depends(database.get_db)):
+    payload.id = group_id
+    group = crud.upsert_customer_group(db, payload)
+    return {
+        "id": group.id,
+        "name": group.name,
+        "description": group.description,
+    }
+
+@app.delete("/api/customer-groups/{group_id}")
+def delete_customer_group(group_id: str, db: Session = Depends(database.get_db)):
+    ok = crud.delete_customer_group(db, group_id)
+    if not ok:
+        raise HTTPException(status_code=404, detail="Customer group not found")
+    return {"ok": True}
+
 # Customers
 @app.get("/api/customers", response_model=List[schemas.CustomerOut])
 def list_customers(db: Session = Depends(database.get_db)):
@@ -80,6 +132,8 @@ def list_customers(db: Session = Depends(database.get_db)):
             "customer_name": c.customer_name,
             "contact": c.contact,
             "gst": c.gst,
+            "address": c.address,
+            "group_id": c.group_id,
         }
         for c in customers
     ]
@@ -93,6 +147,8 @@ def add_customer(payload: schemas.CustomerCreate, db: Session = Depends(database
         "customer_name": customer.customer_name,
         "contact": customer.contact,
         "gst": customer.gst,
+        "address": customer.address,
+        "group_id": customer.group_id,
     }
 
 @app.put("/api/customers/{customer_id}", response_model=schemas.CustomerOut)
@@ -104,8 +160,9 @@ def update_customer(customer_id: str, payload: schemas.CustomerCreate, db: Sessi
         "customer_name": customer.customer_name,
         "contact": customer.contact,
         "gst": customer.gst,
+        "address": customer.address,
+        "group_id": customer.group_id,
     }
-
 
 @app.delete('/api/customers/{customer_id}')
 def delete_customer(customer_id: str, db: Session = Depends(database.get_db)):
@@ -170,6 +227,7 @@ def list_invoices(db: Session = Depends(database.get_db)):
             "date": inv.date,
             "customerId": inv.customer_id,
             "customerName": inv.customer_name,
+            "customerAddress": inv.customer_address,
             "items": inv.items,
             "subtotal": inv.subtotal,
             "totalGst": inv.total_gst,
@@ -187,6 +245,7 @@ def save_invoice(payload: schemas.InvoiceCreate, db: Session = Depends(database.
         "date": invoice.date,
         "customerId": invoice.customer_id,
         "customerName": invoice.customer_name,
+        "customerAddress": invoice.customer_address,
         "items": invoice.items,
         "subtotal": invoice.subtotal,
         "totalGst": invoice.total_gst,
@@ -203,18 +262,25 @@ def delete_invoice(invoice_id: str, db: Session = Depends(database.get_db)):
 # Backup / Restore
 @app.get("/api/backup")
 def export_backup(db: Session = Depends(database.get_db)):
+    customer_groups = crud.get_customer_groups(db)
     customers = crud.get_customers(db)
     products = crud.get_products(db)
     invoices = crud.get_invoices(db)
-    # The schemas for backup/restore are slightly different, so we manually create the dicts
-    customers_out = [ { 'id': c.id, 'customer_name': c.customer_name, 'contact': c.contact, 'gst': c.gst } for c in customers ]
+    
+    groups_out = [ { 'id': g.id, 'name': g.name, 'description': g.description } for g in customer_groups ]
+    customers_out = [ { 'id': c.id, 'customer_name': c.customer_name, 'contact': c.contact, 'gst': c.gst, 'address': c.address, 'group_id': c.group_id } for c in customers ]
     products_out = [ { 'id': p.id, 'name': p.name, 'hsn': p.hsn, 'gstRate': p.gst_rate, 'prices': p.prices or {} } for p in products ]
-    invoices_out = [ { 'id': i.id, 'invoiceNo': i.invoice_no, 'date': i.date, 'customerId': i.customer_id, 'customerName': i.customer_name, 'items': i.items, 'subtotal': i.subtotal, 'totalGst': i.total_gst, 'total': i.total } for i in invoices ]
+    invoices_out = [ { 'id': i.id, 'invoiceNo': i.invoice_no, 'date': i.date, 'customerId': i.customer_id, 'customerName': i.customer_name, 'customerAddress': i.customer_address, 'items': i.items, 'subtotal': i.subtotal, 'totalGst': i.total_gst, 'total': i.total } for i in invoices ]
 
-    return {"exportedAt": __import__("datetime").datetime.utcnow().isoformat(), "data": {"customers": customers_out, "products": products_out, "invoices": invoices_out}}
+    return {"exportedAt": __import__("datetime").datetime.utcnow().isoformat(), "data": {"customerGroups": groups_out, "customers": customers_out, "products": products_out, "invoices": invoices_out}}
 
 @app.post("/api/restore")
 def restore_backup(payload: schemas.BackupPayload, db: Session = Depends(database.get_db)):
+    if payload.customerGroups is not None:
+        crud.clear_customer_groups(db)
+        for g_data in payload.customerGroups:
+            crud.create_customer_group(db, g_data)
+
     if payload.customers is not None:
         crud.clear_customers(db)
         for c_data in payload.customers:
@@ -223,8 +289,7 @@ def restore_backup(payload: schemas.BackupPayload, db: Session = Depends(databas
     if payload.products is not None:
         crud.clear_products(db)
         for p_data in payload.products:
-            # The incoming 'gstRate' needs to be mapped to 'gst_rate' for the schema
-            p_dict = p_data.model_dump()
+            p_dict = p_data.model_dump() if hasattr(p_data, 'model_dump') else p_data.dict()
             if 'gstRate' in p_dict:
                 p_dict['gst_rate'] = p_dict.pop('gstRate')
             p_schema = schemas.ProductCreate(**p_dict)

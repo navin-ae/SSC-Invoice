@@ -19,8 +19,8 @@ export class ConfigurationComponent implements AfterViewInit {
     const restoreBtn = document.getElementById('restoreBtn');
     const restoreFile = document.getElementById('restoreFile') as HTMLInputElement | null;
     if (exportBtn)
-      exportBtn.addEventListener('click', () => {
-        const data = exportAllData();
+      exportBtn.addEventListener('click', async () => {
+        const data = await exportAllData();
         const blob = new Blob([data], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');

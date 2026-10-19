@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { API_CONFIG } from '../config/api.config';
 import { Customer, customerStore } from '../stores/customer-store';
@@ -10,6 +10,8 @@ interface CustomerBackendPayload {
   customer_name: string;
   contact?: string;
   gst?: string;
+  address?: string;
+  group_id?: string;
 }
 
 @Injectable({
@@ -20,24 +22,18 @@ export class CustomerApiService {
   private apiUrl = `${API_CONFIG.base}/customers`;
 
   /**
-   * Fetch all customers from backend.
-   * Preserves locally-assigned groupId values on sync.
-   * On error, falls back to local store.
+   * Fetch all customers from backend database.
    */
   list(): Observable<Customer[]> {
     return this.http.get<any[]>(this.apiUrl).pipe(
       tap((backendCustomers) => {
-        // Get existing customers with their groupId assignments
-        const existingCustomers = customerStore.customers();
-        const groupIdMap = new Map(existingCustomers.map(c => [c.id, c.groupId]));
-
-        // Transform backend data but PRESERVE groupId from local store
         const transformed: Customer[] = backendCustomers.map((c) => ({
           id: c.id,
           name: c.customer_name,
           contact: c.contact,
           gst: c.gst,
-          groupId: groupIdMap.get(c.id), // Preserve existing groupId
+          address: c.address,
+          groupId: c.group_id,
         }));
         customerStore.setAll(transformed);
       }),
@@ -49,15 +45,15 @@ export class CustomerApiService {
   }
 
   /**
-   * Create a new customer on backend.
-   * Preserves groupId assignment if set locally.
-   * On error, falls back to local store add.
+   * Create a new customer in backend database.
    */
   public create(customer: Omit<Customer, 'id'>): Observable<Customer> {
     const payload: CustomerBackendPayload = {
       customer_name: customer.name,
       contact: customer.contact,
       gst: customer.gst,
+      address: customer.address,
+      group_id: customer.groupId,
     };
 
     return this.http.post<any>(this.apiUrl, payload).pipe(
@@ -67,7 +63,8 @@ export class CustomerApiService {
           name: response.customer_name,
           contact: response.contact,
           gst: response.gst,
-          groupId: customer.groupId, // Preserve groupId from local assignment
+          address: response.address,
+          groupId: response.group_id || customer.groupId,
         };
         customerStore.addFromBackend(transformed);
       }),
@@ -79,26 +76,26 @@ export class CustomerApiService {
   }
 
   /**
-   * Update an existing customer on backend.
-   * Preserves groupId assignment during sync.
-   * On error, falls back to local store update.
+   * Update an existing customer in backend database.
    */
   update(id: string, customer: Partial<Customer>): Observable<Customer> {
     const payload: Partial<CustomerBackendPayload> = {};
-    if (customer.name) payload.customer_name = customer.name;
+    if (customer.name !== undefined) payload.customer_name = customer.name;
     if (customer.contact !== undefined) payload.contact = customer.contact;
     if (customer.gst !== undefined) payload.gst = customer.gst;
+    if (customer.address !== undefined) payload.address = customer.address;
+    if (customer.groupId !== undefined) payload.group_id = customer.groupId;
 
     return this.http.put<any>(`${this.apiUrl}/${id}`, payload).pipe(
       tap((response) => {
-        // Get existing customer to preserve groupId
         const existing = customerStore.customers().find(c => c.id === id);
         const transformed: Customer = {
           id: response.id,
           name: response.customer_name,
           contact: response.contact,
           gst: response.gst,
-          groupId: existing?.groupId, // Preserve existing groupId
+          address: response.address,
+          groupId: response.group_id !== undefined ? response.group_id : existing?.groupId,
         };
         customerStore.update(id, transformed);
       }),
@@ -110,8 +107,7 @@ export class CustomerApiService {
   }
 
   /**
-   * Delete a customer from backend.
-   * On error, falls back to local store remove.
+   * Delete a customer from backend database.
    */
   delete(id: string): Observable<{ ok: boolean }> {
     return this.http.delete<{ ok: boolean }>(`${this.apiUrl}/${id}`).pipe(

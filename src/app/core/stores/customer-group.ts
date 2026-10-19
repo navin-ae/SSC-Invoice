@@ -46,12 +46,19 @@ export function createCustomerGroupStore() {
     persist();
   }
 
+  function addFromBackend(g: CustomerGroup) {
+    const newGroups = [...groups().filter(x => x.id !== g.id), g];
+    groups.set(newGroups);
+    persist();
+    return g.id;
+  }
+
   function clear() {
     groups.set([]);
     persist();
   }
 
-  return { groups, add, update, remove, setAll, clear };
+  return { groups, add, addFromBackend, update, remove, setAll, clear };
 }
 
 // singleton instance for app-wide usage

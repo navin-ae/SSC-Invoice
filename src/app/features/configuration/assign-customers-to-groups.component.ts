@@ -1,8 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { customerStore } from '../../core/stores/customer-store';
 import { customerGroupStore } from '../../core/stores/customer-group';
+import { CustomerApiService } from '../../core/services/customer-api.service';
 
 @Component({
   selector: 'app-assign-customers-to-groups',
@@ -324,6 +325,7 @@ import { customerGroupStore } from '../../core/stores/customer-group';
   `]
 })
 export class AssignCustomersToGroupsComponent {
+  private customerApi = inject(CustomerApiService);
   customerStore = customerStore;
   customerGroupStore = customerGroupStore;
 
@@ -367,7 +369,9 @@ export class AssignCustomersToGroupsComponent {
 
     let count = 0;
     this.selectedCustomers().forEach(customerId => {
-      this.customerStore.update(customerId, { groupId });
+      this.customerApi.update(customerId, { groupId }).subscribe({
+        error: (err) => console.error(`Failed to assign customer ${customerId} to group:`, err)
+      });
       count++;
     });
 
@@ -384,14 +388,17 @@ export class AssignCustomersToGroupsComponent {
     
     if (!customerId || !groupId) return;
 
-    this.customerStore.update(customerId, { groupId });
-    const customerName = this.customerStore.customers().find(c => c.id === customerId)?.name;
-    const groupName = this.customerGroupStore.groups().find(g => g.id === groupId)?.name;
+    this.customerApi.update(customerId, { groupId }).subscribe({
+      next: () => {
+        const customerName = this.customerStore.customers().find(c => c.id === customerId)?.name;
+        const groupName = this.customerGroupStore.groups().find(g => g.id === groupId)?.name;
+        this.showSuccess(`Assigned ${customerName} to ${groupName}`);
+      },
+      error: (err) => console.error(`Failed to assign customer ${customerId} to group:`, err)
+    });
     
     this.quickSelectCustomerId.set('');
     this.quickSelectGroupId.set('');
-    
-    this.showSuccess(`Assigned ${customerName} to ${groupName}`);
   }
 
   getGroupName(groupId?: string): string | null {
