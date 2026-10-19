@@ -34,19 +34,29 @@
 
       <div class="form-grid">
         <div class="form-field full-width">
-          <label>Product / Item Name *</label>
+          <label for="prodName" class="field-title">
+            <strong>Product / Item Name</strong>
+            <span class="required-star">*</span>
+          </label>
+          <span class="helper-text">Enter the item name as it should appear on customer receipts</span>
           <input
+            id="prodName"
             type="text"
             class="input-box"
-            placeholder="e.g. Ponni Boiled Rice 25kg / Tata Salt"
+            placeholder="e.g. Ponni Boiled Rice 25kg, Tata Salt 1kg, Sunflower Oil 1L"
             [(ngModel)]="form.name"
             required
           />
         </div>
 
         <div class="form-field">
-          <label>HSN Code (Optional)</label>
+          <label for="prodHsn" class="field-title">
+            <strong>HSN Code</strong>
+            <span class="optional-tag">(Optional)</span>
+          </label>
+          <span class="helper-text">GST tax code (e.g. 1006 for Rice)</span>
           <input
+            id="prodHsn"
             type="text"
             class="input-box"
             placeholder="e.g. 1006"
@@ -55,9 +65,14 @@
         </div>
 
         <div class="form-field">
-          <label>GST Rate (%)</label>
+          <label for="prodGst" class="field-title">
+            <strong>GST Tax Rate (%)</strong>
+            <span class="required-star">*</span>
+          </label>
+          <span class="helper-text">Select tax percentage for this item:</span>
           <div class="gst-input-wrapper">
             <input
+              id="prodGst"
               type="number"
               class="input-box gst-input"
               placeholder="12"
@@ -80,8 +95,10 @@
         <!-- Group-based Pricing Section -->
         <div class="form-field full-width prices-section">
           <div class="section-label-row">
-            <span class="section-label">Selling Prices (₹) by Customer Tier</span>
-            <span class="section-hint">Retail price auto-fills other tiers</span>
+            <div>
+              <span class="section-label"><strong>Selling Prices (₹) by Customer Tier</strong></span>
+              <p class="section-hint">Set the price customers in each group will be charged. Setting Retail price auto-fills other tiers.</p>
+            </div>
           </div>
 
           @if (groups().length === 0) {
@@ -93,10 +110,12 @@
               @for (group of groups(); track group.id) {
                 <div class="price-input-row" [class.highlighted]="overrides.has(group.id)">
                   <div class="group-info">
-                    <span class="group-name">{{ group.name }}</span>
-                    <span class="customer-count">({{ getCustomerCountForGroup(group.id) }} customers)</span>
+                    <label class="group-name-label">
+                      <strong>{{ group.name }} Customer Price</strong>
+                    </label>
+                    <span class="customer-count">({{ getCustomerCountForGroup(group.id) }} assigned customers)</span>
                     @if (overrides.has(group.id)) {
-                      <span class="custom-badge" title="Custom override for this tier">Custom</span>
+                      <span class="custom-badge" title="Custom override for this tier">Custom Tier Price</span>
                     }
                   </div>
                   <div class="price-input-box">
@@ -108,6 +127,7 @@
                       placeholder="0.00"
                       [(ngModel)]="form.prices![group.id]"
                       (ngModelChange)="onPriceChange(group.id, $event)"
+                      [attr.aria-label]="group.name + ' Price'"
                     />
                   </div>
                 </div>

@@ -1,6 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { forkJoin } from 'rxjs';
 import { customerStore } from '../../core/stores/customer-store';
 import { customerGroupStore } from '../../core/stores/customer-group';
 import { CustomerApiService } from '../../core/services/customer-api.service';
@@ -368,11 +369,11 @@ export class AssignCustomersToGroupsComponent {
   customerGroupStore = customerGroupStore;
 
   selectedCustomers = signal<Set<string>>(new Set());
-  selectedGroupId = signal('');
+  selectedGroupId = '';
   allSelected = false;
 
-  quickSelectCustomerId = signal('');
-  quickSelectGroupId = signal('');
+  quickSelectCustomerId = '';
+  quickSelectGroupId = '';
 
   successMessage = signal('');
 
@@ -402,41 +403,52 @@ export class AssignCustomersToGroupsComponent {
   }
 
   bulkAssignSelected() {
-    const groupId = this.selectedGroupId();
-    if (!groupId) return;
+    const groupId = this.selectedGroupId;
+    if (!groupId || this.selectedCustomers().size === 0) return;
 
-    let count = 0;
-    this.selectedCustomers().forEach(customerId => {
-      this.customerApi.update(customerId, { groupId }).subscribe({
-        error: (err) => console.error(`Failed to assign customer ${customerId} to group:`, err)
-      });
-      count++;
+    const group = this.customerGroupStore.groups().find(g => g.id === groupId);
+    const customerIds = Array.from(this.selectedCustomers());
+    const count = customerIds.length;
+
+    const requests = customerIds.map(customerId => this.customerApi.update(customerId, { groupId }));
+    forkJoin(requests).subscribe({
+      next: () => {
+        this.selectedCustomers.set(new Set());
+        this.selectedGroupId = '';
+        this.allSelected = false;
+        this.showSuccess(`Assigned ${count} customer(s) to "${group?.name || 'group'}"`);
+        this.customerApi.list().subscribe();
+      },
+      error: (err) => {
+        console.error('Failed to assign customers:', err);
+        alert('Failed to assign some customers: ' + (err?.error?.detail || err?.message || 'Server error'));
+        this.customerApi.list().subscribe();
+      }
     });
-
-    this.selectedCustomers.set(new Set());
-    this.selectedGroupId.set('');
-    this.allSelected = false;
-    
-    this.showSuccess(`Assigned ${count} customer(s) to group`);
   }
 
   quickAssignCustomer() {
-    const customerId = this.quickSelectCustomerId();
-    const groupId = this.quickSelectGroupId();
+    const customerId = this.quickSelectCustomerId;
+    const groupId = this.quickSelectGroupId;
     
     if (!customerId || !groupId) return;
 
+    const customerName = this.customerStore.customers().find(c => c.id === customerId)?.name;
+    const groupName = this.customerGroupStore.groups().find(g => g.id === groupId)?.name;
+
     this.customerApi.update(customerId, { groupId }).subscribe({
       next: () => {
-        const customerName = this.customerStore.customers().find(c => c.id === customerId)?.name;
-        const groupName = this.customerGroupStore.groups().find(g => g.id === groupId)?.name;
-        this.showSuccess(`Assigned ${customerName} to ${groupName}`);
+        this.showSuccess(`Assigned "${customerName}" to "${groupName}"`);
+        this.customerApi.list().subscribe();
       },
-      error: (err) => console.error(`Failed to assign customer ${customerId} to group:`, err)
+      error: (err) => {
+        console.error(`Failed to assign customer ${customerId} to group:`, err);
+        alert('Failed to assign customer: ' + (err?.error?.detail || err?.message || 'Server error'));
+      }
     });
     
-    this.quickSelectCustomerId.set('');
-    this.quickSelectGroupId.set('');
+    this.quickSelectCustomerId = '';
+    this.quickSelectGroupId = '';
   }
 
   getGroupName(groupId?: string): string | null {

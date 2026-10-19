@@ -69,19 +69,23 @@ def create_customer(db: Session, c: schemas.CustomerCreate):
     db.refresh(db_customer)
     return db_customer
 
-def upsert_customer(db: Session, c: schemas.CustomerCreate):
-    if not c.id:
+def upsert_customer(db: Session, c: Any, customer_id: Optional[str] = None):
+    cid = customer_id or getattr(c, 'id', None)
+    if not cid:
         return create_customer(db, c)
     
-    db_customer = db.query(models.Customer).filter(models.Customer.id == c.id).first()
+    db_customer = db.query(models.Customer).filter(models.Customer.id == cid).first()
 
     if db_customer:
-        db_customer.customer_name = c.customer_name
-        db_customer.contact = c.contact
-        db_customer.gst = c.gst
-        if c.address is not None:
+        if getattr(c, 'customer_name', None) is not None:
+            db_customer.customer_name = c.customer_name
+        if getattr(c, 'contact', None) is not None:
+            db_customer.contact = c.contact
+        if getattr(c, 'gst', None) is not None:
+            db_customer.gst = c.gst
+        if getattr(c, 'address', None) is not None:
             db_customer.address = c.address
-        if c.group_id is not None:
+        if getattr(c, 'group_id', None) is not None:
             db_customer.group_id = c.group_id
         db.commit()
         db.refresh(db_customer)

@@ -152,9 +152,8 @@ def add_customer(payload: schemas.CustomerCreate, db: Session = Depends(database
     }
 
 @app.put("/api/customers/{customer_id}", response_model=schemas.CustomerOut)
-def update_customer(customer_id: str, payload: schemas.CustomerCreate, db: Session = Depends(database.get_db)):
-    payload.id = customer_id
-    customer = crud.upsert_customer(db, payload)
+def update_customer(customer_id: str, payload: schemas.CustomerUpdate, db: Session = Depends(database.get_db)):
+    customer = crud.upsert_customer(db, payload, customer_id=customer_id)
     return {
         "id": customer.id,
         "customer_name": customer.customer_name,

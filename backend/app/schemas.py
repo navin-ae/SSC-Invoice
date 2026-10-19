@@ -29,6 +29,13 @@ class CustomerCreate(BaseModel):
     address: Optional[str] = None
     group_id: Optional[str] = None
 
+class CustomerUpdate(BaseModel):
+    customer_name: Optional[str] = None
+    contact: Optional[str] = None
+    gst: Optional[str] = None
+    address: Optional[str] = None
+    group_id: Optional[str] = None
+
 class CustomerOut(OrmBaseModel):
     id: str
     customer_name: str

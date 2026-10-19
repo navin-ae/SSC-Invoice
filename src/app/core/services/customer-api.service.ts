@@ -79,23 +79,26 @@ export class CustomerApiService {
    * Update an existing customer in backend database.
    */
   update(id: string, customer: Partial<Customer>): Observable<Customer> {
+    const existing = customerStore.customers().find(c => c.id === id);
     const payload: Partial<CustomerBackendPayload> = {};
-    if (customer.name !== undefined) payload.customer_name = customer.name;
+    payload.customer_name = customer.name !== undefined ? customer.name : (existing?.name || '');
     if (customer.contact !== undefined) payload.contact = customer.contact;
+    else if (existing?.contact !== undefined) payload.contact = existing.contact;
     if (customer.gst !== undefined) payload.gst = customer.gst;
+    else if (existing?.gst !== undefined) payload.gst = existing.gst;
     if (customer.address !== undefined) payload.address = customer.address;
+    else if (existing?.address !== undefined) payload.address = existing.address;
     if (customer.groupId !== undefined) payload.group_id = customer.groupId;
 
     return this.http.put<any>(`${this.apiUrl}/${id}`, payload).pipe(
       tap((response) => {
-        const existing = customerStore.customers().find(c => c.id === id);
         const transformed: Customer = {
-          id: response.id,
-          name: response.customer_name,
-          contact: response.contact,
-          gst: response.gst,
-          address: response.address,
-          groupId: response.group_id !== undefined ? response.group_id : existing?.groupId,
+          id: response.id || id,
+          name: response.customer_name || existing?.name || '',
+          contact: response.contact !== undefined ? response.contact : existing?.contact,
+          gst: response.gst !== undefined ? response.gst : existing?.gst,
+          address: response.address !== undefined ? response.address : existing?.address,
+          groupId: response.group_id !== undefined ? response.group_id : (customer.groupId ?? existing?.groupId),
         };
         customerStore.update(id, transformed);
       }),
