@@ -12,6 +12,9 @@
       <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-item">
         <span class="nav-icon">🛒</span>
         <span class="nav-label">Billing</span>
+        @if (activeItemCount > 0) {
+          <span class="cart-count-badge">{{ activeItemCount }}</span>
+        }
       </a>
       <a routerLink="/customers" routerLinkActive="active" class="nav-item">
         <span class="nav-icon">👥</span>

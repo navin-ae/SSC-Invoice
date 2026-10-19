@@ -6,6 +6,7 @@ import { customerGroupStore } from '../../core/stores/customer-group';
 import { CustomerApiService } from '../../core/services/customer-api.service';
 import { productStore, Product } from '../../core/stores/product-store';
 import { invoiceStore, Invoice, InvoiceItem } from '../../core/stores/invoice-store';
+import { billingDraftStore } from '../../core/stores/billing-draft-store';
 import { InvoiceApiService } from '../../core/services/invoice-api.service';
 import { ProductApiService } from '../../core/services/product-api.service';
 import {MatButtonModule} from '@angular/material/button';
@@ -87,41 +88,76 @@ export class BillingComponent {
   }
 
   public ngOnInit() {
-    const defaultCust = this.customers()[0];
-    if (defaultCust) { 
-      this.selectedCustomerId = defaultCust.id;
+    const draft = billingDraftStore.draft();
+    this.invoiceItems = [...draft.items];
+    this.isTemporaryCustomer = draft.isTemporaryCustomer;
+    this.temporaryCustomerName = draft.temporaryCustomerName;
+    this.temporaryCustomerPhone = draft.temporaryCustomerPhone;
+    this.temporaryCustomerAddress = draft.temporaryCustomerAddress;
+    this.temporaryCustomerGroupId = draft.temporaryCustomerGroupId;
+    this.saveTemporaryCustomerToDirectory = draft.saveTemporaryCustomerToDirectory;
+
+    if (draft.selectedCustomerId !== null) {
+      this.selectedCustomerId = draft.selectedCustomerId;
+    } else if (!this.isTemporaryCustomer) {
+      const defaultCust = this.customers()[0];
+      if (defaultCust) {
+        this.selectedCustomerId = defaultCust.id;
+        this.syncDraft();
+      }
     }
+
     this.now = new Date();
     this.nowTs = Date.now();
+  }
+
+  private syncDraft() {
+    billingDraftStore.setDraft({
+      items: this.invoiceItems,
+      selectedCustomerId: this.selectedCustomerId,
+      isTemporaryCustomer: this.isTemporaryCustomer,
+      temporaryCustomerName: this.temporaryCustomerName,
+      temporaryCustomerPhone: this.temporaryCustomerPhone,
+      temporaryCustomerAddress: this.temporaryCustomerAddress,
+      temporaryCustomerGroupId: this.temporaryCustomerGroupId,
+      saveTemporaryCustomerToDirectory: this.saveTemporaryCustomerToDirectory,
+    });
   }
 
   // --- forwarded handlers for child components
   public onSelectedCustomerChange(id: string | null) {
     this.selectedCustomerId = id;
+    this.syncDraft();
   }
 
   public onIsTemporaryCustomerChange(val: boolean) {
     this.isTemporaryCustomer = val;
+    this.syncDraft();
   }
 
   public onTemporaryCustomerNameChange(val: string) {
     this.temporaryCustomerName = val;
+    this.syncDraft();
   }
 
   public onTemporaryCustomerPhoneChange(val: string) {
     this.temporaryCustomerPhone = val;
+    this.syncDraft();
   }
 
   public onTemporaryCustomerAddressChange(val: string) {
     this.temporaryCustomerAddress = val;
+    this.syncDraft();
   }
 
   public onTemporaryCustomerGroupIdChange(val: string) {
     this.temporaryCustomerGroupId = val;
+    this.syncDraft();
   }
 
   public onSaveTemporaryCustomerToDirectoryChange(val: boolean) {
     this.saveTemporaryCustomerToDirectory = val;
+    this.syncDraft();
   }
 
   public onAddToInvoice(payload: { product: Product; qty: number }) {
@@ -241,6 +277,7 @@ export class BillingComponent {
     } else {
       this.invoiceItems = [...this.invoiceItems, item];
     }
+    this.syncDraft();
   }
 
   public addCustomItem(customItem: CustomItemInput) {
@@ -256,6 +293,7 @@ export class BillingComponent {
       isCustom: true // Mark as custom item
     };
     this.invoiceItems = [...this.invoiceItems, item];
+    this.syncDraft();
   }
 
   // map known HSN codes to GST percentages; returns undefined if no mapping
@@ -291,11 +329,13 @@ export class BillingComponent {
     item.qty = qty;
     item.amount = item.qty * item.rate;
     this.invoiceItems = [...this.invoiceItems];
+    this.syncDraft();
   }
 
   public removeItem(id: string) {
     if (!confirm('Delete this item?')) return;
     this.invoiceItems = this.invoiceItems.filter(x => x.id !== id);
+    this.syncDraft();
   }
 
   public get subtotal() {
@@ -399,7 +439,9 @@ export class BillingComponent {
   }
 
   public newBill() {
-    if (!confirm('Start a new bill?')) return;
+    if (this.invoiceItems.length > 0) {
+      if (!confirm('Start a new bill? Current items in the cart will be cleared.')) return;
+    }
     this.resetBillState();
   }
 
@@ -411,6 +453,9 @@ export class BillingComponent {
     this.temporaryCustomerAddress = '';
     this.temporaryCustomerGroupId = '';
     this.saveTemporaryCustomerToDirectory = false;
+    const defaultCust = this.customers()[0];
+    this.selectedCustomerId = defaultCust ? defaultCust.id : null;
+    billingDraftStore.clearDraft(this.selectedCustomerId);
   }
 
   private openSaveCustomItemsDialog(invoiceItems: InvoiceItem[]) {
