@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException, File, UploadFile, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 import importlib, os, sys
 
 # Avoid importing SQLAlchemy Session at module import time to prevent hard crashes
@@ -330,4 +331,33 @@ async def bulk_import_products(file: UploadFile = File(...), db: Session = Depen
         return {"count": len(created)}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+# -------------------------------------------------------------
+# Serve Angular Production Frontend directly from FastAPI
+# -------------------------------------------------------------
+dist_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "dist", "ssc-billing", "browser"))
+
+@app.get("/")
+async def serve_root():
+    index_file = os.path.join(dist_dir, "index.html")
+    if os.path.exists(index_file):
+        return FileResponse(index_file)
+    return {"message": "SSC Billing API is running. Build the frontend with 'npm run build' to view UI here."}
+
+@app.get("/{full_path:path}")
+async def serve_frontend(full_path: str):
+    # Do not intercept API or health endpoints
+    if full_path.startswith("api/") or full_path == "health" or full_path.startswith("api"):
+        raise HTTPException(status_code=404, detail="Not Found")
+        
+    file_path = os.path.join(dist_dir, full_path)
+    if full_path and os.path.isfile(file_path):
+        return FileResponse(file_path)
+    
+    index_file = os.path.join(dist_dir, "index.html")
+    if os.path.exists(index_file):
+        return FileResponse(index_file)
+    
+    return {"message": "SSC Billing API is running. Build the frontend with 'npm run build' to view UI here."}
+
 
