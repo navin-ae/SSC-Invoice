@@ -15,9 +15,22 @@ import { CustomItemFormComponent, CustomItemInput } from './custom-item-form.com
 export class InvoiceProductSelectorComponent {
   @Input() customers!: any; // signal function returning Customer[]
   @Input() products!: any; // signal function returning Product[]
+  @Input() customerGroups: any; // signal function returning CustomerGroup[]
   @Input() selectedCustomerId: string | null = null;
+  @Input() isTemporaryCustomer: boolean = false;
+  @Input() temporaryCustomerName: string = '';
+  @Input() temporaryCustomerPhone: string = '';
+  @Input() temporaryCustomerAddress: string = '';
+  @Input() temporaryCustomerGroupId: string = '';
+  @Input() saveTemporaryCustomerToDirectory: boolean = false;
 
   @Output() selectedCustomerIdChange = new EventEmitter<string | null>();
+  @Output() isTemporaryCustomerChange = new EventEmitter<boolean>();
+  @Output() temporaryCustomerNameChange = new EventEmitter<string>();
+  @Output() temporaryCustomerPhoneChange = new EventEmitter<string>();
+  @Output() temporaryCustomerAddressChange = new EventEmitter<string>();
+  @Output() temporaryCustomerGroupIdChange = new EventEmitter<string>();
+  @Output() saveTemporaryCustomerToDirectoryChange = new EventEmitter<boolean>();
   @Output() addToInvoice = new EventEmitter<{ product: Product; qty: number }>();
   @Output() addCustomItem = new EventEmitter<CustomItemInput>();
 
@@ -29,10 +42,55 @@ export class InvoiceProductSelectorComponent {
     return this.customers().find((c: Customer) => c.id === this.selectedCustomerId);
   }
 
+  public getGroupName(groupId?: string): string {
+    if (!groupId || !this.customerGroups) return '';
+    const groups = typeof this.customerGroups === 'function' ? this.customerGroups() : this.customerGroups;
+    const g = (groups || []).find((x: any) => x.id === groupId);
+    return g ? g.name : '';
+  }
+
+  public setCustomerMode(isTemp: boolean) {
+    this.isTemporaryCustomer = isTemp;
+    this.isTemporaryCustomerChange.emit(isTemp);
+  }
+
+  public onSelectedCustomerChange(val: string | null) {
+    this.selectedCustomerId = val;
+    this.selectedCustomerIdChange.emit(val);
+  }
+
+  public onTemporaryNameChange(val: string) {
+    this.temporaryCustomerName = val;
+    this.temporaryCustomerNameChange.emit(val);
+  }
+
+  public onTemporaryPhoneChange(val: string) {
+    this.temporaryCustomerPhone = val;
+    this.temporaryCustomerPhoneChange.emit(val);
+  }
+
+  public onTemporaryAddressChange(val: string) {
+    this.temporaryCustomerAddress = val;
+    this.temporaryCustomerAddressChange.emit(val);
+  }
+
+  public onTemporaryGroupChange(val: string) {
+    this.temporaryCustomerGroupId = val;
+    this.temporaryCustomerGroupIdChange.emit(val);
+  }
+
+  public onSaveToDirectoryChange(val: boolean) {
+    this.saveTemporaryCustomerToDirectory = val;
+    this.saveTemporaryCustomerToDirectoryChange.emit(val);
+  }
+
   public getProductPrice(p: Product): number {
-    const cust = this.selectedCustomer;
-    if (cust && cust.groupId && p.prices && p.prices[cust.groupId] !== undefined) {
-      return Number(p.prices[cust.groupId]);
+    const groupId = this.isTemporaryCustomer
+      ? this.temporaryCustomerGroupId
+      : this.selectedCustomer?.groupId;
+
+    if (groupId && p.prices && p.prices[groupId] !== undefined) {
+      return Number(p.prices[groupId]);
     }
     // Fallback to first available price in prices record
     if (p.prices) {

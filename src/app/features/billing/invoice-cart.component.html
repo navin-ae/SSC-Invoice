@@ -7,7 +7,10 @@
     </div>
     <div class="header-right">
       <div class="cust-label">Billed To:</div>
-      <div class="cust-value">{{ selectedCustomer()?.name || 'Walk-in Retail' }}</div>
+      <div class="cust-value">{{ customerDisplayName() }}</div>
+      @if (customerAddressDisplay()) {
+        <div class="cust-address">📍 {{ customerAddressDisplay() }}</div>
+      }
     </div>
   </div>
 

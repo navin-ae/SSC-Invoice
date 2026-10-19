@@ -17,7 +17,9 @@ export class InvoiceCartComponent {
   public total = input(0);
   public now = input.required<Date>();
   public nowTs = input.required<number>();
-  public selectedCustomer = input.required<any>();
+  public selectedCustomer = input<any>(null);
+  public customerDisplayName = input<string>('Walk-in Retail');
+  public customerAddressDisplay = input<string>('');
   public gstBreakdown = input<{ rate: number; taxable: number; cgst: number; sgst: number; totalGst: number }[]>([]);
 
   @Output() public updateQty = new EventEmitter<{ item: InvoiceItem; qty: number }>();

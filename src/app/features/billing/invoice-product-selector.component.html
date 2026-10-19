@@ -2,27 +2,134 @@
   <!-- Customer Selection Section -->
   <div class="section-card customer-card">
     <div class="section-header">
-      <span class="section-icon">👤</span>
-      <span class="section-title">Customer</span>
-      @if (selectedCustomer?.groupId) {
-        <span class="group-badge">Group: {{ selectedCustomer?.groupId }}</span>
-      }
+      <div class="header-left-title">
+        <span class="section-icon">👤</span>
+        <span class="section-title">Customer</span>
+      </div>
+
+      <!-- Segmented Mode Switcher -->
+      <div class="customer-mode-pills">
+        <button
+          type="button"
+          class="mode-pill"
+          [class.active]="!isTemporaryCustomer"
+          (click)="setCustomerMode(false)">
+          👥 Saved Customer
+        </button>
+        <button
+          type="button"
+          class="mode-pill"
+          [class.active]="isTemporaryCustomer"
+          (click)="setCustomerMode(true)">
+          ✏️ One-Time / Walk-in Bill
+        </button>
+      </div>
     </div>
 
-    <div class="customer-select-wrapper">
-      <select
-        class="customer-dropdown"
-        [ngModel]="selectedCustomerId"
-        (ngModelChange)="selectedCustomerIdChange.emit($event)"
-      >
-        <option [ngValue]="null">Walk-in Customer (Standard Retail)</option>
-        @for (c of customers(); track c.id) {
-          <option [value]="c.id">
-            {{ c.name }} {{ c.contact ? '(' + c.contact + ')' : '' }}
-          </option>
+    <!-- Mode 1: Regular Saved Customer Dropdown -->
+    @if (!isTemporaryCustomer) {
+      <div class="customer-select-wrapper">
+        <select
+          class="customer-dropdown"
+          [ngModel]="selectedCustomerId"
+          (ngModelChange)="onSelectedCustomerChange($event)"
+        >
+          <option [ngValue]="null">Walk-in Customer (Standard Retail)</option>
+          @for (c of customers(); track c.id) {
+            <option [value]="c.id">
+              {{ c.name }} {{ c.contact ? '(' + c.contact + ')' : '' }}
+            </option>
+          }
+        </select>
+
+        @if (selectedCustomer?.groupId) {
+          <span class="group-badge">Tier: {{ getGroupName(selectedCustomer?.groupId) }}</span>
         }
-      </select>
-    </div>
+      </div>
+
+      <div class="quick-switch-hint">
+        <span>Want customer name on the receipt?</span>
+        <button type="button" class="link-btn" (click)="setCustomerMode(true)">
+          + Type One-Time Name
+        </button>
+      </div>
+    }
+
+    <!-- Mode 2: One-Time / Temporary Customer for this invoice -->
+    @if (isTemporaryCustomer) {
+      <div class="temp-customer-form">
+        <div class="temp-fields-grid">
+          <div class="temp-field full-width">
+            <label for="tempCustName">Customer Name (Printed on Receipt) *</label>
+            <input
+              id="tempCustName"
+              type="text"
+              class="input-box temp-input"
+              placeholder="e.g. Ramesh Kumar / Murugan Stores"
+              [ngModel]="temporaryCustomerName"
+              (ngModelChange)="onTemporaryNameChange($event)"
+            />
+          </div>
+
+          <div class="temp-field">
+            <label for="tempCustPhone">Phone (Optional)</label>
+            <input
+              id="tempCustPhone"
+              type="tel"
+              class="input-box temp-input"
+              placeholder="e.g. 9876543210"
+              [ngModel]="temporaryCustomerPhone"
+              (ngModelChange)="onTemporaryPhoneChange($event)"
+            />
+          </div>
+
+          <div class="temp-field">
+            <label for="tempCustGroup">Pricing Tier</label>
+            <select
+              id="tempCustGroup"
+              class="input-box temp-select"
+              [ngModel]="temporaryCustomerGroupId"
+              (ngModelChange)="onTemporaryGroupChange($event)"
+            >
+              <option value="">Standard Retail Price</option>
+              @if (customerGroups) {
+                @for (g of customerGroups(); track g.id) {
+                  <option [value]="g.id">{{ g.name }}</option>
+                }
+              }
+            </select>
+          </div>
+
+          <div class="temp-field full-width">
+            <label for="tempCustAddress">Address / Location (Optional)</label>
+            <input
+              id="tempCustAddress"
+              type="text"
+              class="input-box temp-input"
+              placeholder="e.g. Annur / Kovai Road"
+              [ngModel]="temporaryCustomerAddress"
+              (ngModelChange)="onTemporaryAddressChange($event)"
+            />
+          </div>
+        </div>
+
+        <div class="temp-options-row">
+          <label class="directory-check">
+            <input
+              type="checkbox"
+              [ngModel]="saveTemporaryCustomerToDirectory"
+              (ngModelChange)="onSaveToDirectoryChange($event)"
+            />
+            <span>Also save to Customer Directory for future visits</span>
+          </label>
+        </div>
+
+        <div class="temp-note">
+          <span class="note-icon">ℹ️</span>
+          <span>Temporary customer for this receipt. Invoice will be saved in Database without cluttering your permanent customer list.</span>
+        </div>
+      </div>
+    }
   </div>
 
   <!-- Product Catalog & Search Section -->

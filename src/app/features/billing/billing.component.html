@@ -3,19 +3,30 @@
 
   <div class="billing-root">
     <section class="panel left-panel">
-    
       <app-invoice-product-selector
         [customers]="customers"
         [products]="products"
+        [customerGroups]="customerGroups"
         [selectedCustomerId]="selectedCustomerId"
+        [isTemporaryCustomer]="isTemporaryCustomer"
+        [temporaryCustomerName]="temporaryCustomerName"
+        [temporaryCustomerPhone]="temporaryCustomerPhone"
+        [temporaryCustomerAddress]="temporaryCustomerAddress"
+        [temporaryCustomerGroupId]="temporaryCustomerGroupId"
+        [saveTemporaryCustomerToDirectory]="saveTemporaryCustomerToDirectory"
         (selectedCustomerIdChange)="onSelectedCustomerChange($event)"
+        (isTemporaryCustomerChange)="onIsTemporaryCustomerChange($event)"
+        (temporaryCustomerNameChange)="onTemporaryCustomerNameChange($event)"
+        (temporaryCustomerPhoneChange)="onTemporaryCustomerPhoneChange($event)"
+        (temporaryCustomerAddressChange)="onTemporaryCustomerAddressChange($event)"
+        (temporaryCustomerGroupIdChange)="onTemporaryCustomerGroupIdChange($event)"
+        (saveTemporaryCustomerToDirectoryChange)="onSaveTemporaryCustomerToDirectoryChange($event)"
         (addToInvoice)="onAddToInvoice($event)"
         (addCustomItem)="onAddCustomItem($event)"
       ></app-invoice-product-selector>
     </section>
 
     <section class="panel right-panel">
-    
       <app-invoice-cart
         [invoiceItems]="invoiceItems"
         [taxableTotal]="taxableTotal"
@@ -24,6 +35,8 @@
         [now]="now"
         [nowTs]="nowTs"
         [selectedCustomer]="selectedCustomer"
+        [customerDisplayName]="customerDisplayName"
+        [customerAddressDisplay]="customerAddressDisplay"
         [gstBreakdown]="gstBreakdown"
         (updateQty)="onUpdateQty($event)"
         (removeItem)="onRemoveItem($event)"
