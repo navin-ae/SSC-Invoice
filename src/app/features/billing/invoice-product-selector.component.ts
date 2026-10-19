@@ -23,15 +23,48 @@ export class InvoiceProductSelectorComponent {
 
   public search: string = '';
   public showCustomItemForm: boolean = false;
+  public recentlyAddedId: string | null = null;
 
-  public filteredProducts() {
+  public get selectedCustomer(): Customer | undefined {
+    return this.customers().find((c: Customer) => c.id === this.selectedCustomerId);
+  }
+
+  public getProductPrice(p: Product): number {
+    const cust = this.selectedCustomer;
+    if (cust && cust.groupId && p.prices && p.prices[cust.groupId] !== undefined) {
+      return Number(p.prices[cust.groupId]);
+    }
+    // Fallback to first available price in prices record
+    if (p.prices) {
+      const vals = Object.values(p.prices);
+      if (vals.length > 0) return Number(vals[0]);
+    }
+    return 0;
+  }
+
+  public filteredProducts(): Product[] {
     const q = (this.search || '').trim().toLowerCase();
-    if (!q) return this.products();
-    return this.products().filter((p: Product) => {
+    const list = this.products() || [];
+    if (!q) return list;
+    return list.filter((p: Product) => {
       const name = (p.name || '').toLowerCase();
       const hsn = (p.hsn || '').toLowerCase();
       return name.includes(q) || hsn.includes(q);
     });
+  }
+
+  public clearSearch() {
+    this.search = '';
+  }
+
+  public onProductClick(p: Product) {
+    this.recentlyAddedId = p.id;
+    this.addToInvoice.emit({ product: p, qty: 1 });
+    setTimeout(() => {
+      if (this.recentlyAddedId === p.id) {
+        this.recentlyAddedId = null;
+      }
+    }, 400);
   }
 
   public toggleCustomItemForm() {

@@ -7,12 +7,13 @@ import { exportInvoicesCsv } from '../../core/utils/invoice-export';
 import { exportInvoicesXlsx, exportGstr1Xlsx, exportInvoicesZip } from '../../core/utils/invoice-export-advanced';
 
 import { MatButtonModule } from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
 
 const store = invoiceStore;
 
 @Component({
   standalone: true,
-  imports: [CommonModule, MatButtonModule],
+  imports: [CommonModule, MatButtonModule, FormsModule],
   selector: 'app-invoices',
   templateUrl: './invoices.component.html',
   styleUrls: ['./invoices.component.scss']
@@ -21,6 +22,7 @@ export class InvoicesComponent implements OnInit {
   private invoiceApi = inject(InvoiceApiService);
   public invoices = store.invoices;
   public selectedFilter = 'all';
+  public searchQuery = '';
   public rangeStart?: Date;
   public rangeEnd?: Date;
   public currentRange?: string;
@@ -65,13 +67,37 @@ export class InvoicesComponent implements OnInit {
 
   public get filteredInvoices(): Invoice[] {
     const list = store.list();
-    if (!this.rangeStart || !this.rangeEnd) return list;
-    const start = this.startOfDay(this.rangeStart).getTime();
-    const end = this.endOfDay(this.rangeEnd).getTime();
-    return list.filter(inv => {
-      const t = new Date(inv.date).getTime();
-      return t >= start && t <= end;
-    });
+    let result = list;
+    if (this.rangeStart && this.rangeEnd) {
+      const start = this.startOfDay(this.rangeStart).getTime();
+      const end = this.endOfDay(this.rangeEnd).getTime();
+      result = result.filter(inv => {
+        const t = new Date(inv.date).getTime();
+        return t >= start && t <= end;
+      });
+    }
+    const q = this.searchQuery?.trim().toLowerCase();
+    if (q) {
+      result = result.filter(inv => {
+        const invNo = (inv.invoiceNo || '').toLowerCase();
+        const cust = (inv.customerName || '').toLowerCase();
+        return invNo.includes(q) || cust.includes(q);
+      });
+    }
+    return result;
+  }
+
+  public get totalFilteredRevenue(): number {
+    return this.filteredInvoices.reduce((sum, inv) => sum + (inv.total || 0), 0);
+  }
+
+  public setQuickFilter(key: string) {
+    this.selectedFilter = key;
+    this.applyFilter();
+  }
+
+  public clearSearch() {
+    this.searchQuery = '';
   }
 
   public exportCsv() {
@@ -175,6 +201,9 @@ export class InvoicesComponent implements OnInit {
   private computeRange(key: string): {start: Date; end: Date} | undefined {
     const now = new Date();
     switch (key) {
+      case 'today': {
+        return { start: this.startOfDay(now), end: this.endOfDay(now) };
+      }
       case 'last7': {
         const end = new Date(now);
         const start = new Date(now); start.setDate(start.getDate() - 6);

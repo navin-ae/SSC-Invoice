@@ -1,79 +1,43 @@
 .billing-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  padding: 14px;
-  max-width: 1400px;
+  width: 100%;
   margin: 0 auto;
 }
 
-.welcome-card h1 {
-  margin: 0;
-  font-size: 1.5rem;
-  color: #1b4077;
-}
-
-.welcome-card p {
-  margin: 6px 0;
-  color: #2f477b;
-  font-size: 1rem;
-}
-
-.welcome-card .pro-tip {
-  color: #1a4a8e;
-  font-weight: 600;
-}
-
 .billing-root {
-  display: flex;
-  gap: 16px;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  padding-bottom: 8px;
+  display: grid;
+  grid-template-columns: 1fr 1.18fr;
+  gap: 20px;
+  align-items: start;
 }
 
-.panel {
-  background: #fff;
-  border: 1px solid #dce3ef;
-  border-radius: 12px;
-  box-shadow: 0 1px 8px rgba(5, 31, 72, 0.06);
-  padding: 12px;
-  width: calc(50% - 8px);
-  min-width: 320px;
-}
-
-.panel h2 {
-  margin-top: 0;
-  margin-bottom: 8px;
-  font-size: 1.1rem;
-  color: #1a3f76;
-}
-
-@media (max-width: 1024px) {
-  .panel {
-    width: 100%;
+@media (max-width: 1100px) {
+  .billing-root {
+    grid-template-columns: 1fr;
   }
 }
 
-app-invoice-product-selector {
+.panel {
   width: 100%;
 }
 
-// Save Custom Items Dialog Styles
+app-invoice-product-selector,
+app-invoice-cart {
+  display: block;
+  width: 100%;
+}
+
+/* Save Custom Items Dialog Modal */
 .dialog-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  animation: fadeIn 0.3s ease-in-out;
+  padding: 16px;
+  animation: fadeIn 0.2s ease-in-out;
 }
 
 @keyframes fadeIn {
@@ -86,90 +50,86 @@ app-invoice-product-selector {
 }
 
 .dialog-content {
-  background: white;
-  border-radius: 12px;
-  padding: 28px;
-  max-width: 500px;
-  max-height: 80vh;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-  animation: slideUp 0.3s ease-out;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 85vh;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
-  gap: 20px;
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  gap: 16px;
+  border: 1px solid #e2e8f0;
 }
 
 .dialog-content h2 {
   margin: 0;
-  color: #1a3f76;
-  font-size: 1.3rem;
-  font-weight: 600;
+  color: #1e293b;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.3px;
 }
 
 .dialog-info {
   margin: 0;
-  color: #555;
+  color: #64748b;
   font-size: 0.95rem;
+  line-height: 1.4;
 }
 
 .custom-items-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  max-height: 300px;
+  gap: 8px;
+  max-height: 260px;
   overflow-y: auto;
-  border: 1px solid #e0e0e0;
-  padding: 12px;
-  border-radius: 6px;
-  background-color: #f9f9f9;
+  border: 1.5px solid #e2e8f0;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #f8fafc;
 }
 
 .custom-item-checkbox {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 12px;
-  padding: 10px;
-  border-radius: 4px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.15s ease;
 
   &:hover {
-    background-color: #f0f0f0;
+    background-color: #eff6ff;
+    border-color: #93c5fd;
   }
 
   input[type="checkbox"] {
-    margin-top: 4px;
     cursor: pointer;
-    width: 18px;
-    height: 18px;
-    min-width: 18px;
+    width: 20px;
+    height: 20px;
+    accent-color: #2563eb;
   }
 }
 
 .item-details {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
 }
 
 .item-name {
-  color: #1a3f76;
-  font-weight: 600;
+  color: #0f172a;
+  font-weight: 700;
+  font-size: 14px;
 }
 
 .item-meta {
-  color: #666;
-  font-size: 0.85rem;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 500;
 }
 
 .dialog-actions {
@@ -179,40 +139,34 @@ app-invoice-product-selector {
 
   button {
     flex: 1;
-    padding: 12px 20px;
+    padding: 14px 20px;
     border: none;
-    border-radius: 6px;
-    font-weight: 600;
+    border-radius: 10px;
+    font-weight: 700;
     cursor: pointer;
-    font-size: 0.95rem;
-    transition: all 0.2s;
+    font-size: 15px;
+    transition: all 0.15s ease;
+    min-height: 48px;
 
     &.btn-save {
-      background-color: #4caf50;
+      background-color: #16a34a;
       color: white;
 
       &:hover {
-        background-color: #45a049;
-      }
-
-      &:active {
-        opacity: 0.8;
+        background-color: #15803d;
+        box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
       }
     }
 
     &.btn-cancel {
-      background-color: #f5f5f5;
-      color: #333;
-      border: 1px solid #ddd;
+      background-color: #f1f5f9;
+      color: #475569;
+      border: 1.5px solid #cbd5e1;
 
       &:hover {
-        background-color: #e0e0e0;
-      }
-
-      &:active {
-        opacity: 0.8;
+        background-color: #e2e8f0;
+        color: #0f172a;
       }
     }
   }
 }
-

@@ -1,28 +1,138 @@
-<div class="customers-root">
-  <div class="form">
-    <mat-form-field appearance="outline">
-      <mat-label>Customer Name</mat-label>
-      <input matInput placeholder="Enter customer name" [(ngModel)]="form.name" />
-    </mat-form-field>
-
-    <button mat-raised-button color="primary" (click)="add()" class="save-button">
-      {{ editingId ? 'Save' : 'Add Customer' }}
-    </button>
-    <button mat-button *ngIf="editingId" (click)="cancelEdit()">Cancel</button>
+<div class="customers-container">
+  <div class="page-header">
+    <div class="title-area">
+      <h2>Customer Directory</h2>
+      <p class="subtitle">Manage customer profiles, phone numbers, and pricing tier groups.</p>
+    </div>
+    <div class="search-area">
+      <input
+        class="customer-search-input"
+        placeholder="🔍 Search customer by name or phone..."
+        [(ngModel)]="search"
+      />
+    </div>
   </div>
 
-  <div class="list">
-    <div class="row" *ngFor="let c of customers()">
-      <div class="info">{{c.name}}</div>
-      <div class="actions">
-        <button mat-icon-button color="primary" (click)="edit(c)">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button mat-icon-button color="warn" (click)="remove(c.id)">
-          <mat-icon>delete</mat-icon>
-        </button>
+  <div class="customers-layout">
+    <!-- Left: Add/Edit Customer Card -->
+    <div class="form-card">
+      <div class="card-title">
+        <span class="icon">{{ editingId ? '✏️' : '➕' }}</span>
+        <span>{{ editingId ? 'Edit Customer' : 'Add New Customer' }}</span>
       </div>
+
+      <div class="form-grid">
+        <div class="form-field full-width">
+          <label>Customer Name *</label>
+          <input
+            type="text"
+            class="input-box"
+            placeholder="e.g. Ramesh Kumar / Sri Murugan Stores"
+            [(ngModel)]="form.name"
+            required
+          />
+        </div>
+
+        <div class="form-field">
+          <label>Phone / Mobile</label>
+          <input
+            type="tel"
+            class="input-box"
+            placeholder="e.g. 9876543210"
+            [(ngModel)]="form.contact"
+          />
+        </div>
+
+        <div class="form-field">
+          <label>Price Group (Tier)</label>
+          <select class="select-box" [(ngModel)]="form.groupId">
+            <option value="">Standard (Retail)</option>
+            @for (g of groups(); track g.id) {
+              <option [value]="g.id">{{ g.name }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="form-field full-width">
+          <label>GSTIN (Optional)</label>
+          <input
+            type="text"
+            class="input-box"
+            placeholder="e.g. 33AAAAA0000A1Z5"
+            [(ngModel)]="form.gst"
+          />
+        </div>
+
+        <div class="form-field full-width">
+          <label>Address (Optional)</label>
+          <input
+            type="text"
+            class="input-box"
+            placeholder="e.g. 106, Main Road, Annur"
+            [(ngModel)]="form.address"
+          />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-save" (click)="add()">
+          {{ editingId ? '💾 Update Customer' : '➕ Save Customer' }}
+        </button>
+        @if (editingId) {
+          <button class="btn-cancel" (click)="cancelEdit()">Cancel</button>
+        }
+      </div>
+    </div>
+
+    <!-- Right: Customer List -->
+    <div class="list-card">
+      <div class="list-header">
+        <span class="list-title">All Customers</span>
+        <span class="count-badge">{{ filteredCustomers.length }} customers</span>
+      </div>
+
+      @if (filteredCustomers.length === 0) {
+        <div class="empty-state">
+          <span class="empty-icon">👥</span>
+          <p class="empty-title">No customers found</p>
+          <p class="empty-desc">
+            @if (search) {
+              No customer matches "{{ search }}".
+            } @else {
+              No customers saved yet. Use the form on the left to add your first customer.
+            }
+          </p>
+        </div>
+      } @else {
+        <div class="customer-cards-list">
+          @for (c of filteredCustomers; track c.id) {
+            <div class="customer-item-card">
+              <div class="avatar">{{ c.name.charAt(0).toUpperCase() }}</div>
+              <div class="customer-info">
+                <div class="customer-name-row">
+                  <span class="cust-name">{{ c.name }}</span>
+                  <span class="group-tag">{{ getGroupName(c.groupId) }}</span>
+                </div>
+                <div class="customer-details">
+                  @if (c.contact) {
+                    <span class="detail-item">📞 {{ c.contact }}</span>
+                  }
+                  @if (c.gst) {
+                    <span class="detail-item">GST: {{ c.gst }}</span>
+                  }
+                  @if (c.address) {
+                    <span class="detail-item">📍 {{ c.address }}</span>
+                  }
+                </div>
+              </div>
+              <div class="customer-actions">
+                <button class="action-btn edit-btn" (click)="edit(c)" title="Edit customer">✏️</button>
+                <button class="action-btn delete-btn" (click)="remove(c.id)" title="Delete customer">🗑️</button>
+              </div>
+            </div>
+          }
+        </div>
+      }
     </div>
   </div>
 </div>
-

@@ -1,37 +1,109 @@
-<div class="left-panel">
-  <h3>Customer</h3>
+<div class="selector-container">
+  <!-- Customer Selection Section -->
+  <div class="section-card customer-card">
+    <div class="section-header">
+      <span class="section-icon">👤</span>
+      <span class="section-title">Customer</span>
+      @if (selectedCustomer?.groupId) {
+        <span class="group-badge">Group: {{ selectedCustomer?.groupId }}</span>
+      }
+    </div>
 
-  <select class="customer-select" [(ngModel)]="selectedCustomerId" (ngModelChange)="selectedCustomerIdChange.emit($event)">
-    <option *ngFor="let c of customers()" [value]="c.id">{{ c.name }}</option>
-  </select>
-
-  <h3>Products</h3>
-  <div style="display: flex; gap: 8px; align-items: center">
-    <input class="product-search" placeholder="Quick search..." [(ngModel)]="search" />
-    <button 
-      class="btn-custom-item"
-      (click)="toggleCustomItemForm()"
-      title="Add item not in product list"
-    >
-      ➕
-    </button>
+    <div class="customer-select-wrapper">
+      <select
+        class="customer-dropdown"
+        [ngModel]="selectedCustomerId"
+        (ngModelChange)="selectedCustomerIdChange.emit($event)"
+      >
+        <option [ngValue]="null">Walk-in Customer (Standard Retail)</option>
+        @for (c of customers(); track c.id) {
+          <option [value]="c.id">
+            {{ c.name }} {{ c.contact ? '(' + c.contact + ')' : '' }}
+          </option>
+        }
+      </select>
+    </div>
   </div>
 
-  @if (showCustomItemForm) {
-    <app-custom-item-form
-      (itemCreated)="onCustomItemCreated($event)"
-      (cancelled)="onCustomItemCancelled()"
-    ></app-custom-item-form>
-  }
+  <!-- Product Catalog & Search Section -->
+  <div class="section-card products-card">
+    <div class="section-header">
+      <span class="section-icon">📦</span>
+      <span class="section-title">Products Catalog</span>
+      <span class="items-count-badge">{{ filteredProducts().length }} available</span>
+    </div>
 
-  <div class="products-grid" style="margin-top: 8px">
-    <div
-      class="card"
-      *ngFor="let p of filteredProducts()"
-      (click)="addToInvoice.emit({ product: p, qty: 1 })"
-    >
-      <div class="name">{{ p.name }}</div>
-      <div class="price">Rs.{{ p.prices[selectedCustomerId] ?? '-' }}</div>
+    <div class="search-and-action-bar">
+      <div class="search-input-wrapper">
+        <span class="search-icon">🔍</span>
+        <input
+          class="product-search-input"
+          placeholder="Search product by name or HSN..."
+          [(ngModel)]="search"
+        />
+        @if (search) {
+          <button class="clear-search-btn" (click)="clearSearch()" title="Clear search">✖</button>
+        }
+      </div>
+
+      <button
+        class="btn-custom-item"
+        (click)="toggleCustomItemForm()"
+        title="Add an item not in your product catalog"
+      >
+        <span class="btn-icon">➕</span>
+        <span class="btn-label">Custom Item</span>
+      </button>
+    </div>
+
+    <!-- Custom Item Form Modal/Inline -->
+    @if (showCustomItemForm) {
+      <div class="custom-form-container">
+        <app-custom-item-form
+          (itemCreated)="onCustomItemCreated($event)"
+          (cancelled)="onCustomItemCancelled()"
+        ></app-custom-item-form>
+      </div>
+    }
+
+    <!-- Products Grid -->
+    <div class="products-scroll-area">
+      @if (filteredProducts().length === 0) {
+        <div class="empty-products-state">
+          <span class="empty-icon">🔍</span>
+          <p class="empty-title">No products found</p>
+          <p class="empty-desc">
+            @if (search) {
+              No items matching "<strong>{{ search }}</strong>". Click "+ Custom Item" to bill an ad-hoc product.
+            } @else {
+              No products in catalog. Add products in the Products tab or use "+ Custom Item".
+            }
+          </p>
+        </div>
+      } @else {
+        <div class="products-grid">
+          @for (p of filteredProducts(); track p.id) {
+            <button
+              type="button"
+              class="product-card"
+              [class.clicked-pulse]="recentlyAddedId === p.id"
+              (click)="onProductClick(p)"
+              title="Click to add to bill"
+            >
+              <div class="product-top">
+                <div class="product-name">{{ p.name }}</div>
+                @if (p.hsn) {
+                  <span class="hsn-pill">HSN {{ p.hsn }}</span>
+                }
+              </div>
+              <div class="product-bottom">
+                <div class="price-tag">₹{{ getProductPrice(p) }}</div>
+                <div class="add-action-badge">+ Add</div>
+              </div>
+            </button>
+          }
+        </div>
+      }
     </div>
   </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { customerStore, Customer } from '../../core/stores/customer-store';
@@ -34,6 +34,19 @@ export class BillingComponent {
   public showSaveCustomItemsDialog: boolean = false;
   public customItemsToSave: InvoiceItem[] = [];
   public customItemSaveSelection: Record<string, boolean> = {};
+
+  @HostListener('window:keydown', ['$event'])
+  public handleKeyboardShortcuts(event: KeyboardEvent) {
+    if (event.key === 'F2') {
+      event.preventDefault();
+      if (this.invoiceItems.length > 0) {
+        this.printBill();
+      }
+    } else if (event.key === 'F4') {
+      event.preventDefault();
+      this.newBill();
+    }
+  }
 
   public get selectedCustomer(): Customer | undefined {
     return this.customers().find(c => c.id === this.selectedCustomerId);
@@ -126,7 +139,13 @@ export class BillingComponent {
     // Look up price using customer's group
     const customer = this.selectedCustomer;
     const groupId = customer?.groupId;
-    const rate = (groupId && p.prices[groupId]) ? p.prices[groupId] : 0;
+    let rate = 0;
+    if (groupId && p.prices && p.prices[groupId] !== undefined) {
+      rate = p.prices[groupId];
+    } else if (p.prices) {
+      const vals = Object.values(p.prices);
+      if (vals.length > 0) rate = Number(vals[0]);
+    }
     const gstFromHsn = this.getGstRateFromHsn(p.hsn);
     const item: InvoiceItem = {
       id: Date.now().toString(36),

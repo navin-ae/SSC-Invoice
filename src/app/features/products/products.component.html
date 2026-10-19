@@ -1,86 +1,216 @@
-<div class="products-root">
-  <section class="products-header">
-    <h2>Products</h2>
-    <p class="subtitle">Add, update, and manage your items with group-based pricing.</p>
-  </section>
-
-  <div class="form">
-    <input placeholder="Product name" [(ngModel)]="form.name" />
-    <input placeholder="HSN" [(ngModel)]="form.hsn" />
-    <input type="number" placeholder="GST %" [(ngModel)]="form.gstRate" />
-    <div class="prices-grid">
-      @if (groups().length === 0) {
-        <div class="no-groups-message">
-          No customer groups configured. Please create groups first in the Configuration tab.
-        </div>
-      } @else {
-        @for (group of groups(); track group.id) {
-          <div class="price-row">
-            <label>
-              {{ group.name }}
-              <span class="customer-count">({{ getCustomerCountForGroup(group.id) }} customers)</span>
-              @if (overrides.has(group.id)) {
-                <span class="override-indicator">*</span>
-              }
-            </label>
-            <input 
-              type="number" 
-              [(ngModel)]="form.prices[group.id]" 
-              (ngModelChange)="onPriceChange(group.id, $event)"
-              [class.overridden]="overrides.has(group.id)"
-            />
-          </div>
-        }
+<div class="products-container">
+  <div class="page-header">
+    <div class="title-area">
+      <h2>Product Catalog</h2>
+      <p class="subtitle">Add, update, and manage your store items with group-based pricing.</p>
+    </div>
+    <div class="search-area">
+      <input
+        class="product-search-input"
+        placeholder="🔍 Search products by name or HSN code..."
+        [(ngModel)]="query"
+        (input)="page = 1"
+      />
+      @if (query) {
+        <button class="clear-search-btn" (click)="clearSearch()" title="Clear search">✖</button>
       }
     </div>
-    <button (click)="add()" [disabled]="groups().length === 0">{{ editingId ? 'Save' : 'Add Product' }}</button>
-    <button *ngIf="editingId" (click)="cancelEdit()">Cancel</button>
   </div>
 
-  <div class="list">
-    <div class="controls">
-      <div class="left">
-        <label class="count">Total: {{ filteredProducts.length }}</label>
+  <div class="products-layout">
+    <!-- Left: Add/Edit Product Card -->
+    <div class="form-card">
+      <div class="card-title">
+        <span class="icon">{{ editingId ? '✏️' : '➕' }}</span>
+        <span>{{ editingId ? 'Edit Product Details' : 'Add New Product' }}</span>
       </div>
-      <div class="center">
-        <input placeholder="Search products or HSN" [(ngModel)]="query" (input)="page = 1" />
-      </div>
-      <div class="right">
-        <label>Per page
-          <select [(ngModel)]="pageSize" (change)="page = 1">
-            <option [value]="10">10</option>
-            <option [value]="20">20</option>
-            <option [value]="50">50</option>
-          </select>
-        </label>
-      </div>
-    </div>
 
-    <div class="grid">
-      @for (product of paginatedProducts; track product.id) {
-        <div class="card">
-          <div class="card-main">
-            <div class="title">{{ product.name }}</div>
-            <div class="meta">HSN: {{ product.hsn || '—' }}</div>
-            <div class="meta">GST: {{ product.gstRate || '—' }}%</div>
-            <div class="prices">
-              @for (group of groups(); track group.id) {
-                <span>{{ group.name }}: ₹{{ product.prices[group.id] || 0 }}</span>
+      @if (editingId) {
+        <div class="editing-banner">
+          <span class="banner-text">Editing: <strong>{{ form.name || 'Selected Item' }}</strong></span>
+          <button class="banner-cancel-btn" (click)="cancelEdit()">Cancel Edit</button>
+        </div>
+      }
+
+      <div class="form-grid">
+        <div class="form-field full-width">
+          <label>Product / Item Name *</label>
+          <input
+            type="text"
+            class="input-box"
+            placeholder="e.g. Ponni Boiled Rice 25kg / Tata Salt"
+            [(ngModel)]="form.name"
+            required
+          />
+        </div>
+
+        <div class="form-field">
+          <label>HSN Code (Optional)</label>
+          <input
+            type="text"
+            class="input-box"
+            placeholder="e.g. 1006"
+            [(ngModel)]="form.hsn"
+          />
+        </div>
+
+        <div class="form-field">
+          <label>GST Rate (%)</label>
+          <div class="gst-input-wrapper">
+            <input
+              type="number"
+              class="input-box gst-input"
+              placeholder="12"
+              [(ngModel)]="form.gstRate"
+            />
+            <div class="gst-quick-chips">
+              @for (rate of gstPresets; track rate) {
+                <button
+                  type="button"
+                  class="gst-chip"
+                  [class.active]="form.gstRate === rate"
+                  (click)="setGstRate(rate)">
+                  {{ rate }}%
+                </button>
               }
             </div>
           </div>
-          <div class="card-actions">
-            <button (click)="edit(product)">Edit</button>
-            <button (click)="remove(product.id)">Delete</button>
-          </div>
         </div>
-      }
+
+        <!-- Group-based Pricing Section -->
+        <div class="form-field full-width prices-section">
+          <div class="section-label-row">
+            <span class="section-label">Selling Prices (₹) by Customer Tier</span>
+            <span class="section-hint">Retail price auto-fills other tiers</span>
+          </div>
+
+          @if (groups().length === 0) {
+            <div class="no-groups-alert">
+              ⚠️ No customer groups configured. Default pricing will be applied.
+            </div>
+          } @else {
+            <div class="group-prices-list">
+              @for (group of groups(); track group.id) {
+                <div class="price-input-row" [class.highlighted]="overrides.has(group.id)">
+                  <div class="group-info">
+                    <span class="group-name">{{ group.name }}</span>
+                    <span class="customer-count">({{ getCustomerCountForGroup(group.id) }} customers)</span>
+                    @if (overrides.has(group.id)) {
+                      <span class="custom-badge" title="Custom override for this tier">Custom</span>
+                    }
+                  </div>
+                  <div class="price-input-box">
+                    <span class="currency-symbol">₹</span>
+                    <input
+                      type="number"
+                      step="0.01"
+                      class="price-field"
+                      placeholder="0.00"
+                      [(ngModel)]="form.prices![group.id]"
+                      (ngModelChange)="onPriceChange(group.id, $event)"
+                    />
+                  </div>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-save" (click)="add()">
+          {{ editingId ? '💾 Update Product' : '➕ Save Product' }}
+        </button>
+        @if (editingId) {
+          <button class="btn-cancel" (click)="cancelEdit()">Cancel</button>
+        }
+      </div>
     </div>
 
-    <div class="pagination">
-      <button [disabled]="page<=1" (click)="page = page - 1">Prev</button>
-      <span class="page-info">Page {{page}} / {{ pageCount }}</span>
-      <button [disabled]="page>=pageCount" (click)="page = page + 1">Next</button>
+    <!-- Right: Product Catalog List -->
+    <div class="list-card">
+      <div class="list-header">
+        <div class="list-header-left">
+          <span class="list-title">All Products</span>
+          <span class="count-badge">{{ filteredProducts.length }} items</span>
+        </div>
+        <div class="per-page-selector">
+          <label>Per page:
+            <select [(ngModel)]="pageSize" (change)="page = 1" class="page-select">
+              <option [value]="10">10</option>
+              <option [value]="20">20</option>
+              <option [value]="50">50</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      @if (filteredProducts.length === 0) {
+        <div class="empty-state">
+          <span class="empty-icon">📦</span>
+          <p class="empty-title">No products found</p>
+          <p class="empty-desc">
+            @if (query) {
+              No products match "{{ query }}". Try searching for another item name or HSN.
+            } @else {
+              No products registered yet. Use the form on the left to add items.
+            }
+          </p>
+        </div>
+      } @else {
+        <div class="products-items-list">
+          @for (product of paginatedProducts; track product.id) {
+            <div class="product-item-card" [class.editing-active]="editingId === product.id">
+              <div class="item-main">
+                <div class="item-title-row">
+                  <span class="item-name">{{ product.name }}</span>
+                  <div class="tags-group">
+                    @if (product.hsn) {
+                      <span class="tag tag-hsn">HSN: {{ product.hsn }}</span>
+                    }
+                    <span class="tag tag-gst">GST: {{ product.gstRate || 0 }}%</span>
+                  </div>
+                </div>
+
+                <div class="price-tags-row">
+                  @for (group of groups(); track group.id) {
+                    <div class="price-pill">
+                      <span class="pill-group">{{ group.name }}:</span>
+                      <span class="pill-amount">₹{{ (product.prices[group.id] || 0) | number:'1.2-2' }}</span>
+                    </div>
+                  }
+                  @if (groups().length === 0) {
+                    <div class="price-pill">
+                      <span class="pill-amount">₹{{ getFirstPrice(product) | number:'1.2-2' }}</span>
+                    </div>
+                  }
+                </div>
+              </div>
+
+              <div class="item-actions">
+                <button class="action-btn edit-btn" (click)="edit(product)" title="Edit product">
+                  ✏️ Edit
+                </button>
+                <button class="action-btn delete-btn" (click)="remove(product.id)" title="Delete product">
+                  🗑️
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+
+        @if (pageCount > 1) {
+          <div class="pagination-bar">
+            <button class="page-btn" [disabled]="page <= 1" (click)="page = page - 1">
+              ◀ Previous
+            </button>
+            <span class="page-indicator">Page {{ page }} of {{ pageCount }}</span>
+            <button class="page-btn" [disabled]="page >= pageCount" (click)="page = page + 1">
+              Next ▶
+            </button>
+          </div>
+        }
+      }
     </div>
   </div>
 </div>

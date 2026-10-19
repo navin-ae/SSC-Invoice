@@ -1,16 +1,44 @@
 <div class="app-shell">
-	<header class="app-header">
-		<div class="brand" routerLink="/">Raajamani Traders</div>
-		<nav class="main-nav">
-			<a routerLink="/">Home</a>
-			<a routerLink="/customers">Customers</a>
-			<a routerLink="/products">Products</a>
-			<a routerLink="/invoices">Invoices</a>
-			<a routerLink="/config">Settings</a>
-		</nav>
-	</header>
+  <header class="app-header">
+    <div class="brand-group" routerLink="/">
+      <div class="brand-icon">🏪</div>
+      <div class="brand-text">
+        <span class="brand-title">Raajamani Traders</span>
+        <span class="brand-subtitle">Retail Billing & GST Invoice</span>
+      </div>
+    </div>
 
-	<main class="app-main">
-		<router-outlet></router-outlet>
-	</main>
+    <nav class="main-nav">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-item">
+        <span class="nav-icon">🛒</span>
+        <span class="nav-label">Billing</span>
+      </a>
+      <a routerLink="/customers" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">👥</span>
+        <span class="nav-label">Customers</span>
+      </a>
+      <a routerLink="/products" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">📦</span>
+        <span class="nav-label">Products</span>
+      </a>
+      <a routerLink="/invoices" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">📑</span>
+        <span class="nav-label">Invoices</span>
+      </a>
+      <a routerLink="/config" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">⚙️</span>
+        <span class="nav-label">Settings</span>
+      </a>
+    </nav>
+
+    <div class="header-status">
+      <span class="status-pill" title="Connected to local SQLite database">
+        <span class="status-dot"></span> Local DB Ready
+      </span>
+    </div>
+  </header>
+
+  <main class="app-main">
+    <router-outlet></router-outlet>
+  </main>
 </div>

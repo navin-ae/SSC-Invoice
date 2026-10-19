@@ -25,9 +25,19 @@ export class InvoiceCartComponent {
   @Output() public printBill = new EventEmitter<void>();
   @Output() public downloadPdf = new EventEmitter<void>();
   @Output() public newBill = new EventEmitter<void>();
+
   public onQtyChange(item: InvoiceItem, event: Event) {
     const target = event.target as HTMLInputElement;
-    const qty = target?.valueAsNumber ?? item.qty;
+    const qty = Math.max(1, target?.valueAsNumber || 1);
     this.updateQty.emit({ item, qty });
+  }
+
+  public stepQty(item: InvoiceItem, delta: number) {
+    const newQty = item.qty + delta;
+    if (newQty <= 0) {
+      this.removeItem.emit(item.id);
+    } else {
+      this.updateQty.emit({ item, qty: newQty });
+    }
   }
 }

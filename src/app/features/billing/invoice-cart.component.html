@@ -1,66 +1,95 @@
-<div class="right-panel">
-  <div class="invoice-header">
-    <div>
-      <div class="inv-no">
-        Inv No: <strong>SSC-{{ nowTs() }}</strong>
-      </div>
-      <div class="inv-date">Date: {{ now() | date : 'dd/MM/yyyy' }}</div>
+<div class="cart-container">
+  <!-- Invoice Header -->
+  <div class="cart-header">
+    <div class="header-left">
+      <div class="inv-badge">INVOICE</div>
+      <div class="inv-date">{{ now() | date : 'dd MMM yyyy, hh:mm a' }}</div>
     </div>
-    <div class="inv-customer">
-      <div class="to-label">To:</div>
-      <div class="cust-name">{{ selectedCustomer()?.name || 'Walk-in' }}</div>
-      <div class="inv-time">Time: {{ now() | date : 'hh:mm a' }}</div>
+    <div class="header-right">
+      <div class="cust-label">Billed To:</div>
+      <div class="cust-value">{{ selectedCustomer()?.name || 'Walk-in Retail' }}</div>
     </div>
   </div>
 
-  <div class="items">
-    <table class="invoice-table">
+  <!-- Cart Line Items -->
+  <div class="table-wrapper">
+    <table class="cart-table">
       <thead>
-        <tr class="thead-dark">
-          <th>S.No</th>
-          <th>Description</th>
-          <th>HSN/SAC</th>
-          <th>GST Rate</th>
-          <th>Qty</th>
-          <th>Rate</th>
-          <th>Amount</th>
-          <th></th>
+        <tr>
+          <th style="width: 36px">#</th>
+          <th>Item Description</th>
+          <th style="width: 75px; text-align: center">HSN</th>
+          <th style="width: 60px; text-align: center">GST</th>
+          <th style="width: 130px; text-align: center">Quantity</th>
+          <th style="width: 90px; text-align: right">Rate</th>
+          <th style="width: 100px; text-align: right">Amount</th>
+          <th style="width: 44px; text-align: center"></th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let it of invoiceItems(); let i = index">
-          <td>{{ i + 1 }}</td>
-          <td>
-            {{ it.name }}
-            @if (it.isCustom) {
-              <span class="custom-badge">[Custom]</span>
-            }
-          </td>
-          <td style="text-align:center">{{ it.hsn || '-' }}</td>
-          <td style="text-align:center">{{ it.gstRate }}%</td>
-          <td>
-            <input
-              type="number"
-              [value]="it.qty"
-              (change)="onQtyChange(it, $event)"
-            />
-          </td>
-          <td style="text-align:right">₹{{ it.rate }}</td>
-          <td style="text-align:right">
-            <strong>₹{{ it.amount.toFixed(0) }}</strong>
-          </td>
-          <td><button class="link" (click)="removeItem.emit(it.id)">Delete</button></td>
-        </tr>
+        @if (invoiceItems().length === 0) {
+          <tr>
+            <td colspan="8" class="empty-cart-cell">
+              <div class="empty-cart-content">
+                <span class="empty-cart-icon">🛒</span>
+                <p class="empty-cart-title">Your billing cart is empty</p>
+                <p class="empty-cart-desc">Click any product on the left catalog or search to add items.</p>
+              </div>
+            </td>
+          </tr>
+        } @else {
+          @for (it of invoiceItems(); track it.id; let idx = $index) {
+            <tr class="item-row">
+              <td class="idx-cell">{{ idx + 1 }}</td>
+              <td class="desc-cell">
+                <div class="item-title">{{ it.name }}</div>
+                @if (it.isCustom) {
+                  <span class="custom-pill">Ad-hoc Custom</span>
+                }
+              </td>
+              <td class="center-cell">{{ it.hsn || '—' }}</td>
+              <td class="center-cell">{{ it.gstRate }}%</td>
+              <td class="qty-cell">
+                <div class="qty-stepper">
+                  <button type="button" class="btn-step minus" (click)="stepQty(it, -1)" title="Decrease quantity">−</button>
+                  <input
+                    type="number"
+                    min="1"
+                    class="qty-input"
+                    [value]="it.qty"
+                    (change)="onQtyChange(it, $event)"
+                  />
+                  <button type="button" class="btn-step plus" (click)="stepQty(it, 1)" title="Increase quantity">+</button>
+                </div>
+              </td>
+              <td class="right-cell">₹{{ it.rate }}</td>
+              <td class="right-cell amount-cell">₹{{ it.amount.toFixed(0) }}</td>
+              <td class="action-cell">
+                <button
+                  type="button"
+                  class="btn-delete"
+                  (click)="removeItem.emit(it.id)"
+                  title="Remove item from bill"
+                >
+                  🗑️
+                </button>
+              </td>
+            </tr>
+          }
+        }
       </tbody>
     </table>
   </div>
 
-  <div class="totals-row">
-    <div class="summary">
-      <table class="gst-breakdown-table">
+  <!-- Totals Section -->
+  <div class="totals-section">
+    <!-- GST Tax Breakdown -->
+    <div class="tax-summary-card">
+      <div class="tax-summary-title">GST Tax Summary</div>
+      <table class="tax-table">
         <thead>
           <tr>
-            <th>GST Rate</th>
+            <th>Rate</th>
             <th>Taxable</th>
             <th>CGST</th>
             <th>SGST</th>
@@ -68,33 +97,77 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of gstBreakdown()">
-            <td>{{ item.rate }}%</td>
-            <td>₹{{ item.taxable.toFixed(2) }}</td>
-            <td>₹{{ item.cgst.toFixed(2) }}</td>
-            <td>₹{{ item.sgst.toFixed(2) }}</td>
-            <td>₹{{ item.totalGst.toFixed(2) }}</td>
-          </tr>
+          @if (gstBreakdown().length === 0) {
+            <tr>
+              <td colspan="5" style="text-align: center; color: #94a3b8; padding: 6px;">No taxable items</td>
+            </tr>
+          } @else {
+            @for (g of gstBreakdown(); track g.rate) {
+              <tr>
+                <td>{{ g.rate }}%</td>
+                <td>₹{{ g.taxable.toFixed(2) }}</td>
+                <td>₹{{ g.cgst.toFixed(2) }}</td>
+                <td>₹{{ g.sgst.toFixed(2) }}</td>
+                <td>₹{{ g.totalGst.toFixed(2) }}</td>
+              </tr>
+            }
+          }
         </tbody>
       </table>
     </div>
-    <div class="big-total">₹{{ total().toFixed(0) }}</div>
+
+    <!-- Grand Total Big Banner -->
+    <div class="grand-total-card">
+      <div class="total-breakdown">
+        <div class="breakdown-row">
+          <span>Subtotal (Taxable):</span>
+          <span>₹{{ taxableTotal().toFixed(2) }}</span>
+        </div>
+        <div class="breakdown-row">
+          <span>Total GST Tax:</span>
+          <span>₹{{ totalGst().toFixed(2) }}</span>
+        </div>
+      </div>
+      <div class="grand-total-display">
+        <span class="total-label">GRAND TOTAL</span>
+        <span class="total-amount">₹ {{ total().toFixed(0) }}</span>
+      </div>
+    </div>
   </div>
 
-  <div class="tax-breakdown" style="margin-top:8px; display:flex; justify-content:flex-end">
-    <table style="width:360px; border-collapse:collapse;">
-      <tr><td style="padding:6px;border:1px solid #ddd">Taxable Value</td><td style="padding:6px;border:1px solid #ddd;text-align:right">₹{{ taxableTotal().toFixed(2) }}</td></tr>
-      <tr><td style="padding:6px;border:1px solid #ddd">CGST</td><td style="padding:6px;border:1px solid #ddd;text-align:right">₹{{ (totalGst()/2).toFixed(2) }}</td></tr>
-      <tr><td style="padding:6px;border:1px solid #ddd">SGST</td><td style="padding:6px;border:1px solid #ddd;text-align:right">₹{{ (totalGst()/2).toFixed(2) }}</td></tr>
-      <tr><td style="padding:6px;border:1px solid #ddd"><strong>Total</strong></td><td style="padding:6px;border:1px solid #ddd;text-align:right"><strong>₹{{ total().toFixed(0) }}</strong></td></tr>
-    </table>
-  </div>
-
-  <div class="invoice-actions large">
-    <button class="print" (click)="printBill.emit()" [disabled]="invoiceItems().length === 0">
-      📠 Print Invoice
+  <!-- Big Invoice Actions -->
+  <div class="cart-actions-bar">
+    <button
+      type="button"
+      class="btn-action btn-print-primary"
+      (click)="printBill.emit()"
+      [disabled]="invoiceItems().length === 0"
+    >
+      <span class="action-icon">🖨️</span>
+      <span class="action-text">PRINT BILL</span>
+      <span class="action-key">[F2]</span>
     </button>
-    <button class="download" (click)="downloadPdf.emit()" [disabled]="invoiceItems().length === 0">⬇️ Download PDF</button>
-    <button class="new" (click)="newBill.emit()">🗑️ New Bill</button>
+
+    <button
+      type="button"
+      class="btn-action btn-pdf-secondary"
+      (click)="downloadPdf.emit()"
+      [disabled]="invoiceItems().length === 0"
+      title="Download as PDF file"
+    >
+      <span class="action-icon">⬇️</span>
+      <span class="action-text">Save PDF</span>
+    </button>
+
+    <button
+      type="button"
+      class="btn-action btn-new-bill"
+      (click)="newBill.emit()"
+      title="Start a fresh new invoice"
+    >
+      <span class="action-icon">🔄</span>
+      <span class="action-text">New Bill</span>
+      <span class="action-key">[F4]</span>
+    </button>
   </div>
 </div>

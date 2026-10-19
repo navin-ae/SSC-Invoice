@@ -27,6 +27,7 @@ export class ProductsComponent implements OnInit {
   public pageSize = 20;
   // track which group prices were manually edited
   public overrides = new Set<string>();
+  public gstPresets = [0, 5, 12, 18, 28];
 
   private apiService = inject(ProductApiService);
 
@@ -41,6 +42,21 @@ export class ProductsComponent implements OnInit {
         // API service already handles fallback to local storage
       },
     });
+  }
+
+  public setGstRate(rate: number) {
+    this.form.gstRate = rate;
+  }
+
+  public clearSearch() {
+    this.query = '';
+    this.page = 1;
+  }
+
+  public getFirstPrice(p: Product): number {
+    if (!p || !p.prices) return 0;
+    const vals = Object.values(p.prices);
+    return vals.length > 0 ? vals[0] : 0;
   }
 
   // determine the first group as template (prefer group named 'Retail')
@@ -138,7 +154,7 @@ export class ProductsComponent implements OnInit {
 
   public cancelEdit() {
     this.editingId = undefined;
-    this.form = { name: '', hsn: '', gstRate: 0, prices: {} };
+    this.form = { name: '', hsn: '', gstRate: 12, prices: {} };
     this.overrides = new Set();
   }
 

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { CustomerApiService } from './core/services/customer-api.service';
 import { ProductApiService } from './core/services/product-api.service';
 import { InvoiceApiService } from './core/services/invoice-api.service';
@@ -8,7 +8,7 @@ import { CustomerGroupApiService } from './core/services/customer-group-api.serv
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, CommonModule],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, CommonModule],
   templateUrl: './app.html',
   styleUrls: ['./app.scss'],
 })

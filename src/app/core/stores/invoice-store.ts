@@ -19,6 +19,7 @@ export interface Invoice {
   customerId?: string;
   customerName?: string;
   customerAddress?: string;
+  gstin?: string;
   items: InvoiceItem[];
   subtotal: number;
   totalGst: number;

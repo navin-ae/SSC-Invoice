@@ -1,29 +1,75 @@
-<div class="config-root">
-  <div class="config-header">
-    <h2>Configuration</h2>
-    <div class="backup-actions">
-      <button id="exportBtn" mat-stroked-button>Export Backup</button>
-      <input id="restoreFile" type="file" accept="application/json" class="visually-hidden" />
-      <button id="restoreBtn" mat-stroked-button>Restore Backup</button>
+<div class="config-container">
+  <div class="page-header">
+    <div class="title-area">
+      <h2>Store Settings & Data Safety</h2>
+      <p class="subtitle">Safely backup store records to your computer or manage customer pricing tiers.</p>
     </div>
   </div>
 
-  <section class="config-section groups-section">
+  @if (statusMessage()) {
+    <div class="status-alert">
+      <span class="alert-icon">✅</span>
+      <span>{{ statusMessage() }}</span>
+    </div>
+  }
+
+  <!-- Data Backup & Safety Section -->
+  <section class="settings-card backup-card">
+    <div class="card-header">
+      <div class="icon-wrap">💾</div>
+      <div>
+        <h3>Store Data Backup & Restore</h3>
+        <p class="section-desc">Keep your data 100% safe. Download regular offline backups of your customers, products, and invoices.</p>
+      </div>
+    </div>
+
+    <div class="backup-actions-grid">
+      <div class="backup-box">
+        <div class="box-text">
+          <strong>Download Safety Backup</strong>
+          <p>Saves a full copy of all store records into a file on your computer.</p>
+        </div>
+        <button
+          class="backup-btn btn-export"
+          (click)="onExportBackup()"
+          [disabled]="isExporting()">
+          {{ isExporting() ? '⏳ Generating...' : '💾 Download Store Backup (.json)' }}
+        </button>
+      </div>
+
+      <div class="backup-box">
+        <div class="box-text">
+          <strong>Restore From Backup File</strong>
+          <p>Load previous records from a backup JSON file back into the database.</p>
+        </div>
+        <input
+          #fileInput
+          type="file"
+          accept="application/json"
+          class="visually-hidden"
+          (change)="onFileSelected($event)"
+        />
+        <button
+          class="backup-btn btn-restore"
+          (click)="fileInput.click()"
+          [disabled]="isRestoring()">
+          {{ isRestoring() ? '⏳ Restoring...' : '📂 Upload & Restore Backup' }}
+        </button>
+      </div>
+    </div>
+
+    <div class="system-status-row">
+      <span class="status-indicator">
+        <span class="dot"></span> SQLite Local Database: <strong>backend/billing.db</strong> (Active & Persistent)
+      </span>
+      <span class="status-note">
+        Offline Ready • No internet connection required to bill customers
+      </span>
+    </div>
+  </section>
+
+  <!-- Customer Groups Management -->
+  <section class="settings-card groups-card">
     <app-customer-groups></app-customer-groups>
   </section>
-
-  <div class="customer-products">
-  <section class="config-section customers-section">
-    <h3>Customers</h3>
-    <app-customers></app-customers>
-  </section>
-
-  <section class="config-section products-section">
-    <h3>Products</h3>
-    <app-products></app-products>
-  </section>
-
-  </div>
-
-
 </div>
