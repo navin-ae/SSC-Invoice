@@ -1,19 +1,6 @@
-fastapi==0.109.2
-
-# Used as ASGI server to run FastAPI applications
-uvicorn[standard]==0.22.0
-
-# Used to load environment variables from a .env file
-python-dotenv==1.0.0
-
-# Used for password hashing
-python-multipart==0.0.6
-
-# Used to interact with PostgreSQL database
-pg8000==1.29.6
-
-# Used for ORM and database migrations
-SQLAlchemy>=2.0.30
-
-# Used to handle database migrations
-alembic>=1.11.0
+fastapi>=0.100.0
+uvicorn[standard]>=0.20.0
+python-dotenv>=1.0.0
+python-multipart>=0.0.6
+SQLAlchemy>=2.0.20
+pydantic>=2.0.0
